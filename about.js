@@ -1,9 +1,7 @@
-gsap.registerPlugin(ScrollTrigger);
+﻿gsap.registerPlugin(ScrollTrigger);
 
     document.addEventListener("DOMContentLoaded", () => {
-      // --------------------------------------------------------
-      // 1. Automatic 3D Carousel Logic
-      // --------------------------------------------------------
+
       const cards = document.querySelectorAll(".carousel-card");
       let currentIndex = 0;
       const totalCards = cards.length;
@@ -79,9 +77,6 @@ gsap.registerPlugin(ScrollTrigger);
 
       window.addEventListener("resize", updateCarousel);
 
-      // --------------------------------------------------------
-      // 2. ScrollTrigger Animations
-      // --------------------------------------------------------
       gsap.to("#parallax-text", {
         yPercent: 50,
         ease: "none",
@@ -130,9 +125,6 @@ gsap.registerPlugin(ScrollTrigger);
         });
       });
 
-      // --------------------------------------------------------
-      // 3. Live clock, visitor count, location and preview auth
-      // --------------------------------------------------------
       const clock = document.getElementById("about-clock");
       const visitor = document.getElementById("about-visitor-count");
       const marketStatus = document.getElementById("about-market-status");
@@ -163,7 +155,7 @@ gsap.registerPlugin(ScrollTrigger);
           return;
         }
         locationButton.disabled = true;
-        locationButton.textContent = "Checking location…";
+        locationButton.textContent = "Checking locationâ€¦";
         navigator.geolocation.getCurrentPosition(
           () => { showMarkets(); locationButton.textContent = "Location enabled"; },
           () => { marketStatus.textContent = "Location permission was not granted"; locationButton.textContent = "Try location again"; locationButton.disabled = false; },

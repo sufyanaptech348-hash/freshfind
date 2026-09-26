@@ -1,8 +1,3 @@
-/* =========================================================
-   DEV vs LIVE ANIMATION PARITY CHECK
-   Same scripted scroll against two servers, diff every phase.
-   Usage: node scripts/check-parity.mjs
-========================================================= */
 
 import { existsSync } from "node:fs";
 import puppeteer from "puppeteer-core";
@@ -100,7 +95,7 @@ async function probe(view) {
       report.snaps[p] = await snapAt(page, p);
     }
 
-    // .about top = hero(100svh) + margin(275svh) = 3.75 * vh
+  
     await page.evaluate((y) => window.scrollTo(0, y), Math.round(3.75 * VIEWPORT_H));
     await wait(SETTLE_MS);
     report.columns = await page.evaluate(() => {

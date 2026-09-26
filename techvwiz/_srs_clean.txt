@@ -1,0 +1,129 @@
+┬⌐ Aptech Limited Table of Contents 1.1 Background and Necessity for the Website
+.................. 3 1.2 Proposed Solution
+............................................................. 3 1.3 Purpose of the Document
+............................................... 4 1.4 Scope of Project
+............................................................... 5 1.5 Constraints
+......................................................................... 6 1.6 Functional
+Requirements ................................................. 6 1.7 Non - Functional
+Requirements ....................................... 11 1.8 Interface Requirements
+................................................. 12 1.9 Project Deliverables
+........................................................ 13 ┬⌐ Aptech Limited 1.1 Background and
+Necessity for the Website Farmers markets play an important role in connecting communities with
+the growers who put fresh, seasonal food on their tables. However, information on market
+locations and timings is scattered across flyers, community boards, social media, and word of
+mouth, with no single reliable source for residents in a community or neighbourhood . This makes
+it difficult for residents to plan visits around the market┬Æs actual operating day and hours,
+or to know in advance what product is likely to be available that week. There is a clear
+requirement for a simple, accessible, browser - based tool that consolidates this information
+into one place, helping residents discover nearby markets and make the most of seasonal, local
+produce. 1.2 Proposed Solution The proposed solution is to develop a Website called 'FreshFind'
+that helps residents discover nearby farmers markets. The Website will be designed as a Single
+Page Application (SPA). The Website should display market locations, operating days and hours,
+and the types of produce typically available at each market. The platform should include an AI
+chatbot to answer frequently asked queries from visitors . ┬⌐ Aptech Limited The Website should
+be built purely with HTML, CSS, and JavaScript, and related frontend technologies with no
+backend server. All market and produce data should be presented using pre- populated JSON / text
+files or hardcoded data , and the chatbot w ould run on pre - scripted logic rather than a live
+external AI service. This basic architecture keeps the platform lightweight, fast, and easy to
+deploy while providing a responsive and accessible experience across desktops, tablets, and
+mobile devices. 1.3 Purpose of the Document The purpose of this document is to define the
+functional, non- functional, and technical requirements for the FreshFind Website, including its
+goals, scope, features, constraints, and user expectations. This document describes the
+objectives and features of the Website, its user interfaces, the functions it is expected to
+perform, and the constraints under which it must operate. It is intended to serve as a reference
+for both stakeholders and developers involved in designing, building, and maintaining the
+Website. Sample Site Map Landing Page ┬û This Page includes the following sections: Core
+sections: Find a Market, Market Directory, Produce Guide, Chatbot, Contact Us, About Us o Upon
+selecting a market from the directory, the respective market detail page should be displayed,
+showing its location, schedule, and 1.3.1 Who Can Use this Document? Stakeholders ( Technical
+and Non- Te chnical people associated with the project) and Developers of this portal. ┬⌐ Aptech
+Limited typical produce. o Additionally , features such as Search/Find a Market, Bookmarks, and
+the chatbot are cross - page which means they remain accessible from e ach page. 1.4 Scope of
+Project The 'FreshFind' project is designed to be a responsive browser- based Website that helps
+residents discover farmers ┬Æ markets near them, and plan visits around what is likely to be in
+season. It should include a searchable and filterable market directory, individual market detail
+pages showing location, operating days/hours, and typical produc ts , a general produce guide,
+and seasonal recommendations section. It should also include an AI chatbot to help visitors find
+answers to common queries. The platform would be responsive, ensuring compatibility across
+desktops, tablets, and mobile devices. It would be suitable for residents planning market
+visits, community organizations ┬⌐ Aptech Limited promoting local farmers looking to expand
+their digital footprint and reach new customers. 1.5 Constraints The Website should not have any
+facility to store information on a server. Information can be fetched from JSON/TXT files and
+users can view the same being displayed; however, information cannot be written to the files
+from within the portal. The chatbot should not connect to a live external AI service or backend;
+both should run on a static, pre - scripted dataset and rule- based logic loaded from JSON files
+. 1.6 Functional Requirements The portal w ould be designed as a responsive Website with a set
+of pages and menus that represent the choice of activities to be performed. Pages, menus, and
+other visual elements must be designed in a visually appealing manner with attractive fonts,
+colors , and animations. All of these should also be laid out in a responsive manner. Note: For
+several of these options, information w ould be retrieved from a pre - populated JSON file and
+displayed. (Hint: Use AngularJS directives, filters, services, controllers OR ReactJS
+components, modules, and other features to implement this.) ┬⌐ Aptech Limited Menu and Web Page
+Functionality Display Elements: Platform logo, heading, and introductory text. Quick Find: A
+prominent 'Find a Market Near You' search/filter prompt (by area, day of week, or produce type).
+Highlights: A featured/rotating showcase of nearby or currently open markets and this week's
+seasonal picks. Chatbot Launcher: A floating chatbot icon accessible from the home page and all
+subsequent pages. Upon selecting a market or applying a filter, the respective results should be
+displayed dynamically. Market Directory Functionality: Displays a catalog of farmers markets
+loaded from JSON files. Each market card includes: Market name, area / location, operating days
+and hours, a short description, and a thumbnail image. Filtering: Filterable by area/
+neighborhood , day of the week, and produce type available. Sorting: Sortable alphabetically, by
+proximity (if location is provided), or by next open day. Market Detail Page Location Details :
+Address, area/ neighborhood , and an embedded Google map showing the market location. Schedule:
+Operating days and hours, clearly displayed (for example, as a weekly schedule table). Product
+Available: A list or grid of items typically available at this market, with icons/images. ┬⌐
+Aptech Limited Produce Guide Functionality: A browsable catalogue of produc t types, each with a
+description, typical season, and the markets where it can be found. Filtering: Filterable by
+produc t category (fruits, vegetables, herbs, dairy, and so on). Data Source: Loaded from a pre
+- populated JSON file linking produce items to markets and seasons. AI Chatbot Functionality: A
+floating chatbot widget available across the site that helps visitors find answers to common
+queries. Data Source: Chatbot responses are generated from a static, pre-scripted dataset of
+questions, answers, no live external AI service or backend is used. Interaction: Visitors can
+type a question or select from suggested quick reply to prompts; the chatbot responds and links
+to the relevant market or produce page. Content Bookmarking System For all content types, the
+following should be available: Favorite markets and product guide entries Personal notes
+attached to bookmarked content (session-only) Export bookmarks as a formatted list Share
+recommendations via social links Note: You can implement this using a combination of various
+frontend technologies. ┬⌐ Aptech Limited Contact Us This page includes static contact
+information, with a map showing live location. (Hint: Use Google Maps and Geolocation feature)
+About Us This page includes static information about the team and the platform. User Interface
+Features Visitor Counter: Simulated visitor counter using JavaScript. Real-Time Clock: A r eal -
+time clock and browser geolocation should be used to highlight markets open 'right now' where
+applicable. Hover Effects: Hover effects and animated transitions for an interactive feel.
+Breadcrumb Navigation: Breadcrumb navigation for better UX across directory and detail pages.
+Dummy Login/Signup: Non- functional login/signup buttons included for design continuity. Use
+Google Lighthouse a free tool to test and validate your Website's performance, accessibility,
+and SEO. ┬⌐ Aptech Limited ┬⌐ Aptech Limited 1.7 Non-Functional Requirements There are several
+non- functional requirements that should be fulfilled by the Website. The Website should be:
+Safe to use: The Website should not result in any malicious downloads or unnecessary file
+downloads. Accessible: The Website should be usable by people with visual, hearing, or motor
+impairments, through sufficient contrast, legible text, and keyboard/screen- reader support.
+User-friendly: The Website should be quick and intuitive to use, with a clear layout and logical
+navigation. Operability: The Website should operate in a reliably efficient manner. Performance:
+The Website should demonstrate a high value of performance through speed and throughput ┬ù it
+should be fast to load, and page redirection should be smooth. Capacity: The Website should
+support a large number of users. Availability: The Website should be available 24/7 with minimum
+downtime. Compatibility: The Website should be compatible with the latest browsers. These are
+the bare minimum expectations from the project. It is a must to implement the functional and
+non- functional requirements given in this SRS. Once they are complete, you can use your own
+creativity and imagination to add more features if required. ┬⌐ Aptech Limited 1.8 Interface
+Requirements Hardware Intel Core i5/i7 Processor or higher 8 GB RAM or higher Color SVGA 500 GB
+Hard Disk space Mouse Keyboard Software IDE: Visual Studio Code, Free Coffee Cup HTML5 Editor ,
+Notepad++, or any other HTML 5 editor. Frontend: HTML5, CSS3, JavaScript, jQuery, Bootstrap,
+Angular or ReactJS, XML, and the Figma UI Toolkit. AI and Development Tools: Figma AI, Canva
+Magic, Framer AI, Uizard, Visily AI, Penpot, GitHub Copilot, Tabnine, Windsurf, and ChatGPT,
+Claude, or Gemini for UI design, code assistance, image generation, and FAQ/content generation.
+Chatbot Platforms: Tawk.to and Tidio for chatbot integration. Data Store: JSON files or TXT
+files ┬⌐ Aptech Limited 1.9 Project Deliverables You must design and build the project and
+submit it along with a complete project report that includes: Problem Definition Design
+specifications Diagrams such as flowcharts for various activities, Data Flow Diagrams, and so on
+Test Data Used in the Project Project Installation Instructions ( Mandatory) Documentation is
+considered a very important part of the project. Ensure that documentation is complete and
+comprehensive. Documentation should not contain any source code. The consolidated project should
+be submitted as a Source Code zip file with a ReadMe.doc file listing assumptions (if any) made.
+Submit a video (.mp4 file) demonstrating the working of the Website including all the
+functionalities of the project. This is MANDATORY. Optionally, a live hosted URL can be supplied
+for the site. Over and above the given specifications, you can apply your creativity and logic
+to improve the portal . ~~~ End of Document ~~~ FreshFind Fresh A ll Along Software Requirements
+Specification Version 1.0 Project Name: FreshFind Theme: eGreen Basket Category: Web Innovation
+Unleashed

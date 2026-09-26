@@ -1,52 +1,48 @@
-(function () {
+﻿(function () {
   "use strict";
 
-  /* =========================================================
-     DATA — farming process steps
-  ========================================================= */
+  
 
   var STEPS = [
     {
-      num: "01", jp: "土壌", title: "Soil Preparation",
+      num: "01", jp: "åœŸå£Œ", title: "Soil Preparation",
       desc: "We test, till and enrich the soil before anything is planted. Healthy ground is the foundation every good harvest rests on.",
       tags: ["Testing", "Tilling", "Composting"],
       img: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=1400&q=80"
     },
     {
-      num: "02", jp: "播種", title: "Planting",
+      num: "02", jp: "æ’­ç¨®", title: "Planting",
       desc: "Seeds are sown at the right depth, spacing and season. Timing here decides everything that follows.",
       tags: ["Seeding", "Spacing", "Season"],
       img: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1400&q=80"
     },
     {
-      num: "03", jp: "灌漑", title: "Irrigation",
-      desc: "Water is delivered precisely — drip by drip — so every plant gets what it needs without waste.",
+      num: "03", jp: "çŒæ¼‘", title: "Irrigation",
+      desc: "Water is delivered precisely â€” drip by drip â€” so every plant gets what it needs without waste.",
       tags: ["Drip", "Scheduling", "Water"],
       img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1400&q=80"
     },
     {
-      num: "04", jp: "手入れ", title: "Cultivation",
-      desc: "Weeding, pruning, monitoring for pests — the daily, hands-on work that keeps crops strong and thriving.",
+      num: "04", jp: "æ‰‹å…¥ã‚Œ", title: "Cultivation",
+      desc: "Weeding, pruning, monitoring for pests â€” the daily, hands-on work that keeps crops strong and thriving.",
       tags: ["Weeding", "Pest Control", "Pruning"],
       img: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1400&q=80"
     },
     {
-      num: "05", jp: "収穫", title: "Harvest",
-      desc: "Crops are picked at peak ripeness, handled gently and gathered fresh — the payoff of every earlier step.",
+      num: "05", jp: "åŽç©«", title: "Harvest",
+      desc: "Crops are picked at peak ripeness, handled gently and gathered fresh â€” the payoff of every earlier step.",
       tags: ["Picking", "Sorting", "Quality"],
       img: "https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=1400&q=80"
     },
     {
-      num: "06", jp: "流通", title: "Distribution",
+      num: "06", jp: "æµé€š", title: "Distribution",
       desc: "From field to market with cold chains and quick turnaround, so what you buy is as fresh as the day it was picked.",
       tags: ["Cold Chain", "Packaging", "Delivery"],
       img: "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1400&q=80"
     }
   ];
 
-  /* =========================================================
-     CONFIG
-  ========================================================= */
+  
   var GAP = 32;
   var MAX_CARD_WIDTH = 420;
   var LERP = 0.12;
@@ -55,9 +51,7 @@
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var SMOOTH = prefersReducedMotion ? 1 : LERP;
 
-  /* =========================================================
-     DOM
-  ========================================================= */
+  
   var container    = document.getElementById("scrollContainer");
   var track        = document.getElementById("track");
   var hudFill      = document.getElementById("hudFill");
@@ -75,9 +69,7 @@
 
   var railFills = [].slice.call(document.querySelectorAll(".rail-fill"));
 
-  /* =========================================================
-     STATE
-  ========================================================= */
+  
   var itemWidth = MAX_CARD_WIDTH;
   var totalDistance = 0;
   var progress = 0;
@@ -91,9 +83,7 @@
   var currentChapter = -1;
   var lastVideoProgress = -1;
 
-  /* =========================================================
-     CHAPTER DATA
-  ========================================================= */
+  
   var CHAPTERS = [
     { start: 0.00, end: 0.25, index: "01 / 04",
       title: "The <i>beginning</i>",
@@ -106,12 +96,10 @@
       description: "Day by day, the plant reaches higher and begins to transform." },
     { start: 0.75, end: 1.00, index: "04 / 04",
       title: "The <i>harvest</i>",
-      description: "From the first sprout to the final fruit — grown with care." }
+      description: "From the first sprout to the final fruit â€” grown with care." }
   ];
 
-  /* =========================================================
-     BUILD CARDS
-  ========================================================= */
+  
   function buildCards() {
     var frag = document.createDocumentFragment();
 
@@ -173,9 +161,7 @@
     stepTotal.textContent = String(STEPS.length).padStart(2, "0");
   }
 
-  /* =========================================================
-     MEASURE / LAYOUT
-  ========================================================= */
+  
   function measure() {
     var vw = document.documentElement.clientWidth;
 
@@ -196,9 +182,7 @@
     updateCardTargetProgress();
   }
 
-  /* =========================================================
-     CARD SCROLL PROGRESS
-  ========================================================= */
+  
   function updateCardTargetProgress() {
     var scrollable = container.offsetHeight - window.innerHeight;
 
@@ -221,9 +205,7 @@
     }
   }
 
-  /* =========================================================
-     VIDEO METADATA
-  ========================================================= */
+  
   video.addEventListener("loadedmetadata", function () {
     duration = video.duration;
     videoReady = true;
@@ -235,9 +217,7 @@
     updateVideoScroll();
   });
 
-  /* =========================================================
-     VIDEO SCROLL PROGRESS
-  ========================================================= */
+  
   function getVideoProgress() {
     var rect = experience.getBoundingClientRect();
     var scrollable = experience.offsetHeight - window.innerHeight;
@@ -309,9 +289,7 @@
       zoom.toFixed(4) + ")";
   }
 
-  /* =========================================================
-     VIDEO SMOOTH SCRUB LOOP
-  ========================================================= */
+  
   function videoAnimation() {
     if (videoReady && duration > 0) {
       currentTime += (targetTime - currentTime) * 0.12;
@@ -328,9 +306,7 @@
 
   video.addEventListener("play", function () { video.pause(); });
 
-  /* =========================================================
-     MASTER SCROLL HANDLER
-  ========================================================= */
+  
   var scrollTicking = false;
 
   function onScroll() {
@@ -370,9 +346,7 @@
     }, 260);
   });
 
-  /* =========================================================
-     CARD RENDER LOOP
-  ========================================================= */
+  
   function cardLoop() {
     progress += (targetProgress - progress) * SMOOTH;
 
@@ -388,9 +362,7 @@
     requestAnimationFrame(cardLoop);
   }
 
-  /* =========================================================
-     INIT
-  ========================================================= */
+  
   buildCards();
   measure();
   updateCardTargetProgress();

@@ -1,29 +1,25 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FreshFind — Find what's fresh.</title>
-<meta name="description" content="FreshFind helps you discover farmers markets, seasonal produce and fresh local food around you — all in one place.">
+<title>FreshFind â€” Find what's fresh.</title>
+<meta name="description" content="FreshFind helps you discover farmers markets, seasonal produce and fresh local food around you â€” all in one place.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23BFE8D5'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-<!-- Leaflet CSS — keyless map tiles (OpenStreetMap) -->
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" data-leaflet>
-<!-- Shared site chrome: navbar + Avo chat assistant (same files as every other page) -->
+
 <link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
 <link rel="stylesheet" href="marketfind.css">
 </head>
 <body>
 
-<!-- ============================================================
-     PAGE BACKGROUND VIDEO — vids/color.mp4
-     Full-screen, muted, looping video sitting behind every
-     section of the Find a Market page.
-     ============================================================ -->
 <video
   class="page-background-video"
   autoplay
@@ -59,41 +55,37 @@
 
 <main>
 
-  <!-- ============================================================
-       HERO — CENTERED
-       ============================================================ -->
+  
   <section class="hero" id="home">
     <div class="container">
       <div class="hero-inner">
-        <p class="eyebrow" data-reveal>Farmers markets · Seasonal produce</p>
+        <p class="eyebrow" data-reveal>Farmers markets Â· Seasonal produce</p>
 
         <div class="hero-anim" data-reveal style="--delay:80ms">
           <h1 class="text">Find what's fresh</h1>
           <div class="baseline"></div>
-          <button id="replay" type="button">↺ replay</button>
+          <button id="replay" type="button">â†º replay</button>
         </div>
 
         <p class="lead" data-reveal style="--delay:160ms">
-          Discover farmers markets, seasonal produce and fresh local food around you — all in one place.
+          Discover farmers markets, seasonal produce and fresh local food around you â€” all in one place.
         </p>
         <div class="hero-cta" data-reveal style="--delay:240ms">
-          <a class="btn btn-primary" href="#find">Find a Market →</a>
+          <a class="btn btn-primary" href="#find">Find a Market â†’</a>
           <a class="btn btn-ghost" href="#seasons">Explore Seasons</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       FIND A MARKET
-       ============================================================ -->
+  
   <section class="section" id="find" style="padding-top:20px;">
     <div class="container">
       <div class="section-head" data-reveal>
         <p class="eyebrow">Find a market</p>
         <h2 class="h2">What's fresh near you?</h2>
         <p class="lead" style="margin-top:20px;">
-          Discover local markets by area, day or produce. Filter, search and sort — then open the map
+          Discover local markets by area, day or produce. Filter, search and sort â€” then open the map
           to see exactly where each one sits.
         </p>
       </div>
@@ -170,16 +162,14 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       MAP + RESULTS
-       ============================================================ -->
+  
   <section class="section" id="markets" style="padding-top:0;">
     <div class="container">
       <div class="map-wrap" data-reveal>
         <div id="map" role="region" aria-label="Map of farmers markets"></div>
         <div class="map-fallback" id="mapFallback">
           <div>
-            <h3>Loading map…</h3>
+            <h3>Loading mapâ€¦</h3>
             <p id="mapFallbackText">The interactive map is starting up.</p>
           </div>
         </div>
@@ -187,12 +177,12 @@
 
       <div class="results-head">
         <p class="result-count" id="resultCount">10 markets
-          <small>Demo data — sample markets for illustration</small>
+          <small>Demo data â€” sample markets for illustration</small>
         </p>
         <div class="sort-wrap">
           <label for="sortSelect">Sort</label>
           <select id="sortSelect">
-            <option value="az">A–Z</option>
+            <option value="az">Aâ€“Z</option>
             <option value="nearest">Nearest</option>
             <option value="open">Open first</option>
           </select>
@@ -203,22 +193,20 @@
 
       <div class="empty-state" id="emptyState" hidden>
         <h3>No markets found.</h3>
-        <p>Try a different area, day or produce — or reset everything and start again.</p>
+        <p>Try a different area, day or produce â€” or reset everything and start again.</p>
         <button class="btn btn-primary" id="resetFilters" type="button">Reset filters</button>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       PRODUCE GUIDE
-       ============================================================ -->
+  
   <section class="section-dark" id="produce">
     <div class="container">
       <div class="section-head" data-reveal>
         <p class="eyebrow">Produce guide</p>
         <h2 class="h2" style="color:var(--forest-dark);">Know your produce.</h2>
         <p class="lead" style="margin-top:20px;">
-          Eight categories cover most of what you'll find at a weekend market — from everyday
+          Eight categories cover most of what you'll find at a weekend market â€” from everyday
           vegetables to raw honey, dairy, and fresh-baked bread.
         </p>
       </div>
@@ -276,7 +264,7 @@
             </video>
           </div>
           <h3>Herbs</h3>
-          <p>Mint, basil, coriander and more — cut fresh and bundled for the week ahead.</p>
+          <p>Mint, basil, coriander and more â€” cut fresh and bundled for the week ahead.</p>
         </article>
 
         <article class="produce-card" data-reveal style="--delay:400ms">
@@ -315,9 +303,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       SEASONS — 3D CARDS
-       ============================================================ -->
+  
   <section class="section" id="seasons">
     <div class="container">
       <div class="section-head" data-reveal>
@@ -329,22 +315,19 @@
       </div>
 
       <div class="seasons-3d-grid">
-        <!-- Season models are the local GLBs in the "findmarket glbs" folder.
-             Each one is auto-fitted to its card (size + baseline) at runtime, so
-             fixed sizes are gone. Optional per-card nudge: data-scale="1.1".
-             No data-tint: each GLB keeps its own natural produce colours. -->
+        
 
-        <!-- SEASON 01 — SPRING · Lettuce cut -->
+        
         <article
           class="product-item"
-          data-model="findmarket%20glbs/Lettuce%20cut%20by%20Kay%20Lousberg%20-%209SmuOj79Tt.glb">
-          <div class="model-wrapper model-orbit">
-            <div class="model-container">
-              <div class="model-loading"></div>
-            </div>
-          </div>
+          data-model="assets/find%20market%20glb/cabbage.glb">
           <div class="product-card">
-            <div class="card-arrow">→</div>
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
             <div class="card-content">
               <span class="card-number">Season 01</span>
               <h2>Spring</h2>
@@ -353,17 +336,17 @@
           </div>
         </article>
 
-        <!-- SEASON 02 — SUMMER · Cherry -->
+        
         <article
           class="product-item"
-          data-model="findmarket%20glbs/Cherry%20by%20Poly%20by%20Google%20-%208BsjISKsNIz.glb">
-          <div class="model-wrapper model-orbit">
-            <div class="model-container">
-              <div class="model-loading"></div>
-            </div>
-          </div>
+          data-model="assets/find%20market%20glb/cherries.glb">
           <div class="product-card">
-            <div class="card-arrow">→</div>
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
             <div class="card-content">
               <span class="card-number">Season 02</span>
               <h2>Summer</h2>
@@ -372,17 +355,17 @@
           </div>
         </article>
 
-        <!-- SEASON 03 — AUTUMN · Pumpkin -->
+        
         <article
           class="product-item"
-          data-model="findmarket%20glbs/Pumpkin%20by%20Quaternius%20-%20bvLvqnU1jX.glb">
-          <div class="model-wrapper model-orbit">
-            <div class="model-container">
-              <div class="model-loading"></div>
-            </div>
-          </div>
+          data-model="assets/find%20market%20glb/pumpkin_-_free_download%20(1).glb">
           <div class="product-card">
-            <div class="card-arrow">→</div>
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
             <div class="card-content">
               <span class="card-number">Season 03</span>
               <h2>Autumn</h2>
@@ -391,17 +374,17 @@
           </div>
         </article>
 
-        <!-- SEASON 04 — WINTER · Carrot -->
+        
         <article
           class="product-item"
-          data-model="findmarket%20glbs/Carrot%20by%20Nick%20Tiemeyer%20-%207LRJbAGkFZd.glb">
-          <div class="model-wrapper model-orbit">
-            <div class="model-container">
-              <div class="model-loading"></div>
-            </div>
-          </div>
+          data-model="assets/find%20market%20glb/carrot.glb">
           <div class="product-card">
-            <div class="card-arrow">→</div>
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
             <div class="card-content">
               <span class="card-number">Season 04</span>
               <h2>Winter</h2>
@@ -414,9 +397,7 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       ABOUT
-       ============================================================ -->
+  
   <section class="section" id="about" style="padding-top:0;">
     <div class="container about-grid">
       <div data-reveal>
@@ -424,15 +405,15 @@
         <h2 class="h2">Fresh food starts local.</h2>
         <p class="lead" style="margin-top:20px;">
           FreshFind is a browser-based platform designed to help people discover farmers markets
-          and seasonal produce. No account, no app store — just a search box, a map and a short
+          and seasonal produce. No account, no app store â€” just a search box, a map and a short
           list of what's actually in season right now.
         </p>
 
         <ul class="feature-list">
-          <li><span class="check">✓</span> Discover local markets</li>
-          <li><span class="check">✓</span> Explore seasonal produce</li>
-          <li><span class="check">✓</span> Check market opening times</li>
-          <li><span class="check">✓</span> Save favourite markets</li>
+          <li><span class="check">âœ“</span> Discover local markets</li>
+          <li><span class="check">âœ“</span> Explore seasonal produce</li>
+          <li><span class="check">âœ“</span> Check market opening times</li>
+          <li><span class="check">âœ“</span> Save favourite markets</li>
         </ul>
       </div>
 
@@ -461,7 +442,7 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> FreshFind. A demo project.</span>
+      <span>Â© <span id="year"></span> FreshFind. A demo project.</span>
       <span>Market data shown is sample data for illustration.</span>
     </div>
   </div>
@@ -470,7 +451,7 @@
 <div class="modal" id="marketModal" role="presentation">
   <div class="modal-backdrop" data-close></div>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" type="button" data-close aria-label="Close dialog">✕</button>
+    <button class="modal-close" type="button" data-close aria-label="Close dialog">âœ•</button>
 
     <div class="modal-hero">
       <img id="modalImage" src="" alt="">
@@ -492,7 +473,7 @@
     </div>
 
     <div class="modal-actions">
-      <a class="btn btn-primary" id="directionsLink" href="#" target="_blank" rel="noopener">Get directions →</a>
+      <a class="btn btn-primary" id="directionsLink" href="#" target="_blank" rel="noopener">Get directions â†’</a>
     </div>
   </div>
 </div>
@@ -509,11 +490,11 @@
       <strong>FreshFind Assistant</strong>
       <span>Online</span>
     </div>
-    <button class="chat-close" id="chatClose" type="button" aria-label="Close assistant">✕</button>
+    <button class="chat-close" id="chatClose" type="button" aria-label="Close assistant">âœ•</button>
   </div>
 
   <div class="chat-body" id="chatBody">
-    <div class="msg bot">Hi! I'm FreshFind — what would you like to know?</div>
+    <div class="msg bot">Hi! I'm FreshFind â€” what would you like to know?</div>
   </div>
 
   <div class="chat-quick" id="chatQuick">
@@ -523,32 +504,19 @@
   </div>
 
   <form class="chat-form" id="chatForm">
-    <input type="text" id="chatInput" placeholder="Type your question…"
+    <input type="text" id="chatInput" placeholder="Type your questionâ€¦"
            aria-label="Type your question" autocomplete="off">
-    <button type="submit" aria-label="Send message">→</button>
+    <button type="submit" aria-label="Send message">â†’</button>
   </form>
 </div>
 
-<!-- ============================================================
-     MAIN SITE SCRIPT
-     ============================================================ -->
+<script src="market-data.js"></script>
 <script src="marketfind.js"></script>
 
-<!-- ============================================================
-     GRAVITY BOUNCE ANIMATION
-     ============================================================ -->
 <script src="marketfind-hero.js"></script>
 
-<!-- ============================================================
-     BACKGROUND VIDEO — autoplay safety net
-     Keeps vids/color.mp4 running when the browser blocks autoplay
-     and hides it if the file can't be loaded.
-     ============================================================ -->
 <script src="marketfind-video.js"></script>
 
-<!-- ============================================================
-     3D SEASON CARDS — Three.js loader
-     ============================================================ -->
 <script type="importmap">
 {
   "imports": {
@@ -560,13 +528,9 @@
 
 <script type="module" src="marketfind-3d.js"></script>
 
-<!-- ============================================================
-     SITE CHROME — shared navbar + Avo chat assistant
-     navbar.js injects the FreshFind pill nav + Explore menu,
-     chat-widget.js injects the Avo chat bot (bottom-left).
-     ============================================================ -->
 <script src="navbar.js"></script>
 <script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
 
 </body>
 </html>

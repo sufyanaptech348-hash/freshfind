@@ -1,4 +1,4 @@
-import * as THREE from "three";
+﻿import * as THREE from "three";
 
 import {
     GLTFLoader
@@ -10,31 +10,19 @@ import {
 } from
 "three/addons/libs/meshopt_decoder.module.js";
 
-
-
-/* ========================================================
-   PRODUCT DATA
-======================================================== */
-
 const products =
     [...document.querySelectorAll(".product-item")];
 
-
-
-/* ========================================================
-   THREE.JS SETTINGS
-======================================================== */
-
 const settings = {
 
-    /* --- card fit: models are sized from their own bounding box --- */
-    fitWidth: .92,      /* share of the card width a spinning model may use */
-    fitHeight: .8,      /* share of the card's height band a model may use */
-    headroom: .04,      /* world units kept free at the top of the canvas */
-    groundY: -.58,      /* world y of the card's contact-shadow line */
-    hoverScale: 1.07,   /* hover grow, kept inside the fit margins */
+    
+    fitWidth: .92,      
+    fitHeight: .8,      
+    headroom: .04,      
+    groundY: -.58,      
+    hoverScale: 1.07,   
 
-    /* --- motion (stays inside the fit margins) --- */
+    
     idleRotation: 0.0018,
 
     hoverRotation: 0.003,
@@ -47,12 +35,6 @@ const settings = {
 
 };
 
-
-
-/* ========================================================
-   LOADER
-======================================================== */
-
 const loader =
     new GLTFLoader();
 
@@ -60,29 +42,13 @@ loader.setMeshoptDecoder(
     MeshoptDecoder
 );
 
-
-
-/* ========================================================
-   MODEL STORAGE
-======================================================== */
-
 const scenes =
     new Map();
 
-
-
-/* ========================================================
-   CARD FIT HELPERS
-======================================================== */
-
-/* The world-space band a card canvas shows, read straight off
-   its own camera, so the fit follows the real card size at
-   every breakpoint. */
 function visibleBand(camera) {
 
     const distance =
         Math.abs(camera.position.z);
-
 
     const viewHeight =
         2 *
@@ -91,12 +57,10 @@ function visibleBand(camera) {
         ) *
         distance;
 
-
     const aspect =
         Number.isFinite(camera.aspect) && camera.aspect > 0
             ? camera.aspect
             : 1;
-
 
     return {
 
@@ -113,8 +77,6 @@ function visibleBand(camera) {
 
 }
 
-
-/* Vertical centre of the card band - the y every model floats around. */
 function bandCentre(camera) {
 
     const band =
@@ -124,24 +86,16 @@ function bandCentre(camera) {
 
 }
 
-
-/* Scale a model so its whole bounding box fits the card: height
-   against the card band, width against the widest silhouette it
-   shows while spinning. Nothing is ever cropped, whatever the
-   GLB's proportions or the card width. */
 function fitModelToCard(camera, model, size, nudge) {
 
     const band =
         visibleBand(camera);
 
-
     const bandHeight =
         band.top - band.bottom;
 
-
     const silhouette =
         Math.max(size.x, size.z);
-
 
     const scale =
         (size.y > 0 && silhouette > 0)
@@ -151,38 +105,23 @@ function fitModelToCard(camera, model, size, nudge) {
             ) * nudge
             : nudge;
 
-
     model.scale.setScalar(scale);
 
     return scale;
 
 }
 
-
-
-/* ========================================================
-   CREATE THREE.JS SCENE
-======================================================== */
-
 function createScene(product) {
-
 
     const container =
         product.querySelector(".model-container");
 
-
-    /* -----------------------------------------------
-       SCENE
-    ------------------------------------------------ */
+    
 
     const scene =
         new THREE.Scene();
 
-
-
-    /* -----------------------------------------------
-       CAMERA
-    ------------------------------------------------ */
+    
 
     const camera =
         new THREE.PerspectiveCamera(
@@ -198,7 +137,6 @@ function createScene(product) {
 
         );
 
-
     camera.position.set(
         0,
         0.15,
@@ -211,11 +149,7 @@ function createScene(product) {
         0
     );
 
-
-
-    /* -----------------------------------------------
-       RENDERER
-    ------------------------------------------------ */
+    
 
     const renderer =
         new THREE.WebGLRenderer({
@@ -229,7 +163,6 @@ function createScene(product) {
 
         });
 
-
     renderer.setPixelRatio(
 
         Math.min(
@@ -238,7 +171,6 @@ function createScene(product) {
         )
 
     );
-
 
     renderer.setSize(
 
@@ -249,35 +181,25 @@ function createScene(product) {
 
     );
 
-
     renderer.outputColorSpace =
         THREE.SRGBColorSpace;
-
 
     renderer.toneMapping =
         THREE.ACESFilmicToneMapping;
 
-
     renderer.toneMappingExposure =
         1.15;
 
-
     renderer.shadowMap.enabled = true;
-
 
     renderer.shadowMap.type =
         THREE.PCFSoftShadowMap;
-
 
     container.appendChild(
         renderer.domElement
     );
 
-
-
-    /* ==================================================
-       LIGHTING
-    ================================================== */
+    
 
     const hemisphereLight =
         new THREE.HemisphereLight(
@@ -290,12 +212,9 @@ function createScene(product) {
 
         );
 
-
     scene.add(
         hemisphereLight
     );
-
-
 
     const keyLight =
         new THREE.DirectionalLight(
@@ -306,22 +225,17 @@ function createScene(product) {
 
         );
 
-
     keyLight.position.set(
         3,
         5,
         5
     );
 
-
     keyLight.castShadow = true;
-
 
     scene.add(
         keyLight
     );
-
-
 
     const fillLight =
         new THREE.DirectionalLight(
@@ -332,19 +246,15 @@ function createScene(product) {
 
         );
 
-
     fillLight.position.set(
         -4,
         2,
         3
     );
 
-
     scene.add(
         fillLight
     );
-
-
 
     const rimLight =
         new THREE.PointLight(
@@ -356,23 +266,17 @@ function createScene(product) {
 
         );
 
-
     rimLight.position.set(
         0,
         3,
         -2
     );
 
-
     scene.add(
         rimLight
     );
 
-
-
-    /* ==================================================
-       STATE
-    ================================================== */
+    
 
     const state = {
 
@@ -411,18 +315,13 @@ function createScene(product) {
 
     };
 
+    
 
-
-    /* ==================================================
-       REFIT
-    ================================================== */
-
-    /* Re-fit the model and its baseline to the current card size. */
+    
     function refit() {
 
         state.baselineY =
             bandCentre(camera);
-
 
         if (state.model && state.rawSize) {
 
@@ -438,10 +337,7 @@ function createScene(product) {
 
     }
 
-
-    /* ==================================================
-       RESIZE
-    ================================================== */
+    
 
     function resize() {
 
@@ -451,19 +347,15 @@ function createScene(product) {
         const height =
             container.clientHeight;
 
-
         if (
             width === 0 ||
             height === 0
         ) return;
 
-
         camera.aspect =
             width / height;
 
-
         camera.updateProjectionMatrix();
-
 
         renderer.setSize(
             width,
@@ -471,27 +363,22 @@ function createScene(product) {
             false
         );
 
-
         refit();
 
     }
-
 
     const resizeObserver =
         new ResizeObserver(
             resize
         );
 
-
     resizeObserver.observe(
         container
     );
 
-
     resize();
 
-
-    /* Scroll progress adds a gentle tilt without moving models off-center. */
+    
     function updateScrollMotion() {
 
         const rect =
@@ -510,7 +397,6 @@ function createScene(product) {
 
     }
 
-
     updateScrollMotion();
 
     window.addEventListener(
@@ -519,11 +405,7 @@ function createScene(product) {
         { passive: true }
     );
 
-
-
-    /* ==================================================
-       MOUSE MOVE
-    ================================================== */
+    
 
     container.addEventListener(
         "pointermove",
@@ -532,13 +414,11 @@ function createScene(product) {
             const rect =
                 container.getBoundingClientRect();
 
-
             const x =
                 (
                     event.clientX -
                     rect.left
                 ) / rect.width;
-
 
             const y =
                 (
@@ -546,18 +426,14 @@ function createScene(product) {
                     rect.top
                 ) / rect.height;
 
-
             state.mouseX =
                 (x - .5) * 2;
-
 
             state.mouseY =
                 (y - .5) * 2;
 
-
             state.targetRotationY =
                 state.mouseX * .35;
-
 
             state.targetRotationX =
                 state.mouseY * .18;
@@ -565,11 +441,7 @@ function createScene(product) {
         }
     );
 
-
-
-    /* ==================================================
-       POINTER ENTER
-    ================================================== */
+    
 
     container.addEventListener(
         "pointerenter",
@@ -580,11 +452,7 @@ function createScene(product) {
         }
     );
 
-
-
-    /* ==================================================
-       POINTER LEAVE
-    ================================================== */
+    
 
     container.addEventListener(
         "pointerleave",
@@ -599,11 +467,7 @@ function createScene(product) {
         }
     );
 
-
-
-    /* ==================================================
-       ANIMATION
-    ================================================== */
+    
 
     function animate() {
 
@@ -617,27 +481,18 @@ function createScene(product) {
 
         }
 
-
         const elapsed =
             performance.now() -
             state.startTime;
 
-
-
-        /* ---------------------------------------------
-           IDLE ROTATION
-        --------------------------------------------- */
+        
 
         state.model.rotation.y +=
             state.hovered
                 ? settings.hoverRotation
                 : settings.idleRotation;
 
-
-
-        /* ---------------------------------------------
-           SMOOTH MOUSE ROTATION
-        --------------------------------------------- */
+        
 
         state.currentRotationX +=
 
@@ -646,7 +501,6 @@ function createScene(product) {
                 state.currentRotationX
             ) * .08;
 
-
         state.currentRotationY +=
 
             (
@@ -654,21 +508,14 @@ function createScene(product) {
                 state.currentRotationY
             ) * .08;
 
-
-
         state.model.rotation.x =
             state.currentRotationX +
             state.scrollTilt;
 
-
         state.model.rotation.y +=
             state.currentRotationY * .02;
 
-
-
-        /* ---------------------------------------------
-           FLOATING
-        --------------------------------------------- */
+        
 
         state.model.position.y =
             state.baselineY +
@@ -678,39 +525,27 @@ function createScene(product) {
             ) *
             settings.floatAmount;
 
+        
 
-
-        /* ---------------------------------------------
-           HOVER SCALE
-        --------------------------------------------- */
-
-        /* Hover grow multiplies the fitted scale, so the model can
-           never drift away from the size that fits the card. */
+        
         const targetScale =
             state.hovered
                 ? settings.hoverScale
                 : 1;
 
-
         state.hoverAmount +=
             (targetScale - state.hoverAmount) * .07;
-
 
         state.model.scale.setScalar(
             state.fitScale * state.hoverAmount
         );
 
-
-
-        /* ---------------------------------------------
-           RENDER
-        --------------------------------------------- */
+        
 
         renderer.render(
             scene,
             camera
         );
-
 
         requestAnimationFrame(
             animate
@@ -718,14 +553,9 @@ function createScene(product) {
 
     }
 
-
     animate();
 
-
-
-    /* ==================================================
-       RETURN
-    ================================================== */
+    
 
     return {
 
@@ -745,56 +575,38 @@ function createScene(product) {
 
 }
 
-
-
-/* ========================================================
-   LOAD MODEL
-======================================================== */
-
 function loadModel(product) {
-
 
     if (
         scenes.has(product)
     ) return;
 
-
     const sceneData =
         createScene(product);
-
 
     scenes.set(
         product,
         sceneData
     );
 
-
     const modelPath =
         product.dataset.model;
-
 
     const loading =
         product.querySelector(
             ".model-loading"
         );
 
-
-
     loader.load(
 
         modelPath,
-
 
         gltf => {
 
             const model =
                 gltf.scene;
 
-
-
-            /* -----------------------------------------
-               MATERIAL / SHADOW SETTINGS
-            ----------------------------------------- */
+            
 
             model.traverse(
                 child => {
@@ -808,7 +620,6 @@ function loadModel(product) {
 
                         child.receiveShadow =
                             true;
-
 
                         const tint =
                             product.dataset.tint;
@@ -846,28 +657,21 @@ function loadModel(product) {
                 }
             );
 
-
-
-            /* -----------------------------------------
-               CENTER MODEL
-            ----------------------------------------- */
+            
 
             const box =
                 new THREE.Box3()
                     .setFromObject(model);
-
 
             const size =
                 box.getSize(
                     new THREE.Vector3()
                 );
 
-
             const center =
                 box.getCenter(
                     new THREE.Vector3()
                 );
-
 
             model.position.set(
                 -center.x,
@@ -875,20 +679,12 @@ function loadModel(product) {
                 -center.z
             );
 
-
-
-            /* -----------------------------------------
-               FIT TO CARD
-               The scale comes from the card's own camera
-               band, so nothing is cropped at any breakpoint.
-               Optional per-card nudge: data-scale="1.1"
-            ----------------------------------------- */
+            
 
             const nudgeAttr =
                 parseFloat(
                     product.dataset.scale
                 );
-
 
             const pivot =
                 new THREE.Group();
@@ -906,36 +702,24 @@ function loadModel(product) {
             sceneData.state.rawSize =
                 size;
 
-
             sceneData.state.nudge =
                 isNaN(nudgeAttr) ? 1 : nudgeAttr;
 
-
-
-            /* -----------------------------------------
-               ADD MODEL
-            ----------------------------------------- */
+            
 
             sceneData.scene.add(
                 pivot
             );
 
-
             sceneData.state.model =
                 pivot;
 
-
             sceneData.refit();
-
 
             sceneData.state.loaded =
                 true;
 
-
-
-            /* -----------------------------------------
-               HIDE LOADER
-            ----------------------------------------- */
+            
 
             if (loading) {
 
@@ -946,7 +730,6 @@ function loadModel(product) {
             }
 
         },
-
 
         xhr => {
 
@@ -972,7 +755,6 @@ function loadModel(product) {
 
         },
 
-
         error => {
 
             console.error(
@@ -980,7 +762,6 @@ function loadModel(product) {
                 modelPath,
                 error
             );
-
 
             if (loading) {
 
@@ -995,12 +776,6 @@ function loadModel(product) {
     );
 
 }
-
-
-
-/* ========================================================
-   LAZY LOAD GLBs
-======================================================== */
 
 const observer =
     new IntersectionObserver(
@@ -1022,7 +797,6 @@ const observer =
                             entry.target
                         );
 
-
                         observer.unobserve(
                             entry.target
                         );
@@ -1043,8 +817,6 @@ const observer =
 
     );
 
-
-
 products.forEach(
     product => {
 
@@ -1055,10 +827,6 @@ products.forEach(
     }
 );
 
-/* ========================================================
-   CLEANUP
-======================================================== */
-
 window.addEventListener(
     "beforeunload",
     () => {
@@ -1068,7 +836,6 @@ window.addEventListener(
 
                 sceneData.resizeObserver
                     .disconnect();
-
 
                 sceneData.scene.traverse(
                     object => {
@@ -1085,7 +852,6 @@ window.addEventListener(
                                     .dispose();
 
                             }
-
 
                             if (
                                 object.material
@@ -1117,7 +883,6 @@ window.addEventListener(
                     }
                 );
 
-
                 sceneData.renderer.dispose();
 
             }
@@ -1125,11 +890,6 @@ window.addEventListener(
 
     }
 );
-/* ========================================================
-   SCROLL-CONTROLLED BACKGROUND VIDEO
-   The video does not play by itself: scrolling down moves
-   it forward, scrolling up moves it backward.
-======================================================== */
 
 (function () {
 
@@ -1140,6 +900,35 @@ window.addEventListener(
         [...document.querySelectorAll(".season-progress-item")];
 
     if (!video) return;
+
+    
+
+    const framesContainer =
+        document.querySelector(".page-background-frames");
+
+    const frames = framesContainer
+        ? [...framesContainer.querySelectorAll(".season-frame")]
+        : [];
+
+    let framesReady = false;
+    let activeFrame = -1;
+
+    function setFrame(index) {
+
+        if (index === activeFrame)
+            return;
+
+        activeFrame = index;
+
+        frames.forEach(
+            (frame, frameIndex) =>
+                frame.classList.toggle(
+                    "is-active",
+                    frameIndex === index
+                )
+        );
+
+    }
 
     const reducedMotion =
         window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -1154,12 +943,82 @@ window.addEventListener(
             ? 0.014
             : 0.018;
 
-    let target = 0;           /* scroll progress, 0 to 1 */
-    let current = 0;          /* smoothed progress */
+    let target = 0;           
+    let current = 0;          
     let activeSeason = -1;
     let targetUpdateQueued = false;
 
     video.pause();
+
+    
+
+    if (frames.length && !reducedMotion.matches) {
+
+        const loader = new Image();
+
+        let pending = frames.length;
+        let firstFrameFailed = false;
+
+        function onFrameReady() {
+
+            pending -= 1;
+
+            if (pending > 0 || firstFrameFailed)
+                return;
+
+            framesReady = true;
+
+            framesContainer.hidden = false;
+
+            document.body.classList.add("has-frame-background");
+
+            
+            video.pause();
+
+            setFrame(
+                Math.min(
+                    frames.length - 1,
+                    Math.floor(current * frames.length)
+                )
+            );
+
+        }
+
+        frames.forEach((frame, frameIndex) => {
+
+            if (frame.complete && frame.naturalWidth > 0) {
+
+                onFrameReady();
+
+                return;
+
+            }
+
+            frame.addEventListener(
+                "load",
+                onFrameReady,
+                { once: true }
+            );
+
+            frame.addEventListener(
+                "error",
+                () => {
+
+                    if (frameIndex === 0)
+                        firstFrameFailed = true;
+
+                    pending -= 1;
+
+                },
+                { once: true }
+            );
+
+            
+            loader.src = frame.src;
+
+        });
+
+    }
 
     function setSeason(index) {
 
@@ -1196,7 +1055,6 @@ window.addEventListener(
 
     }
 
-
     function queueTargetUpdate() {
 
         if (targetUpdateQueued)
@@ -1222,15 +1080,28 @@ window.addEventListener(
 
         current += step;
 
-        if (!reducedMotion.matches && video.duration) {
+        if (!reducedMotion.matches) {
 
-            const time =
-                current * video.duration;
+            if (framesReady) {
 
-            /* only seek when the change is big enough to matter */
-            if (Math.abs(video.currentTime - time) > 1 / 60) {
+                setFrame(
+                    Math.min(
+                        frames.length - 1,
+                        Math.floor(current * frames.length)
+                    )
+                );
 
-                video.currentTime = time;
+            } else if (video.duration) {
+
+                const time =
+                    current * video.duration;
+
+                
+                if (Math.abs(video.currentTime - time) > 1 / 60) {
+
+                    video.currentTime = time;
+
+                }
 
             }
 
@@ -1268,9 +1139,24 @@ window.addEventListener(
             video.pause();
 
             if (reducedMotion.matches) {
+
                 current = 0;
                 video.currentTime = 0;
+
             }
+
+            
+            if (reducedMotion.matches && framesReady) {
+
+                framesReady = false;
+                framesContainer.hidden = true;
+                document.body.classList.remove("has-frame-background");
+                activeFrame = -1;
+                frames.forEach(frame => frame.classList.remove("is-active"));
+
+            }
+
+            updateTarget();
 
         }
     );

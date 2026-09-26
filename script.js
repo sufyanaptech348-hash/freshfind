@@ -18,13 +18,6 @@ import {
 } from
   "three/addons/libs/meshopt_decoder.module.js";
 
-
-/* =========================================================
-   SAFE MOTION
-   Animation is local and non-blocking. The first scene no longer
-   depends on GSAP or SplitText loading from a CDN.
-   ========================================================= */
-
 const runningMotion = new WeakMap();
 
 function getMotionTargets(target) {
@@ -134,20 +127,6 @@ const gsap = {
   }
 };
 
-
-/* =========================================================
-   GSAP
-========================================================= */
-
-
-
-
-
-
-/* =========================================================
-   SHOE DATA
-========================================================= */
-
 const SHOES = [
   {
     file:
@@ -207,11 +186,6 @@ const SHOES = [
 
 ];
 
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
 const SETTINGS = {
 
   shoeSize:
@@ -242,11 +216,6 @@ const SETTINGS = {
     5
 
 };
-
-
-/* =========================================================
-   DOM
-========================================================= */
 
 const canvas =
   document.querySelector("#gl");
@@ -284,10 +253,6 @@ const dotsContainer =
 const exploreButton =
   document.querySelector("#explore-button");
 
-/* =========================================================
-   RENDERER
-========================================================= */
-
 const renderer =
   new THREE.WebGLRenderer({
 
@@ -309,11 +274,6 @@ const renderer =
 
   });
 
-
-/* ADAPTIVE RESOLUTION
-   Only the drawing buffer is scaled (the CSS size stays at
-   100%), so the GPU can hold a steady frame rate. */
-
 const basePixelRatio =
   Math.min(
     window.devicePixelRatio || 1,
@@ -321,7 +281,6 @@ const basePixelRatio =
   );
 
 let renderScale = 1;
-
 
 function applySize() {
 
@@ -335,7 +294,6 @@ function applySize() {
 
   );
 
-
   renderer.setSize(
 
     window.innerWidth,
@@ -348,33 +306,19 @@ function applySize() {
 
 }
 
-
 applySize();
-
 
 renderer.outputColorSpace =
   THREE.SRGBColorSpace;
 
-
 renderer.toneMapping =
   THREE.ACESFilmicToneMapping;
-
 
 renderer.toneMappingExposure =
   1.15;
 
-
-/* =========================================================
-   SCENE
-========================================================= */
-
 const scene =
   new THREE.Scene();
-
-
-/* =========================================================
-   CAMERA
-========================================================= */
 
 const camera =
   new THREE.PerspectiveCamera(
@@ -390,24 +334,17 @@ const camera =
 
   );
 
-
 camera.position.set(
   0,
   1.1,
   SETTINGS.cameraDistance
 );
 
-
 camera.lookAt(
   0,
   1.15,
   0
 );
-
-
-/* =========================================================
-   LIGHTS
-========================================================= */
 
 const ambient =
   new THREE.HemisphereLight(
@@ -424,7 +361,6 @@ scene.add(
   ambient
 );
 
-
 const keyLight =
   new THREE.DirectionalLight(
 
@@ -434,28 +370,23 @@ const keyLight =
 
   );
 
-
 keyLight.position.set(
   4,
   8,
   6
 );
 
-
 keyLight.castShadow =
   true;
-
 
 keyLight.shadow.mapSize.set(
   2048,
   2048
 );
 
-
 scene.add(
   keyLight
 );
-
 
 const fillLight =
   new THREE.DirectionalLight(
@@ -466,18 +397,15 @@ const fillLight =
 
   );
 
-
 fillLight.position.set(
   -5,
   4,
   3
 );
 
-
 scene.add(
   fillLight
 );
-
 
 const rimLight =
   new THREE.DirectionalLight(
@@ -488,22 +416,15 @@ const rimLight =
 
   );
 
-
 rimLight.position.set(
   0,
   5,
   -6
 );
 
-
 scene.add(
   rimLight
 );
-
-
-/* =========================================================
-   FLOOR
-========================================================= */
 
 const floor =
   new THREE.Mesh(
@@ -522,35 +443,24 @@ const floor =
 
   );
 
-
 floor.rotation.x =
   -Math.PI / 2;
-
 
 floor.position.y =
   -1.55;
 
-
 floor.receiveShadow =
   true;
-
 
 scene.add(
   floor
 );
 
-
-/* =========================================================
-   GLTF LOADER
-========================================================= */
-
 const gltfLoader =
   new GLTFLoader();
 
-
 const dracoLoader =
   new DRACOLoader();
-
 
 dracoLoader.setDecoderPath(
 
@@ -558,20 +468,13 @@ dracoLoader.setDecoderPath(
 
 );
 
-
 gltfLoader.setDRACOLoader(
   dracoLoader
 );
 
-
 gltfLoader.setMeshoptDecoder(
   MeshoptDecoder
 );
-
-
-/* =========================================================
-   STATE
-========================================================= */
 
 const shoes = [];
 
@@ -589,7 +492,6 @@ let wheelLocked =
 
 let welcomeSplit =
   null;
-
 
 function animateWelcomeIntro() {
   if (!welcome)
@@ -652,11 +554,6 @@ function animateWelcomeIntro() {
   );
 }
 
-
-/* =========================================================
-   LOAD SHOE
-========================================================= */
-
 async function loadShoe(
   config,
   index
@@ -674,7 +571,6 @@ async function loadShoe(
         config.file
       );
 
-
     const model =
       gltf?.scene;
 
@@ -682,8 +578,7 @@ async function loadShoe(
       throw new Error("The GLB does not contain a scene.");
     }
 
-
-    /* SHADOWS */
+    
 
     model.traverse(
       object => {
@@ -703,8 +598,7 @@ async function loadShoe(
       }
     );
 
-
-    /* SIZE */
+    
 
     const box =
       new THREE.Box3()
@@ -712,12 +606,10 @@ async function loadShoe(
           model
         );
 
-
     const size =
       box.getSize(
         new THREE.Vector3()
       );
-
 
     const largest =
       Math.max(
@@ -725,7 +617,6 @@ async function loadShoe(
         size.y,
         size.z
       );
-
 
     if (
       !Number.isFinite(largest) ||
@@ -741,13 +632,11 @@ async function loadShoe(
 
     );
 
-
-    /* CENTER */
+    
 
     model.updateMatrixWorld(
       true
     );
-
 
     const newBox =
       new THREE.Box3()
@@ -755,40 +644,32 @@ async function loadShoe(
           model
         );
 
-
     const center =
       newBox.getCenter(
         new THREE.Vector3()
       );
 
-
     model.position.x -=
       center.x;
-
 
     model.position.z -=
       center.z;
 
-
     model.position.y -=
       newBox.min.y;
 
-
-    /* GROUP */
+    
 
     const group =
       new THREE.Group();
-
 
     group.add(
       model
     );
 
-
     scene.add(
       group
     );
-
 
     shoes[index] = {
 
@@ -830,7 +711,6 @@ async function loadShoe(
       error
     );
 
-
     createFallback(
       config,
       index
@@ -839,11 +719,6 @@ async function loadShoe(
   }
 
 }
-
-
-/* =========================================================
-   FALLBACK
-========================================================= */
 
 function createFallback(
   config,
@@ -857,7 +732,6 @@ function createFallback(
       1.2
     );
 
-
   const material =
     new THREE.MeshStandardMaterial({
 
@@ -869,35 +743,28 @@ function createFallback(
 
     });
 
-
   const mesh =
     new THREE.Mesh(
       geometry,
       material
     );
 
-
   mesh.position.y =
     0.5;
-
 
   mesh.castShadow =
     true;
 
-
   const group =
     new THREE.Group();
-
 
   group.add(
     mesh
   );
 
-
   scene.add(
     group
   );
-
 
   shoes[index] = {
 
@@ -966,11 +833,6 @@ function createLocationPin(config, index) {
   };
 }
 
-
-/* =========================================================
-   CIRCULAR DISTANCE
-========================================================= */
-
 function getDistance(
   index
 ) {
@@ -978,7 +840,6 @@ function getDistance(
   let distance =
     index -
     currentIndex;
-
 
   if (
     distance >
@@ -990,7 +851,6 @@ function getDistance(
 
   }
 
-
   if (
     distance <
     -SHOES.length / 2
@@ -1001,15 +861,9 @@ function getDistance(
 
   }
 
-
   return distance;
 
 }
-
-
-/* =========================================================
-   UPDATE SLIDER
-========================================================= */
 
 function updateSlider(
   animate = true
@@ -1098,8 +952,7 @@ function updateSlider(
 
       }
 
-
-      /* POSITION */
+      
 
       const isLocationPin =
         Boolean(shoe.pin);
@@ -1122,29 +975,24 @@ function updateSlider(
               ? -SETTINGS.spacing
               : SETTINGS.spacing;
 
-
       const z =
         Math.abs(distance) *
         SETTINGS.sideDepth;
 
-
       const y =
         -distance * SETTINGS.verticalSpacing;
 
-
-      /* SCALE */
+      
 
       const scale =
         distance === 0
           ? 1
           : SETTINGS.sideScale;
 
-
-      /* ROTATION */
+      
 
       let rotation =
         shoe.baseRotation;
-
 
       if (
         distance < 0
@@ -1155,7 +1003,6 @@ function updateSlider(
 
       }
 
-
       if (
         distance > 0
       ) {
@@ -1164,7 +1011,6 @@ function updateSlider(
           SETTINGS.sideRotation;
 
       }
-
 
       if (animate) {
 
@@ -1193,7 +1039,6 @@ function updateSlider(
           }
         );
 
-
         gsap.to(
           shoe.group.scale,
           {
@@ -1218,7 +1063,6 @@ function updateSlider(
 
           }
         );
-
 
         gsap.to(
           shoe.group.rotation,
@@ -1249,11 +1093,9 @@ function updateSlider(
           z
         );
 
-
         shoe.group.scale.setScalar(
           scale
         );
-
 
         shoe.group.rotation.y =
           rotation;
@@ -1266,21 +1108,14 @@ function updateSlider(
     }
   );
 
-
   updateText();
 
 }
-
-
-/* =========================================================
-   TEXT
-========================================================= */
 
 function updateText() {
 
   const shoe =
     shoes[currentIndex];
-
 
   if (!shoe)
     return;
@@ -1310,8 +1145,7 @@ function updateText() {
 
   } else {
 
-    /* ONLY SET UP THE INTRO ONCE SO PLACING
-       EACH MODEL DOES NOT RESTART IT */
+    
 
     if (!welcomeSplit) {
 
@@ -1320,7 +1154,6 @@ function updateText() {
     }
 
   }
-
 
   gsap.to(
     stage,
@@ -1343,12 +1176,10 @@ function updateText() {
     shoe.config.welcomeColor
   );
 
-
   const textTargets =
     introMode
       ? [title, tagline]
       : [title, tagline, shoeDetails];
-
 
   gsap.to(
     textTargets,
@@ -1369,16 +1200,13 @@ function updateText() {
           title.textContent =
             shoe.config.name;
 
-
           tagline.textContent =
             shoe.config.tagline;
-
 
           shoeDetails.innerHTML =
             shoe.config.details
               .split("|")
               .join("<br>");
-
 
           gsap.to(
             textTargets,
@@ -1420,15 +1248,9 @@ function updateText() {
   shoeKicker.textContent =
     ["DAILY HARVEST", "NEIGHBORHOOD STALL", "MARKET GUIDE"][shoe.index];
 
-
   updateDots();
 
 }
-
-
-/* =========================================================
-   NEXT
-========================================================= */
 
 function next() {
 
@@ -1454,19 +1276,15 @@ function next() {
   )
     return;
 
-
   isAnimating =
     true;
-
 
   currentIndex =
     nextIndex;
 
-
   updateSlider(
     true
   );
-
 
   setTimeout(
     () => {
@@ -1482,11 +1300,6 @@ function next() {
   );
 
 }
-
-
-/* =========================================================
-   PREVIOUS
-========================================================= */
 
 function previous() {
 
@@ -1512,19 +1325,15 @@ function previous() {
   )
     return;
 
-
   isAnimating =
     true;
-
 
   currentIndex =
     previousIndex;
 
-
   updateSlider(
     true
   );
-
 
   setTimeout(
     () => {
@@ -1541,22 +1350,15 @@ function previous() {
 
 }
 
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
 nextButton.addEventListener(
   "click",
   next
 );
 
-
 previousButton.addEventListener(
   "click",
   previous
 );
-
 
 if (exploreButton) {
   exploreButton.addEventListener(
@@ -1571,11 +1373,6 @@ if (exploreButton) {
   );
 }
 
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
 window.addEventListener(
   "keydown",
   event => {
@@ -1589,7 +1386,6 @@ window.addEventListener(
 
     }
 
-
     if (
       event.key ===
       "ArrowLeft"
@@ -1602,11 +1398,6 @@ window.addEventListener(
   }
 );
 
-
-/* =========================================================
-   DOTS
-========================================================= */
-
 function createDots() {
 
   SHOES.forEach(
@@ -1617,20 +1408,16 @@ function createDots() {
           "button"
         );
 
-
       dot.type =
         "button";
 
-
       dot.className =
         "slider-dot";
-
 
       dot.setAttribute(
         "aria-label",
         `Show market scene ${index + 1}`
       );
-
 
       dot.addEventListener(
         "click",
@@ -1642,7 +1429,6 @@ function createDots() {
           )
             return;
 
-
           isAnimating =
             true;
 
@@ -1652,11 +1438,9 @@ function createDots() {
           currentIndex =
             index;
 
-
           updateSlider(
             true
           );
-
 
           setTimeout(
             () => {
@@ -1674,7 +1458,6 @@ function createDots() {
         }
       );
 
-
       dotsContainer.appendChild(
         dot
       );
@@ -1684,14 +1467,12 @@ function createDots() {
 
 }
 
-
 function updateDots() {
 
   const dots =
     document.querySelectorAll(
       ".slider-dot"
     );
-
 
   dots.forEach(
     (dot, index) => {
@@ -1707,11 +1488,6 @@ function updateDots() {
 
 }
 
-
-/* =========================================================
-   DRAG / SWIPE
-========================================================= */
-
 let startX =
   0;
 
@@ -1720,7 +1496,6 @@ let startY =
 
 let dragging =
   false;
-
 
 canvas.addEventListener(
   "pointerdown",
@@ -1735,14 +1510,12 @@ canvas.addEventListener(
     dragging =
       true;
 
-
     canvas.setPointerCapture(
       event.pointerId
     );
 
   }
 );
-
 
 canvas.addEventListener(
   "pointerup",
@@ -1751,10 +1524,8 @@ canvas.addEventListener(
     if (!dragging)
       return;
 
-
     dragging =
       false;
-
 
     const distanceX =
       event.clientX -
@@ -1774,7 +1545,6 @@ canvas.addEventListener(
       );
     }
 
-
     if (
       Math.abs(distanceY) <
       45
@@ -1783,7 +1553,6 @@ canvas.addEventListener(
       return;
 
     }
-
 
     if (distanceY < 0) {
 
@@ -1799,11 +1568,6 @@ canvas.addEventListener(
   }
 );
 
-
-/* =========================================================
-   WHEEL
-========================================================= */
-
 window.addEventListener(
   "wheel",
   event => {
@@ -1813,7 +1577,6 @@ window.addEventListener(
       isAnimating
     )
       return;
-
 
     if (
       Math.abs(event.deltaY) <
@@ -1841,10 +1604,8 @@ window.addEventListener(
 
     }
 
-
     wheelLocked =
       true;
-
 
     if (
       event.deltaY > 0
@@ -1858,7 +1619,6 @@ window.addEventListener(
       previous();
 
     }
-
 
     setTimeout(
       () => {
@@ -1879,14 +1639,8 @@ window.addEventListener(
   }
 );
 
-
-/* =========================================================
-   RESIZE
-========================================================= */
-
 let resizeQueued =
   false;
-
 
 window.addEventListener(
   "resize",
@@ -1895,9 +1649,7 @@ window.addEventListener(
     if (resizeQueued)
       return;
 
-
     resizeQueued = true;
-
 
     requestAnimationFrame(
       () => {
@@ -1908,9 +1660,7 @@ window.addEventListener(
           window.innerWidth /
           window.innerHeight;
 
-
         camera.updateProjectionMatrix();
-
 
         applySize();
 
@@ -1920,14 +1670,8 @@ window.addEventListener(
   }
 );
 
-
-/* =========================================================
-   RENDER LOOP
-========================================================= */
-
 const clock =
   new THREE.Clock();
-
 
 function render() {
 
@@ -1935,10 +1679,8 @@ function render() {
     render
   );
 
-
   const time =
     clock.getElapsedTime();
-
 
   shoes.forEach(
     shoe => {
@@ -1982,7 +1724,6 @@ function render() {
             time * 0.8
           ) * 0.015;
 
-
         shoe.model.position.y =
           shoe.modelBaseY +
           Math.sin(
@@ -1994,9 +1735,7 @@ function render() {
     }
   );
 
-
   monitorFps();
-
 
   renderer.render(
     scene,
@@ -2005,15 +1744,9 @@ function render() {
 
 }
 
-
-/* FPS-GUIDED RESOLUTION
-   Shrinks the drawing buffer when the GPU cannot hold a
-   steady frame rate, and restores it when there is room. */
-
 let fpsFrames = 0;
 
 let fpsStamp = performance.now();
-
 
 function monitorFps() {
 
@@ -2024,13 +1757,11 @@ function monitorFps() {
   if (now - fpsStamp < 1000)
     return;
 
-
   const fps =
     fpsFrames * 1000 / (now - fpsStamp);
 
   fpsFrames = 0;
   fpsStamp = now;
-
 
   if (fps < 45 && renderScale > 0.6) {
 
@@ -2051,25 +1782,17 @@ function monitorFps() {
 
 }
 
-
 render();
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
 
 async function init() {
 
   createDots();
 
-  /* THE PAGE IS VISIBLE IMMEDIATELY WITH NO LOADER,
-     SO START THE WELCOME RIGHT AWAY. */
+  
 
   animateWelcomeIntro();
 
-  /* PLACE EACH GLB THE MOMENT IT ARRIVES - LOADED ONE
-     AT A TIME SO PARSING NEVER BLOCKS INPUT. */
+  
 
   let firstModelPlaced = false;
 
@@ -2090,8 +1813,7 @@ async function init() {
 
       firstModelPlaced = true;
 
-      /* REVEAL THE EXPLORE BUTTON A MOMENT
-         AFTER THE FIRST MODEL IS PLACED */
+      
 
       setTimeout(
         () => {
@@ -2106,9 +1828,7 @@ async function init() {
 
 }
 
-
 init().catch(error => {
   console.error("Index initialization failed:", error);
 });
-
 

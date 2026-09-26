@@ -1,6 +1,4 @@
-/* ============================================================
-       Light Pastel Green Palette
-       ============================================================ */
+﻿
     :root {
       --cream: #f5faf3;
       --mist: #e8f2e3;
@@ -18,9 +16,7 @@
       --font-serif: "Playfair Display", serif;
     }
 
-    /* ============================================================
-       Reset & Base
-       ============================================================ */
+    
     * {
       margin: 0;
       padding: 0;
@@ -39,9 +35,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ============================================================
-       Typography
-       ============================================================ */
+    
     h1,
     h2,
     h3,
@@ -58,9 +52,7 @@
       color: var(--leaf);
     }
 
-    /* ============================================================
-       Liquid Glass & Chunky Clay — Light Variants
-       ============================================================ */
+    
     .liquid-glass {
       background: rgba(255, 255, 255, 0.55);
       backdrop-filter: blur(16px);
@@ -88,9 +80,7 @@
       border: 1px solid rgba(255, 255, 255, 0.6);
     }
 
-    /* ============================================================
-       Floating Brand Mark
-       ============================================================ */
+    
     .brand-mark {
       position: fixed;
       top: 24px;
@@ -118,9 +108,7 @@
       box-shadow: 0 0 12px rgba(140, 192, 132, 0.9);
     }
 
-    /* ============================================================
-       Hero Section
-       ============================================================ */
+    
     .hero {
       position: relative;
       min-height: 100vh;
@@ -203,9 +191,7 @@
       max-width: 500px;
     }
 
-    /* ============================================================
-       3D Carousel
-       ============================================================ */
+    
     .carousel-container {
       perspective: 1200px;
       width: 650px;
@@ -259,9 +245,7 @@
       font-weight: 500;
     }
 
-    /* ============================================================
-       Generic Section
-       ============================================================ */
+    
     .section {
       background-color: var(--cream);
       padding: 120px 5%;
@@ -294,9 +278,7 @@
       line-height: 1.6;
     }
 
-    /* ============================================================
-       Produce Grid
-       ============================================================ */
+    
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -354,9 +336,7 @@
       line-height: 1.5;
     }
 
-    /* ============================================================
-       Story Section
-       ============================================================ */
+    
     .story {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -401,9 +381,7 @@
       margin-bottom: 20px;
     }
 
-    /* ============================================================
-       Stats Section
-       ============================================================ */
+    
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -435,9 +413,7 @@
       font-weight: 600;
     }
 
-    /* ============================================================
-       Values Section
-       ============================================================ */
+    
     .values {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -470,9 +446,7 @@
       line-height: 1.7;
     }
 
-    /* ============================================================
-       Menu / Seasonal Cards
-       ============================================================ */
+    
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -517,9 +491,7 @@
       font-weight: 600;
     }
 
-    /* ============================================================
-       Footer
-       ============================================================ */
+    
     .footer {
       padding: 60px 5% 40px;
       max-width: 1400px;
@@ -558,9 +530,7 @@
       color: var(--leaf);
     }
 
-    /* ============================================================
-       Responsive
-       ============================================================ */
+    
     @media (max-width: 1024px) {
       .hero-container {
         flex-direction: column;
@@ -637,9 +607,7 @@
       }
     }
 
-    /* ============================================================
-       PLATFORM INFORMATION
-    ============================================================ */
+    
     .about-platform-section { padding-top: 90px; }
     .breadcrumb { width: fit-content; display: flex; align-items: center; gap: 9px; margin-bottom: 42px; padding: 10px 15px; border-radius: 999px; color: var(--moss); font-size: .74rem; }
     .breadcrumb a { color: var(--forest); text-decoration: none; font-weight: 700; }

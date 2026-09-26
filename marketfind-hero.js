@@ -1,7 +1,4 @@
-/* ============================================================
-   GRAVITY BOUNCE ANIMATION
-   Extracted from marketfind.html — keep in sync with the page.
-   ============================================================ */
+﻿
 
 (function () {
   'use strict';

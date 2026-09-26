@@ -1,7 +1,4 @@
-/* ============================================================
-   3D SEASON CARDS — Three.js loader
-   Extracted from marketfind.html — keep in sync with the page.
-   ============================================================ */
+﻿
 
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -10,18 +7,18 @@ import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 const products = [...document.querySelectorAll(".product-item")];
 
 const settings = {
-  /* --- card fit: models are sized from their own bounding box --- */
-  fitWidth: .92,      // share of the card width a spinning model may use
-  fitHeight: .8,      // share of the card's height band a model may use
-  headroom: .04,      // world units kept free at the top of the canvas
-  groundY: -.58,      // world y of the card's contact-shadow line
-  hoverScale: 1.05,   // hover grow, kept inside the fit margins
-  /* --- motion (stays inside the fit margins) --- */
+  
+  fitWidth: .92,
+  fitHeight: .8,
+  headroom: .04,
+  groundInset: .06,
+  hoverScale: 1.05,
+  
   idleRotation: 0.0018,
   hoverRotation: 0.003,
   floatAmount: 0.055,
   floatSpeed: 0.0015,
-  scrollTravel: .08,  // vertical parallax travel on scroll
+  scrollTravel: .06,
   maxPixelRatio: 1.7
 };
 
@@ -30,33 +27,29 @@ loader.setMeshoptDecoder(MeshoptDecoder);
 
 const scenes = new Map();
 
-/* The world-space band a card canvas shows, read straight off its own camera,
-   so the fit follows the real card size at every breakpoint. */
-function visibleBand(camera){
+function visibleBand(camera, reserve){
   const distance = Math.abs(camera.position.z);
   const viewHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * distance;
   const aspect = Number.isFinite(camera.aspect) && camera.aspect > 0 ? camera.aspect : 1;
+  const safeReserve = Number.isFinite(reserve) ? Math.max(0, Math.min(reserve, .5)) : 0;
+  const canvasBottom = camera.position.y - viewHeight / 2;
   return {
     width: viewHeight * aspect,
     top: camera.position.y + viewHeight / 2 - settings.headroom,
-    bottom: settings.groundY
+    bottom: canvasBottom + safeReserve * viewHeight - settings.groundInset
   };
 }
 
-/* Vertical centre of the card band - the y every model floats around. */
-function bandCentre(camera){
-  const band = visibleBand(camera);
+function bandCentre(camera, reserve){
+  const band = visibleBand(camera, reserve);
   return (band.top + band.bottom) / 2;
 }
 
-/* Scale a model so its whole bounding box fits the card: height against the
-   card band, width against the widest silhouette it shows while spinning.
-   Nothing is ever cropped, whatever the GLB's proportions or the card width. */
-function fitModelToCard(camera, model, size, nudge){
-  const band = visibleBand(camera);
+function fitModelToCard(camera, model, size, nudge, reserve){
+  const band = visibleBand(camera, reserve);
   const bandHeight = band.top - band.bottom;
   const silhouette = Math.max(size.x, size.z);
-  const scale = (size.y > 0 && silhouette > 0)
+  const scale = (size.y > 0 && silhouette > 0 && bandHeight > 0)
     ? Math.min((bandHeight * settings.fitHeight) / size.y,
                (band.width * settings.fitWidth) / silhouette) * nudge
     : nudge;
@@ -66,6 +59,8 @@ function fitModelToCard(camera, model, size, nudge){
 
 function createScene(product){
   const container = product.querySelector(".model-container");
+  const wrapper = product.querySelector(".model-wrapper");
+  const caption = product.querySelector(".card-content");
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
@@ -110,15 +105,25 @@ function createScene(product){
     scrollOffset: 0, scrollTilt: 0,
     hovered: false, mouseX: 0, mouseY: 0,
     startTime: performance.now(), loaded: false,
-    baselineY: bandCentre(camera),
-    rawSize: null, nudge: 1, fitScale: 1, hoverAmount: 1
+    baselineY: bandCentre(camera, 0),
+    rawSize: null, nudge: 1, fitScale: 1, hoverAmount: 1,
+    reserve: 0
   };
 
-  /* Re-fit the model and its baseline to the current card size. */
+  
+  function measureCaption(){
+    const h = container.clientHeight;
+    if (!h) return;
+    const captionH = caption ? caption.getBoundingClientRect().height + 48 : 0;
+    state.reserve = Math.min(captionH / h, .5);
+    if (wrapper) wrapper.style.setProperty("--caption-h", Math.round(state.reserve * h) + "px");
+  }
+
+  
   function refit(){
-    state.baselineY = bandCentre(camera);
+    state.baselineY = bandCentre(camera, state.reserve);
     if (state.model && state.rawSize) {
-      state.fitScale = fitModelToCard(camera, state.model, state.rawSize, state.nudge);
+      state.fitScale = fitModelToCard(camera, state.model, state.rawSize, state.nudge, state.reserve);
     }
   }
 
@@ -128,10 +133,13 @@ function createScene(product){
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h, false);
+    measureCaption();
     refit();
   }
   const resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(container);
+  
+  if (caption) resizeObserver.observe(caption);
   resize();
 
   function updateScrollMotion(){
@@ -179,8 +187,7 @@ function createScene(product){
       state.scrollOffset +
       Math.sin(elapsed * settings.floatSpeed) * settings.floatAmount;
 
-    /* Hover grow multiplies the fitted scale, so the model can never drift away
-       from the size that fits the card (it used to lerp toward 1 and shrink). */
+    
     const hoverTarget = state.hovered ? settings.hoverScale : 1;
     state.hoverAmount += (hoverTarget - state.hoverAmount) * .07;
     state.model.scale.setScalar(state.fitScale * state.hoverAmount);
@@ -201,7 +208,6 @@ function loadModel(product){
   const modelPath = product.dataset.model;
   const loading = product.querySelector(".model-loading");
 
-  // optional per-card nudge on top of the automatic fit: data-scale="1.1"
   const nudgeAttr = parseFloat(product.dataset.scale);
   const cardNudge = isNaN(nudgeAttr) ? 1 : nudgeAttr;
 
@@ -225,9 +231,7 @@ function loadModel(product){
         }
       });
 
-      /* Centre the GLB inside a pivot sitting on its bounding-box centre, so the
-         fit, the idle spin and the pointer tilt all happen around the middle of
-         the model - no off-centre drift. */
+      
       const box = new THREE.Box3().setFromObject(model);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());

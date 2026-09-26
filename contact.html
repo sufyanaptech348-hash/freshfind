@@ -1,131 +1,302 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%8E%3C/text%3E%3C/svg%3E" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Fresh Farm Brand</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- Playfair Display Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Contact Us - FreshFind</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <link rel="stylesheet" href="contact.css">
-<link rel="stylesheet" href="navbar.css">
-<link rel="stylesheet" href="chat-widget.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="chat-widget.css">
 </head>
 <body>
 
-    <!-- FULL SCREEN BACKGROUND VIDEO -->
-    <video class="background-video" autoplay loop muted playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
-        <source src="vids/colorflow-animation%20(3).mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <!-- Light Overlay for airy feel -->
-    <div class="background-overlay"></div>
-
-    <!-- Floating Farm Background Particles (Mint & Sky) -->
-    <div class="bg-particle mint" style="top: 10%; left: 5%; font-size: 24px;"><i class="fas fa-leaf"></i></div>
-    <div class="bg-particle sky" style="top: 70%; left: 85%; font-size: 32px;"><i class="fas fa-seedling"></i></div>
-    <div class="bg-particle mint" style="top: 40%; left: 90%; font-size: 20px;"><i class="fas fa-leaf"></i></div>
-    <div class="bg-particle sky" style="top: 85%; left: 15%; font-size: 28px;"><i class="fas fa-seedling"></i></div>
-    <div class="bg-particle mint" style="top: 20%; left: 75%; font-size: 18px;"><i class="fas fa-leaf"></i></div>
-
-    <div class="dashboard" id="dashboard">
-        
-        <div class="card-stack hero-stack" id="stack-hero">
-            <div class="card">
-                <video class="hero-video" autoplay loop muted playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
-                    <source src="vids/8541069-hd_1080_1920_30fps.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                
-                <div class="video-overlay">
-                    <h1 class="hero-title text-reveal">Let's Grow <span>Together</span></h1>
-                    <p class="hero-sub text-reveal">Have a question about our farm, products, or delivery? We'd love to hear from you.</p>
-                </div>
-            </div>
+    <!-- Background decoration (inline SVG so nothing ever appears broken) -->
+    <div class="fruit-bg" aria-hidden="true">
+        <div class="floating-fruit fruit-one">
+            <svg viewBox="0 0 64 64" fill="currentColor"><path d="M32 22c-8 0-14 7-14 17s7 17 13 17c3 0 4-1.5 6-1.5s3 1.5 6 1.5c6 0 15-8 15-19 0-8-5-13-11-13-3 0-5 1.5-6 1.5s-3-3-9-3z"/><path d="M31 22c0-4 2-8 6-10-1 5-2 7-2 10h-4z"/></svg>
         </div>
-
-        <div class="card-stack form-stack" id="stack-form">
-            <div class="card">
-                <div class="form-header">
-                    <h3>Contact Our Farm Team</h3>
-                    <p>Fill out the form below and we'll get back to you within 24 hours.</p>
-                </div>
-                
-                <form id="contact-form">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="John Doe" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="john@example.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number (Optional)</label>
-                        <input type="tel" id="phone" placeholder="+92 300 1234567">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Your Message</label>
-                        <textarea id="message" placeholder="Tell us how we can help you..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn-send" id="btn-send">Send Message</button>
-                </form>
-            </div>
+        <div class="floating-fruit fruit-two">
+            <svg viewBox="0 0 64 64" fill="currentColor"><circle cx="32" cy="34" r="18"/><path d="M32 16c2-4 6-6 9-6-1 3-4 5-6 6z"/></svg>
         </div>
-
-        <div class="card-stack info-stack" id="stack-visit">
-            <div class="card">
-                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <h4>Visit Us</h4>
-                <p>123 Green Valley Farm<br>Punjab, Pakistan</p>
-            </div>
+        <div class="floating-fruit fruit-three">
+            <svg viewBox="0 0 64 64" fill="currentColor"><ellipse cx="32" cy="36" rx="14" ry="18" transform="rotate(-10 32 36)"/><path d="M30 18c0-5 3-9 7-11-1 5-3 8-4 11h-3z"/></svg>
         </div>
-
-        <div class="card-stack info-stack location-stack" id="stack-location">
-            <div class="card">
-                <div class="info-icon"><i class="fas fa-location-crosshairs"></i></div>
-                <h4>Find Us Nearby</h4>
-                <p id="location-status">Share your location to open our farm in Google Maps.</p>
-                <div class="location-actions">
-                    <button class="location-button" id="use-location" type="button"><i class="fas fa-crosshairs"></i> Use my location</button>
-                    <a class="maps-link" id="farm-map-link" href="https://www.google.com/maps/search/?api=1&query=Green+Valley+Farm+Punjab+Pakistan" target="_blank" rel="noopener noreferrer"><i class="fab fa-google"></i> Google Maps</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-stack info-stack" id="stack-email">
-            <div class="card">
-                <div class="info-icon"><i class="fas fa-envelope"></i></div>
-                <h4>Email Us</h4>
-                <p>hello@greenvalleyfarm.com</p>
-            </div>
-        </div>
-
-        <div class="card-stack info-stack" id="stack-call">
-            <div class="card">
-                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
-                <h4>Call Us</h4>
-                <p>+92 300 1234567</p>
-            </div>
-        </div>
-
     </div>
 
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- HERO -->
+    <main class="contact-page">
+        <section class="contact-hero">
+            <div class="hero-content">
+                <span class="hero-label">
+                    <i class="fa-solid fa-leaf"></i>
+                    WE'D LOVE TO HEAR FROM YOU
+                </span>
+
+                <h1>
+                    Let's Talk About
+                    <span>Freshness.</span>
+                </h1>
+
+                <p>
+                    Have a question about our fruits, delivery, farming process,
+                    or anything else? Our team is always ready to help.
+                </p>
+
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <strong>Quick Support</strong>
+                            <span>We're here to help</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-feature">
+                        <div class="feature-icon orange">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <strong>Fast Response</strong>
+                            <span>Usually within 24 hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRUIT CIRCLE -->
+            <div class="hero-fruit">
+                <div class="fruit-image-circle">
+                    <img
+                        src="https://images.unsplash.com/photo-1629481168685-96accdc28e69?w=700&q=80&auto=format&fit=crop"
+                        alt="A woven basket overflowing with fresh, colourful fruit"
+                        class="fruit-main-image"
+                        loading="eager"
+                    >
+                </div>
+
+                <div class="fruit-tag tag-one">
+                    <i class="fa-solid fa-apple-whole"></i>
+                    Fresh Fruits
+                </div>
+
+                <div class="fruit-tag tag-two">
+                    <i class="fa-solid fa-leaf"></i>
+                    Naturally Fresh
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact-section">
+            <div class="section-heading">
+                <span>GET IN TOUCH</span>
+                <h2>We're Always <strong>Happy To Help</strong></h2>
+                <p>Send us a message and our team will get back to you as soon as possible.</p>
+            </div>
+
+            <div class="contact-grid">
+
+                <!-- FORM -->
+                <div class="contact-form-card">
+                    <div class="card-heading">
+                        <div class="heading-icon">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <div>
+                            <h3>Send Us A Message</h3>
+                            <p>Fill out the form below</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <div class="input-box">
+                                    <i class="fa-regular fa-user"></i>
+                                    <input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="name">
+                                </div>
+                                <small class="error-message" id="name-error"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <div class="input-box">
+                                    <i class="fa-regular fa-envelope"></i>
+                                    <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email">
+                                </div>
+                                <small class="error-message" id="email-error"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <div class="input-box">
+                                <i class="fa-solid fa-phone"></i>
+                                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" autocomplete="tel">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <div class="input-box textarea-box">
+                                <i class="fa-regular fa-message"></i>
+                                <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                            </div>
+                            <small class="error-message" id="message-error"></small>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <span>Send Message</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- SIDE INFORMATION -->
+                <div class="contact-side">
+
+                    <!-- VISIT US -->
+                    <div class="info-card">
+                        <div class="info-icon green">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s-8-7.58-8-13a8 8 0 1 1 16 0c0 5.42-8 13-8 13Z"/>
+                                <circle cx="12" cy="9" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="info-content">
+                            <span>VISIT US</span>
+                            <h3>Our Location</h3>
+                            <p>FreshFind Market<br>Karachi, Pakistan</p>
+                        </div>
+                    </div>
+
+                    <!-- CALL US -->
+                    <div class="info-card">
+                        <div class="info-icon blue">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="info-content">
+                            <span>CALL US</span>
+                            <h3>Phone Number</h3>
+                            <p>+92 300 1234567</p>
+                        </div>
+                    </div>
+
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d924247.1421842298!2d66.49600131631566!3d25.191740591840333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e06651d4bbf%3A0x9cf92f44555a0c23!2sKarachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1790432078450!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+                    <!-- EMAIL CARD — FEATURED -->
+                    <!-- <div class="info-card email-card">
+                        <div class="info-icon email">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                                <path d="m3 7 9 6 9-6"/>
+                            </svg>
+                        </div>
+                        <div class="info-content">
+                            <span>EMAIL US</span>
+                            <h3>Email Address</h3>
+                            <p>hello@freshfind.com</p>
+                        </div>
+                    </div> -->
+
+                    <!-- NEARBY -->
+                    <!-- <div class="nearby-card">
+                        <div class="nearby-icon">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                                 stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 20 3 17V4l6 3 6-3 6 3v13l-6-3-6 3z"/>
+                                <path d="M9 7v13"/>
+                                <path d="M15 4v13"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Find FreshFind Near You</h3>
+                            <p>Explore our fresh produce and connect with us.</p>
+                        </div>
+                        <button type="button" class="location-btn" aria-label="Open map to nearest store">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                                 stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"/>
+                                <path d="m12 5 7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div> -->
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FRUIT BANNER -->
+        <section class="fruit-banner">
+            <div class="banner-image">
+                <img
+                    src="https://images.unsplash.com/photo-1649928275282-66a310586aa8?w=800&q=80&auto=format&fit=crop"
+                    alt="Crates of fresh apples, oranges and bananas"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="banner-content">
+                <span>FRESHNESS YOU CAN TRUST</span>
+                <h2>From Our Farm<br>To Your <strong>Table.</strong></h2>
+                <p>
+                    We believe everyone deserves fresh, healthy and naturally
+                    delicious fruits every day.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- SUCCESS MODAL -->
+    <div class="success-modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+        <div class="success-box">
+            <button class="modal-close" id="modalClose" type="button" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="success-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+            <h2 id="successTitle">Message Sent!</h2>
+            <p>
+                Thank you for contacting FreshFind. We'll get back to you soon.
+            </p>
+
+            <button class="success-btn" id="successBtn" type="button">Done</button>
+        </div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatWidget"></div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <script src="contact.js"></script>
-<script src="navbar.js"></script>
-<script src="chat-widget.js"></script>
+    <script src="navbar.js"></script>
+    <script src="chat-widget.js"></script>
 </body>
 </html>

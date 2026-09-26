@@ -1,73 +1,15 @@
-/* ============================================================
-   MAIN SITE SCRIPT
-   Extracted from marketfind.html — keep in sync with the page.
-   ============================================================ */
+﻿
 
 (function () {
   'use strict';
 
-  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var WEEK_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  var SHORT_DAY = { Sunday:'Sun', Monday:'Mon', Tuesday:'Tue', Wednesday:'Wed', Thursday:'Thu', Friday:'Fri', Saturday:'Sat' };
+  
+  var DATA = window.FRESHFIND_MARKET_DATA || { DAYS:[], WEEK_ORDER:[], SHORT_DAY:{}, markets:[] };
+  var DAYS = DATA.DAYS;
+  var WEEK_ORDER = DATA.WEEK_ORDER;
+  var SHORT_DAY = DATA.SHORT_DAY;
 
-  /* ============================================================
-     MARKETS DATA — 10 markets total (6 original + 4 new)
-     ============================================================ */
-  var markets = [
-    /* ---------- ORIGINAL 6 ---------- */
-    { id:'clifton-farmers', name:'Clifton Farmers Market', area:'Clifton', location:'Boat Basin, Clifton',
-      address:'Boat Basin, Clifton, Karachi, Pakistan', lat:24.8138, lng:67.0305,
-      days:['Saturday','Sunday'], open:'08:00', close:'14:00',
-      produce:['Fruit','Vegetables','Organic','Honey'], items:['Mango','Banana','Tomato','Spinach','Raw honey'],
-      image:'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=70' },
-    { id:'dha-organic', name:'DHA Organic Market', area:'DHA', location:'DHA Phase 5',
-      address:'DHA Phase 5, Karachi, Pakistan', lat:24.7996, lng:67.0622,
-      days:['Friday','Saturday'], open:'09:00', close:'15:00',
-      produce:['Organic','Vegetables','Fruit','Eggs'], items:['Lettuce','Kale','Free-range eggs','Strawberry','Carrot'],
-      image:'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=70' },
-    { id:'gulshan-fresh', name:'Gulshan Fresh Produce Market', area:'Gulshan', location:'Gulshan-e-Iqbal',
-      address:'Gulshan-e-Iqbal, Karachi, Pakistan', lat:24.9205, lng:67.0911,
-      days:['Saturday','Sunday'], open:'07:00', close:'13:00',
-      produce:['Fruit','Vegetables','Eggs'], items:['Potato','Onion','Eggs','Watermelon','Mango'],
-      image:'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=70' },
-    { id:'bahadurabad-local', name:'Bahadurabad Local Market', area:'Bahadurabad', location:'Bahadurabad',
-      address:'Bahadurabad, Karachi, Pakistan', lat:24.8815, lng:67.0687,
-      days:['Wednesday','Saturday'], open:'08:00', close:'13:00',
-      produce:['Fruit','Vegetables','Honey'], items:['Apple','Banana','Honey','Cucumber'],
-      image:'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=70' },
-    { id:'north-nazimabad', name:'North Nazimabad Farmers Market', area:'North Nazimabad', location:'North Nazimabad',
-      address:'North Nazimabad, Karachi, Pakistan', lat:24.9374, lng:67.0551,
-      days:['Sunday'], open:'08:00', close:'14:00',
-      produce:['Fruit','Vegetables','Eggs','Organic'], items:['Guava','Okra','Eggs','Mint','Tomato'],
-      image:'https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=800&q=70' },
-    { id:'clifton-block-4', name:'Clifton Block 4 Market', area:'Clifton', location:'Clifton Block 4',
-      address:'Clifton Block 4, Karachi, Pakistan', lat:24.8167, lng:67.0258,
-      days:['Friday','Saturday'], open:'10:00', close:'16:00',
-      produce:['Fruit','Vegetables','Honey'], items:['Orange','Grapes','Honey','Brinjal'],
-      image:'https://images.unsplash.com/photo-1573246123716-6b1782bfc499?auto=format&fit=crop&w=800&q=70' },
-
-    /* ---------- NEW 4 ---------- */
-    { id:'saddar-sunday', name:'Saddar Sunday Bazaar', area:'Saddar', location:'Saddar Town',
-      address:'Saddar Town, Karachi, Pakistan', lat:24.8607, lng:67.0011,
-      days:['Sunday'], open:'07:00', close:'13:00',
-      produce:['Fruit','Vegetables','Honey'], items:['Mango','Watermelon','Tomato','Onion','Raw honey'],
-      image:'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=70' },
-    { id:'pechs-community', name:'PECHS Community Market', area:'PECHS', location:'PECHS Block 6',
-      address:'PECHS Block 6, Karachi, Pakistan', lat:24.8714, lng:67.0645,
-      days:['Saturday','Sunday'], open:'08:00', close:'14:00',
-      produce:['Fruit','Vegetables','Organic','Herbs'], items:['Kale','Basil','Mint','Strawberry','Cherry tomato'],
-      image:'https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=800&q=70' },
-    { id:'korangi-creek', name:'Korangi Creek Farmers Market', area:'Korangi', location:'Korangi Creek',
-      address:'Korangi Creek, Karachi, Pakistan', lat:24.8286, lng:67.1479,
-      days:['Friday','Saturday'], open:'08:00', close:'13:00',
-      produce:['Vegetables','Eggs','Fruit'], items:['Okra','Brinjal','Free-range eggs','Banana','Lemon'],
-      image:'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=70' },
-    { id:'malir-farmers', name:'Malir Farmers Bazaar', area:'Malir', location:'Malir Cantt',
-      address:'Malir Cantt, Karachi, Pakistan', lat:24.8939, lng:67.1917,
-      days:['Sunday'], open:'09:00', close:'15:00',
-      produce:['Fruit','Vegetables','Honey','Eggs'], items:['Guava','Pomegranate','Honey','Farm eggs','Spinach'],
-      image:'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=800&q=70' }
-  ];
+  var markets = DATA.markets;
 
   var state = { query:'', area:'all', day:'all', produce:'all', quick:'all', sort:'az', userLocation:null };
 
@@ -108,15 +50,38 @@
   var chatForm = document.getElementById('chatForm');
   var chatInput = document.getElementById('chatInput');
 
-  var savedIds = new Set();
-  try {
-    var stored = JSON.parse(sessionStorage.getItem('freshfind:saved') || '[]');
-    if (Array.isArray(stored)) savedIds = new Set(stored);
-  } catch (err) { savedIds = new Set(); }
-
-  function persistSaved() {
-    try { sessionStorage.setItem('freshfind:saved', JSON.stringify(Array.from(savedIds))); } catch (err) {}
+  
+  function ffb(){ return window.FreshFindBookmarks || null; }
+  function ffbId(m){ return 'market:find:' + m.id; }
+  function findMarket(id){
+    for (var i = 0; i < markets.length; i++) if (markets[i].id === id) return markets[i];
+    return null;
   }
+  function bookmarkEntry(m){
+    return {
+      id: ffbId(m), kind: 'market', title: m.name,
+      meta: [m.location, formatTime(m.open) + 'â€“' + formatTime(m.close)]
+        .filter(Boolean).join(' Â· ')
+    };
+  }
+  function isBookmarked(m){
+    var api = ffb();
+    return !!(api && m && api.has(ffbId(m)));
+  }
+  
+  function repaintHearts(){
+    var btns = document.querySelectorAll('.save-btn');
+    for (var i = 0; i < btns.length; i++){
+      var m = findMarket(btns[i].getAttribute('data-id'));
+      if (!m) continue;
+      var on = isBookmarked(m);
+      btns[i].classList.toggle('is-saved', on);
+      btns[i].setAttribute('aria-pressed', String(on));
+      btns[i].textContent = on ? 'â™¥' : 'â™¡';
+      btns[i].setAttribute('aria-label', (on ? 'Remove bookmark for ' : 'Bookmark ') + m.name);
+    }
+  }
+  document.addEventListener('freshfind:bookmarks:change', repaintHearts);
 
   function toMinutes(v){ var p = v.split(':'); return parseInt(p[0],10)*60 + parseInt(p[1],10); }
   function formatTime(v){
@@ -181,12 +146,12 @@
 
   function createMarketCard(m, i){
     var open = isOpenNow(m);
-    var saved = savedIds.has(m.id);
+    var saved = isBookmarked(m);
     var distance = '';
     if (state.userLocation) {
       distance = '<span class="distance">' + formatDistance(haversine(state.userLocation,m)) + '</span>';
     }
-    var dayLabels = m.days.map(function(d){ return SHORT_DAY[d]; }).join(' · ');
+    var dayLabels = m.days.map(function(d){ return SHORT_DAY[d]; }).join(' Â· ');
     var tags = m.produce.slice(0,3).map(function(t){ return '<li class="tag">' + t + '</li>'; }).join('');
 
     return '' +
@@ -201,14 +166,14 @@
             '<button class="save-btn' + (saved ? ' is-saved' : '') + '" type="button"' +
               ' data-id="' + m.id + '" aria-pressed="' + saved + '"' +
               ' aria-label="' + (saved ? 'Remove' : 'Save') + ' ' + m.name + '">' +
-              (saved ? '♥' : '♡') +
+              (saved ? 'â™¥' : 'â™¡') +
             '</button>' +
           '</div>' +
           '<div class="mc-meta">' +
             '<span class="status ' + (open ? 'is-open' : 'is-closed') + '">' +
               (open ? 'Open now' : 'Closed') +
             '</span>' +
-            '<span class="mc-hours">' + formatTime(m.open) + '–' + formatTime(m.close) + '</span>' +
+            '<span class="mc-hours">' + formatTime(m.open) + 'â€“' + formatTime(m.close) + '</span>' +
           '</div>' +
           '<p class="mc-days">' + dayLabels + '</p>' +
           '<ul class="tags">' + tags + '</ul>' +
@@ -225,7 +190,7 @@
     marketGrid.hidden = list.length === 0;
     emptyState.hidden = list.length !== 0;
     resultCount.innerHTML = (list.length === 1 ? '1 market' : list.length + ' markets') +
-      '<small>Demo data — sample markets for illustration</small>';
+      '<small>Demo data â€” sample markets for illustration</small>';
   }
 
   function render(){
@@ -234,9 +199,7 @@
     updateMap(list);
   }
 
-  /* ============================================================
-     MAP — Leaflet + OpenStreetMap (no API key required)
-     ============================================================ */
+  
   var map = null, markers = [], userMarker = null;
   var mapsReady = false, mapTimer = null;
 
@@ -275,7 +238,6 @@
     if (state.userLocation) placeUserMarker(state.userLocation);
     updateMap(getFilteredMarkets());
 
-    // Keep tiles crisp inside the responsive / reveal layout
     setTimeout(function(){ map.invalidateSize(); }, 240);
     window.addEventListener('resize', function(){ map.invalidateSize(); });
   }
@@ -362,14 +324,14 @@
       locNote.textContent = 'This browser does not support location services.';
       return;
     }
-    locNote.textContent = 'Getting your location…';
+    locNote.textContent = 'Getting your locationâ€¦';
     locateBtn.disabled = true;
 
     navigator.geolocation.getCurrentPosition(
       function(pos){
         locateBtn.disabled = false;
         state.userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        locNote.textContent = 'Location found — showing the markets nearest to you.';
+        locNote.textContent = 'Location found â€” showing the markets nearest to you.';
         state.sort = 'nearest'; sortSelect.value = 'nearest';
         placeUserMarker(state.userLocation);
         if (mapsReady && map) map.setView([state.userLocation.lat, state.userLocation.lng], 12);
@@ -378,7 +340,7 @@
       function(err){
         locateBtn.disabled = false;
         locNote.textContent = err.code === 1
-          ? 'Location permission denied — you can still search by area below.'
+          ? 'Location permission denied â€” you can still search by area below.'
           : 'We could not get your location right now. Try searching by area instead.';
       },
       { enableHighAccuracy:false, timeout:8000, maximumAge:600000 }
@@ -405,7 +367,7 @@
       var openToday = m.days.indexOf(d) !== -1;
       return '<li class="' + (openToday ? 'is-open' : '') + '">' +
         '<span>' + d + '</span>' +
-        '<span>' + (openToday ? formatTime(m.open) + ' – ' + formatTime(m.close) : 'Closed') + '</span>' +
+        '<span>' + (openToday ? formatTime(m.open) + ' â€“ ' + formatTime(m.close) : 'Closed') + '</span>' +
       '</li>';
     }).join('');
 
@@ -425,14 +387,13 @@
   }
 
   function toggleSave(id, button){
-    if (savedIds.has(id)) savedIds.delete(id); else savedIds.add(id);
-    persistSaved();
-    var m = markets.find(function(x){ return x.id === id; });
-    var isSaved = savedIds.has(id);
-    button.classList.toggle('is-saved', isSaved);
-    button.setAttribute('aria-pressed', String(isSaved));
-    button.textContent = isSaved ? '♥' : '♡';
-    if (m) button.setAttribute('aria-label', (isSaved ? 'Remove ' : 'Save ') + m.name);
+    var m = findMarket(id);
+    var api = ffb();
+    if (m && api){
+      if (api.has(ffbId(m))) api.remove(ffbId(m));
+      else api.add(bookmarkEntry(m));
+    }
+    repaintHearts();
   }
 
   var searchDebounce = null;
@@ -509,7 +470,7 @@
     { test:/(open|opening|hours|closing|close|timing|what time)/i,
       reply:"Each market card shows its opening hours and operating days. Markets marked 'Open now' are trading at this moment, and you can sort by 'Open first' to see them at the top." },
     { test:/(save|saved|favourite|favorite|bookmark)/i,
-      reply:"Tap the heart on any market card to save it. Saved markets stay with you for the rest of your browser session." },
+      reply:"Tap the ðŸ”– on any market, produce guide entry or seasonal pick to save it. Your bookmarks are kept in one list where you can add a personal note, export the list as text, and share it on social." },
     { test:/(contact|email|reach|get in touch|phone)/i,
       reply:"You can reach FreshFind at hello@freshfind.example." },
     { test:/(find|near me|nearby|where|location|map|direction|market|markets|stall)/i,

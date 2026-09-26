@@ -1,4 +1,4 @@
-import * as THREE from "three";
+﻿import * as THREE from "three";
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
   import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 
@@ -35,15 +35,12 @@ import * as THREE from "three";
     loader.setMeshoptDecoder(MeshoptDecoder);
     let model = null;
 
-    /* The share of the stage the avocado may use, so it never
-       touches the card edges at any breakpoint. */
+    
     const FIT = { height: .9, width: .92 };
     let rawSize = null;
     let baseY = 0;
 
-    /* Scale the avocado from the stage's own camera band: height
-       against the visible band, width against the mount aspect.
-       Re-run on load and on every resize - nothing is cropped. */
+    
     function fitToStage() {
       if (!model || !rawSize) return;
       const distance = camera.position.z;
@@ -104,9 +101,7 @@ import * as THREE from "three";
 (() => {
   "use strict";
 
-  /* =========================================================
-     1. VIDEO BACKGROUND
-     ========================================================= */
+  
   const video = document.querySelector(".bg-video");
 
   function tryPlay() {
@@ -114,27 +109,22 @@ import * as THREE from "three";
     if (p && p.catch) p.catch(() => {});
   }
 
-  // If EVERY source fails, hide the video so the CSS gradient shows.
   video.addEventListener("error", () => { video.style.display = "none"; }, true);
 
   tryPlay();
   video.addEventListener("canplay", tryPlay);
   video.addEventListener("loadeddata", tryPlay);
 
-  // Strict autoplay policies need a user gesture — retry on first interaction.
   ["click", "touchstart", "keydown", "scroll"].forEach((ev) =>
     window.addEventListener(ev, tryPlay, { once: true, passive: true })
   );
 
-  // Pause when the tab is hidden to save battery.
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) video.pause();
     else tryPlay();
   });
 
-  /* =========================================================
-     2. VOICE + LIP-SYNC
-     ========================================================= */
+  
   const stage      = document.getElementById("stage");
   const mouth      = document.getElementById("avoMouth");
   const voiceBtn   = document.getElementById("voiceBtn");
@@ -233,9 +223,7 @@ import * as THREE from "three";
     }, ms);
   }
 
-  /* =========================================================
-     3. FRESHFIND FAQ ENGINE
-     ========================================================= */
+  
 
   const DEFAULT_CHIPS = [
     "What is FreshFind?",
@@ -404,9 +392,7 @@ import * as THREE from "three";
     return { text: fallback(), followups: DEFAULT_CHIPS };
   }
 
-  /* =========================================================
-     4. CHAT UI
-     ========================================================= */
+  
   const messagesEl = document.getElementById("messages");
   const chipsEl    = document.getElementById("chips");
   const form       = document.getElementById("form");
@@ -515,9 +501,7 @@ import * as THREE from "three";
     e.preventDefault();
     send(input.value);
   });
-  /* =========================================================
-     5. BOOT
-     ========================================================= */
+  
   const greeting =
     "Hello! I'm Avo, the FreshFind assistant. " +
     "Ask me about farmers markets, seasonal produce, opening hours, or recipes.";

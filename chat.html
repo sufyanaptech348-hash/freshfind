@@ -1,12 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avo — FreshFind Assistant</title>
+<title>Avo â€” FreshFind Assistant</title>
 
 <link rel="stylesheet" href="chat.css">
 <link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
 <script type="importmap">
 {
   "imports": {
@@ -18,8 +21,7 @@
 </head>
 <body>
 
-  <!-- ==================== VIDEO BACKGROUND ====================
-       Uses the local chat video as a full-screen, muted looping background. -->
+  
   <video
     class="bg-video"
     autoplay
@@ -34,13 +36,13 @@
   </video>
   <div class="bg-overlay"></div>
 
-  <!-- ==================== APP SHELL ==================== -->
+  
   <div class="app-shell">
 
-    <!-- ==================== CHAT CARD ==================== -->
+    
     <div class="card">
 
-      <!-- 1. HEADER -->
+      
       <header class="chat-header">
         <div class="avatar">
           <svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true">
@@ -70,25 +72,25 @@
         </button>
       </header>
 
-      <!-- 2. AVOCADO STAGE -->
+      
       <div class="stage" id="stage">
         <div class="speaking-ring"></div>
 
         <div class="avo-wrap">
-          <div class="avo-svg avo-glb" id="avoGlb" role="img" aria-label="Avo the avocado"><canvas id="avoCanvas"></canvas><span class="avo-glb-loading" id="avoGlbLoading">Loading 3D…</span></div>
+          <div class="avo-svg avo-glb" id="avoGlb" role="img" aria-label="Avo the avocado"><canvas id="avoCanvas"></canvas><span class="avo-glb-loading" id="avoGlbLoading">Loading 3Dâ€¦</span></div>
         </div>
       </div>
 
-      <!-- 3. MESSAGES -->
+      
       <main class="messages" id="messages" aria-live="polite"></main>
 
-      <!-- 4. QUICK REPLIES -->
+      
       <div class="chips" id="chips"></div>
 
-      <!-- 5. COMPOSER -->
+      
       <form class="composer" id="form" autocomplete="off">
         <textarea id="input" rows="1" placeholder="Ask about markets or produce..." aria-label="Message"></textarea>
-        <button class="send" type="submit" aria-label="Send">➤</button>
+        <button class="send" type="submit" aria-label="Send">âž¤</button>
       </form>
 
     </div>
@@ -97,5 +99,7 @@
 
 <script type="module" src="chat.js"></script>
 <script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
 </body>
 </html>

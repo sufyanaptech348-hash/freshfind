@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +14,7 @@
 <link rel="stylesheet" href="seasonal.css">
 <link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
 </head>
 
 <body>
@@ -29,6 +31,26 @@
 
 </video>
 
+<div
+    class="page-background-frames"
+    aria-hidden="true"
+    hidden>
+
+    <img class="season-frame is-active" src="seasonal%20scroll/frame_01%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_02%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_03%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_04%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_05%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_06%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_07%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_08%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_09%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_10%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_11%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_12%20(2).jpg" alt="">
+
+</div>
+
 <div class="page-background-overlay" aria-hidden="true"></div>
 
 <nav class="season-progress" aria-label="Season progress">
@@ -37,11 +59,6 @@
     <span class="season-progress-item" data-season="2">Autumn</span>
     <span class="season-progress-item" data-season="3">Winter</span>
 </nav>
-
-
-<!-- ======================================================
-     SVG NOISE FILTER
-====================================================== -->
 
 <svg
     class="noise-filter"
@@ -71,16 +88,9 @@
 
 </svg>
 
-
-
-<!-- ======================================================
-     MAIN
-====================================================== -->
-
 <main class="products-section">
 
-
-    <!-- HEADER -->
+    
 
     <header class="section-header">
 
@@ -99,41 +109,31 @@
 
     </header>
 
-
-
-    <!-- ==================================================
-         PRODUCT GRID
-    ================================================== -->
+    
 
     <section class="products-grid">
 
-
-
-        <!-- ==============================================
-             PRODUCT 1
-        =============================================== -->
+        
 
         <article
             class="product-item"
-            data-model="models/strawberry.glb">
-
-            <div class="model-wrapper model-orbit">
-
-                <div class="model-container">
-
-                    <div class="model-loading"></div>
-
-                </div>
-
-            </div>
-
+            data-model="models/realistic_strawberry_3d_model.glb">
 
             <div class="product-card">
 
-                <div class="card-arrow">
-                    →
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
                 </div>
 
+                <div class="card-arrow">
+                    â†’
+                </div>
 
                 <div class="card-content">
 
@@ -153,7 +153,6 @@
 
             </div>
 
-
             <div class="product-info">
 
                 <h3>Peak season: April to June</h3>
@@ -170,33 +169,27 @@
 
         </article>
 
-
-
-        <!-- ==============================================
-             PRODUCT 2
-        =============================================== -->
+        
 
         <article
             class="product-item"
             data-model="models/mango.glb">
 
-            <div class="model-wrapper model-orbit">
-
-                <div class="model-container">
-
-                    <div class="model-loading"></div>
-
-                </div>
-
-            </div>
-
-
             <div class="product-card">
 
-                <div class="card-arrow">
-                    →
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
                 </div>
 
+                <div class="card-arrow">
+                    â†’
+                </div>
 
                 <div class="card-content">
 
@@ -216,7 +209,6 @@
 
             </div>
 
-
             <div class="product-info">
 
                 <h3>Peak season: May to August</h3>
@@ -233,33 +225,27 @@
 
         </article>
 
-
-
-        <!-- ==============================================
-             PRODUCT 3
-        =============================================== -->
+        
 
         <article
             class="product-item"
-            data-model="models/apple.glb">
-
-            <div class="model-wrapper model-orbit">
-
-                <div class="model-container">
-
-                    <div class="model-loading"></div>
-
-                </div>
-
-            </div>
-
+            data-model="models/red_apple.glb">
 
             <div class="product-card">
 
-                <div class="card-arrow">
-                    →
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
                 </div>
 
+                <div class="card-arrow">
+                    â†’
+                </div>
 
                 <div class="card-content">
 
@@ -279,7 +265,6 @@
 
             </div>
 
-
             <div class="product-info">
 
                 <h3>Peak season: September to November</h3>
@@ -296,33 +281,27 @@
 
         </article>
 
-
-
-        <!-- ==============================================
-             PRODUCT 4
-        =============================================== -->
+        
 
         <article
             class="product-item"
             data-model="models/orange.glb">
 
-            <div class="model-wrapper model-orbit">
-
-                <div class="model-container">
-
-                    <div class="model-loading"></div>
-
-                </div>
-
-            </div>
-
-
             <div class="product-card">
 
-                <div class="card-arrow">
-                    →
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
                 </div>
 
+                <div class="card-arrow">
+                    â†’
+                </div>
 
                 <div class="card-content">
 
@@ -342,7 +321,6 @@
 
             </div>
 
-
             <div class="product-info">
 
                 <h3>Peak season: December to February</h3>
@@ -358,7 +336,6 @@
             </div>
 
         </article>
-
 
     </section>
 
@@ -385,5 +362,6 @@
 <script type="module" src="seasonal.js"></script>
 <script src="navbar.js"></script>
 <script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
 </body>
 </html>

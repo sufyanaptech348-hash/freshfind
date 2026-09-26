@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreshFind â€” Find what's fresh.</title>
+<meta name="description" content="FreshFind helps you discover farmers markets, seasonal produce and fresh local food around you â€” all in one place.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23BFE8D5'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" data-leaflet>
+
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="marketfind.css">
+</head>
+<body>
+
+<video
+  class="page-background-video"
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="auto"
+  disablepictureinpicture
+  aria-hidden="true">
+  <source src="vids/color.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<svg class="noise-filter" aria-hidden="true">
+  <filter id="card-noise">
+    <feTurbulence
+      type="turbulence"
+      baseFrequency="0.9"
+      numOctaves="2"
+      seed="1"
+      stitchTiles="stitch"
+      result="turbulence">
+    </feTurbulence>
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="turbulence"
+      scale="18"
+      xChannelSelector="R"
+      yChannelSelector="G">
+    </feDisplacementMap>
+  </filter>
+</svg>
+
+<main>
+
+  
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-inner">
+        <p class="eyebrow" data-reveal>Farmers markets Â· Seasonal produce</p>
+
+        <div class="hero-anim" data-reveal style="--delay:80ms">
+          <h1 class="text">Find what's fresh</h1>
+          <div class="baseline"></div>
+          <button id="replay" type="button">â†º replay</button>
+        </div>
+
+        <p class="lead" data-reveal style="--delay:160ms">
+          Discover farmers markets, seasonal produce and fresh local food around you â€” all in one place.
+        </p>
+        <div class="hero-cta" data-reveal style="--delay:240ms">
+          <a class="btn btn-primary" href="#find">Find a Market â†’</a>
+          <a class="btn btn-ghost" href="#seasons">Explore Seasons</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="find" style="padding-top:20px;">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Find a market</p>
+        <h2 class="h2">What's fresh near you?</h2>
+        <p class="lead" style="margin-top:20px;">
+          Discover local markets by area, day or produce. Filter, search and sort â€” then open the map
+          to see exactly where each one sits.
+        </p>
+      </div>
+
+      <div class="search-panel" data-reveal style="--delay:120ms">
+        <div class="search-row">
+          <div class="search-field">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="9" cy="9" r="6.2" stroke="#123C2B" stroke-width="1.7"/>
+              <path d="M13.6 13.6L17.5 17.5" stroke="#123C2B" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <input type="search" id="searchInput"
+                   placeholder="Search markets, areas or produce..."
+                   aria-label="Search markets, areas or produce" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" id="searchBtn" type="button">Search</button>
+        </div>
+
+        <div class="filter-row">
+          <div class="field">
+            <label for="areaFilter">Area</label>
+            <select id="areaFilter">
+              <option value="all">All areas</option>
+              <option value="Clifton">Clifton</option>
+              <option value="DHA">DHA</option>
+              <option value="Gulshan">Gulshan</option>
+              <option value="Bahadurabad">Bahadurabad</option>
+              <option value="North Nazimabad">North Nazimabad</option>
+              <option value="Saddar">Saddar</option>
+              <option value="PECHS">PECHS</option>
+              <option value="Korangi">Korangi</option>
+              <option value="Malir">Malir</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="dayFilter">Day</label>
+            <select id="dayFilter">
+              <option value="all">Any day</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="produceFilter">Produce</label>
+            <select id="produceFilter">
+              <option value="all">Any produce</option>
+              <option value="Fruit">Fruit</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Organic">Organic</option>
+              <option value="Eggs">Eggs</option>
+              <option value="Honey">Honey</option>
+              <option value="Herbs">Herbs</option>
+            </select>
+          </div>
+
+          <button class="btn btn-ghost locate" id="locateBtn" type="button">Use my location</button>
+        </div>
+
+        <div class="quick-row">
+          <button class="pill is-active" type="button" data-quick="all">All markets</button>
+          <button class="pill" type="button" data-quick="open">Open now</button>
+          <button class="pill" type="button" data-quick="weekend">Weekend</button>
+        </div>
+
+        <p class="loc-note" id="locNote" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="markets" style="padding-top:0;">
+    <div class="container">
+      <div class="map-wrap" data-reveal>
+        <div id="map" role="region" aria-label="Map of farmers markets"></div>
+        <div class="map-fallback" id="mapFallback">
+          <div>
+            <h3>Loading mapâ€¦</h3>
+            <p id="mapFallbackText">The interactive map is starting up.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-head">
+        <p class="result-count" id="resultCount">10 markets
+          <small>Demo data â€” sample markets for illustration</small>
+        </p>
+        <div class="sort-wrap">
+          <label for="sortSelect">Sort</label>
+          <select id="sortSelect">
+            <option value="az">Aâ€“Z</option>
+            <option value="nearest">Nearest</option>
+            <option value="open">Open first</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="market-grid" id="marketGrid"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <h3>No markets found.</h3>
+        <p>Try a different area, day or produce â€” or reset everything and start again.</p>
+        <button class="btn btn-primary" id="resetFilters" type="button">Reset filters</button>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section-dark" id="produce">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Produce guide</p>
+        <h2 class="h2" style="color:var(--forest-dark);">Know your produce.</h2>
+        <p class="lead" style="margin-top:20px;">
+          Eight categories cover most of what you'll find at a weekend market â€” from everyday
+          vegetables to raw honey, dairy, and fresh-baked bread.
+        </p>
+      </div>
+
+      <div class="produce-grid">
+        <article class="produce-card" data-reveal>
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-fresh-berries-on-a-table-4147/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Fruits</h3>
+          <p>Stone fruit, berries, citrus and tropical picks, gathered at their peak of ripeness.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:80ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-fresh-vegetables-4416/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Vegetables</h3>
+          <p>Leafy greens, roots and everyday staples pulled from farms just outside the city.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:160ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-eggs-4171/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Eggs</h3>
+          <p>Free-range and farm eggs, often collected the same morning they reach the stall.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:240ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-honey-4664/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Honey</h3>
+          <p>Raw, unfiltered honey from local hives and small apiaries with real seasonal character.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:320ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-herbs-4682/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Herbs</h3>
+          <p>Mint, basil, coriander and more â€” cut fresh and bundled for the week ahead.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:400ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-vegetables-in-a-basket-4634/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Organic</h3>
+          <p>Grown without synthetic pesticides, either certified or verified directly by the grower.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:480ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-pouring-milk-5052/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Dairy</h3>
+          <p>Fresh cheese, yogurt, butter and paneer from small local dairies and family farms.</p>
+        </article>
+
+        <article class="produce-card" data-reveal style="--delay:560ms">
+          <div class="icon">
+            <video autoplay muted loop playsinline preload="metadata"
+                   poster="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=200&q=70">
+              <source src="https://cdn.coverr.co/videos/coverr-fresh-bread-4723/1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h3>Bakery</h3>
+          <p>Sourdough, flatbreads and small-batch pastries baked the same morning they're sold.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="seasons">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Seasons</p>
+        <h2 class="h2">Eat with the seasons.</h2>
+        <p class="lead" style="margin-top:20px;">
+          Every season has its own shortlist. Here's what to look for as the year turns.
+        </p>
+      </div>
+
+      <div class="seasons-3d-grid">
+        
+
+        
+        <article
+          class="product-item"
+          data-model="assets/find%20market%20glb/cabbage.glb">
+          <div class="product-card">
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
+            <div class="card-content">
+              <span class="card-number">Season 01</span>
+              <h2>Spring</h2>
+              <p>Tender leaves and crisp spring greens</p>
+            </div>
+          </div>
+        </article>
+
+        
+        <article
+          class="product-item"
+          data-model="assets/find%20market%20glb/cherries.glb">
+          <div class="product-card">
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
+            <div class="card-content">
+              <span class="card-number">Season 02</span>
+              <h2>Summer</h2>
+              <p>Ripe cherries at their sweetest</p>
+            </div>
+          </div>
+        </article>
+
+        
+        <article
+          class="product-item"
+          data-model="assets/find%20market%20glb/pumpkin_-_free_download%20(1).glb">
+          <div class="product-card">
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
+            <div class="card-content">
+              <span class="card-number">Season 03</span>
+              <h2>Autumn</h2>
+              <p>Roasting pumpkins and winter squash</p>
+            </div>
+          </div>
+        </article>
+
+        
+        <article
+          class="product-item"
+          data-model="assets/find%20market%20glb/carrot.glb">
+          <div class="product-card">
+            <div class="model-wrapper model-orbit">
+              <div class="model-container">
+                <div class="model-loading"></div>
+              </div>
+            </div>
+            <div class="card-arrow">â†’</div>
+            <div class="card-content">
+              <span class="card-number">Season 04</span>
+              <h2>Winter</h2>
+              <p>Sweet carrots and slow-grown roots</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="about" style="padding-top:0;">
+    <div class="container about-grid">
+      <div data-reveal>
+        <p class="eyebrow">About FreshFind</p>
+        <h2 class="h2">Fresh food starts local.</h2>
+        <p class="lead" style="margin-top:20px;">
+          FreshFind is a browser-based platform designed to help people discover farmers markets
+          and seasonal produce. No account, no app store â€” just a search box, a map and a short
+          list of what's actually in season right now.
+        </p>
+
+        <ul class="feature-list">
+          <li><span class="check">âœ“</span> Discover local markets</li>
+          <li><span class="check">âœ“</span> Explore seasonal produce</li>
+          <li><span class="check">âœ“</span> Check market opening times</li>
+          <li><span class="check">âœ“</span> Save favourite markets</li>
+        </ul>
+      </div>
+
+      <div class="about-visual" data-reveal style="--delay:140ms" aria-hidden="true">
+        <model-viewer src="./3d/Hi3D_Photorealistic%20Wicker%20Fruit%20Basket%203D%20Model_allparts_20260922_234452.glb" alt="3D produce basket model" auto-rotate camera-controls interaction-prompt="none" loading="lazy" environment-image="neutral"></model-viewer>
+        <div class="about-badge">Built for local shopping</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <p class="footer-logo">FreshFind</p>
+        <p class="footer-tag">Find what's fresh.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#home">Home</a>
+        <a href="#find">Find a Market</a>
+        <a href="#seasons">Seasons</a>
+        <a href="#produce">Produce</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>Â© <span id="year"></span> FreshFind. A demo project.</span>
+      <span>Market data shown is sample data for illustration.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="marketModal" role="presentation">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" type="button" data-close aria-label="Close dialog">âœ•</button>
+
+    <div class="modal-hero">
+      <img id="modalImage" src="" alt="">
+    </div>
+
+    <p class="eyebrow" id="modalArea" style="margin-bottom:6px;"></p>
+    <h2 id="modalTitle"></h2>
+    <p class="modal-sub" id="modalLocation"></p>
+    <p class="modal-address" id="modalAddress"></p>
+
+    <div class="modal-section">
+      <h3>Typical produce</h3>
+      <ul class="tags" id="modalTags"></ul>
+    </div>
+
+    <div class="modal-section">
+      <h3>Weekly schedule</h3>
+      <ul class="schedule" id="modalSchedule"></ul>
+    </div>
+
+    <div class="modal-actions">
+      <a class="btn btn-primary" id="directionsLink" href="#" target="_blank" rel="noopener">Get directions â†’</a>
+    </div>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" type="button" aria-label="Open FreshFind assistant" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.8 5.6 21.2 8 14 2 9.2h7.6L12 2z" fill="currentColor"/>
+  </svg>
+</button>
+
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="FreshFind assistant" aria-hidden="true">
+  <div class="chat-head">
+    <div>
+      <strong>FreshFind Assistant</strong>
+      <span>Online</span>
+    </div>
+    <button class="chat-close" id="chatClose" type="button" aria-label="Close assistant">âœ•</button>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="msg bot">Hi! I'm FreshFind â€” what would you like to know?</div>
+  </div>
+
+  <div class="chat-quick" id="chatQuick">
+    <button type="button">What's in season?</button>
+    <button type="button">Find a market</button>
+    <button type="button">What is FreshFind?</button>
+  </div>
+
+  <form class="chat-form" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type your questionâ€¦"
+           aria-label="Type your question" autocomplete="off">
+    <button type="submit" aria-label="Send message">â†’</button>
+  </form>
+</div>
+
+<script src="market-data.js"></script>
+<script src="marketfind.js"></script>
+
+<script src="marketfind-hero.js"></script>
+
+<script src="marketfind-video.js"></script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module" src="marketfind-3d.js"></script>
+
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+
+</body>
+</html>
