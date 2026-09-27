@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./fruit-img/logo.png" type="image/png">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Market Stories</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+
+<div id="stage">
+  <div id="welcome-wrap">
+    Welcome to Market Stories
+  </div>
+</div>
+
+<canvas
+  id="gl"
+  aria-label="Interactive 3D market scenes"
+></canvas>
+
+<main id="ui">
+
+ 
+
+  <aside id="homeRail" class="home-rail" aria-label="FreshFind quick find and highlights">
+
+    <a class="home-brand" href="index.html" aria-label="FreshFind home">
+      <span class="home-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none"
+             stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8Z" />
+          <path d="M8 9c0-3 1.8-5 4-5s4 2 4 5" />
+        </svg>
+      </span>
+      <span>
+        <span class="home-brand-name">FreshFind</span>
+        <span class="home-brand-tag">eGreen Basket</span>
+      </span>
+    </a>
+
+    <h2 class="home-intro-title">Find the freshest food near you.</h2>
+
+    <p class="home-intro-text">
+      FreshFind brings together the location, operating day, hours, and seasonal
+      produce of local farmers markets across Karachi, so you can plan a visit
+      before you leave the house.
+    </p>
+
+    
+    <form class="home-find" id="hfForm" role="search" aria-label="Find a market near you">
+
+      <span class="home-find-eyebrow">Find a market near you</span>
+
+      <label class="home-find-field">
+        <span>Search</span>
+        <input class="home-find-input" id="hfQuery" type="search"
+               placeholder="Market, area or produce" autocomplete="off">
+      </label>
+
+      <div class="home-find-row">
+        <label class="home-find-field">
+          <span>Area</span>
+          <select class="home-find-select" id="hfArea"></select>
+        </label>
+
+        <label class="home-find-field">
+          <span>Day</span>
+          <select class="home-find-select" id="hfDay"></select>
+        </label>
+      </div>
+
+      <label class="home-find-field">
+        <span>Produce</span>
+        <select class="home-find-select" id="hfProduce"></select>
+      </label>
+
+      <div class="home-find-actions">
+        <button class="home-find-submit" type="submit">Search</button>
+        <button class="home-find-reset" type="button" id="hfReset">Reset</button>
+      </div>
+
+      <p class="home-find-status" id="hfStatus" role="status" aria-live="polite"></p>
+      <div class="home-find-results" id="hfResults"></div>
+
+    </form>
+
+    
+    <section class="home-highlights" aria-label="Featured markets and seasonal picks">
+
+      <div class="home-highlights-head">
+        <h3 class="home-highlights-eyebrow">Highlights</h3>
+        <div class="home-highlights-nav">
+          <button class="home-highlights-btn" type="button" id="hfPrev" aria-label="Previous highlight">&#8249;</button>
+          <button class="home-highlights-btn" type="button" id="hfNext" aria-label="Next highlight">&#8250;</button>
+        </div>
+      </div>
+
+      <div class="home-highlights-track" id="hfHighlights"></div>
+      <div class="home-highlights-dots" id="hfDots"></div>
+
+    </section>
+
+    
+    <div class="home-meta">
+      <span><span class="home-meta-dot" aria-hidden="true"></span><span id="hfOpenNow">markets open now</span></span>
+      <span>Local <b id="hfClock">--:--:--</b></span>
+      <span>Markets <b id="hfVisitor">0</b></span>
+    </div>
+
+  </aside>
+
+  
+
+  <section id="shoe-info" class="shoe-info right">
+
+    <div id="shoe-kicker" class="eyebrow">
+      DAILY HARVEST
+    </div>
+
+    <h1 id="shoe-title">
+      Daily Harvest
+    </h1>
+
+    <p id="shoe-tagline">
+      Hand-picked, same-day
+    </p>
+
+    <p id="shoe-details">
+      Weight 12kg<br>
+      Items 18
+    </p>
+
+  </section>
+
+  
+
+  <div class="controls">
+
+    <button id="prev" class="arrow" type="button" aria-label="Previous scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+
+    <div
+      id="dots"
+      class="dots"
+    ></div>
+
+    <button id="next" class="arrow" type="button" aria-label="Next scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+
+  </div>
+
+  
+
+  <div class="interaction-hint">
+
+    <span>DRAG TO EXPLORE</span>
+
+    <span class="line"></span>
+
+    <span>SCROLL â†“</span>
+
+  </div>
+
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three":
+      "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+
+    "three/addons/":
+      "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module" src="./script.js"></script>
+
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+<script src="market-data.js"></script>
+<script src="home-extras.js"></script>
+
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit-img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
+
+

@@ -1,4 +1,4 @@
-﻿
+
 
 (function () {
   'use strict';
@@ -34,3 +34,5 @@
     else tryPlay();
   });
 })();
+
+

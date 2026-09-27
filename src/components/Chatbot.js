@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import './Chatbot.css';
 
 const Chatbot = () => {
@@ -7,7 +7,7 @@ const Chatbot = () => {
   return (
     <div className={`chatbot-container ${isOpen ? 'open' : ''}`}>
       <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? 'âœ•' : 'ðŸ’¬'} {}
+        {isOpen ? '✕' : '💬'} {}
       </button>
       {isOpen && (
         <div className="chatbot-window">
@@ -27,3 +27,5 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
+
+

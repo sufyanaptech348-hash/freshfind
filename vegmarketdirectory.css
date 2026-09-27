@@ -1,4 +1,4 @@
-﻿
+
 :root{
   
   --leaf:#2d5a2a;
@@ -296,3 +296,5 @@ main{padding:clamp(24px, 4vw, 35px) clamp(16px, 5vw, 7%)}
   .modal-body{padding:22px}
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
 }
+
+

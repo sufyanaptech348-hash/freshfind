@@ -1,0 +1,3005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<meta charset="UTF-8">
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Stories</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =======================================================
+     INLINED: styles.css
+   ======================================================== */
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Instrument Sans", Arial, sans-serif;
+  background: linear-gradient(135deg, #F2F0EC 0%, #FBF9F4 45%, #F5EDE6 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#welcome-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: min(90vw, 1200px);
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(3rem, 7vw, 9rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+  text-transform: uppercase;
+  color: rgba(31, 29, 27, 0.12);
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(0px);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+#welcome-wrap .welcome-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+#welcome.welcome-left {
+  left: 25%;
+}
+
+#welcome.welcome-right {
+  left: 75%;
+}
+
+#bg-iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  transform: translate(-50%, -50%);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* =========================================================
+   THREE.JS CANVAS
+========================================================= */
+
+#gl {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  z-index: 2;
+
+  cursor: grab;
+
+  touch-action: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+#gl:active {
+  cursor: grabbing;
+}
+
+/* =========================================================
+   UI
+========================================================= */
+
+#ui {
+  position: fixed;
+  inset: 0;
+
+  z-index: 5;
+
+  color: #1F1D1B;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   SHOE INFORMATION
+========================================================= */
+
+.shoe-info {
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: min(360px, 32vw);
+
+  transition:
+    left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    right 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+
+  opacity: 0;
+
+  pointer-events: auto;
+  will-change: transform, opacity, left, right;
+}
+
+.eyebrow {
+  margin-bottom: 16px;
+  color: var(--accent, #9FC79A);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+#shoe-title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(42px, 5vw, 76px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+#shoe-tagline {
+  margin: 20px 0 0;
+  color: rgba(31, 29, 27, 0.6);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.shoe-info.left {
+
+  left: clamp(24px, 7vw, 100px);
+
+  right: auto;
+
+  text-align: left;
+
+}
+
+.shoe-info.right {
+
+  left: auto;
+
+  right: clamp(24px, 7vw, 100px);
+
+  text-align: right;
+
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls {
+  position: absolute;
+
+  left: clamp(24px, 7vw, 100px);
+
+  bottom: 7vh;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  pointer-events: auto;
+}
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+.arrow {
+  width: 48px;
+  height: 48px;
+
+  padding: 0;
+
+  border: 1px solid currentColor;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.35);
+
+  color: inherit;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.28s ease,
+    opacity 0.28s ease;
+  will-change: transform, background;
+}
+
+.arrow:hover {
+  transform: scale(1.08);
+
+  background:
+    rgba(255,255,255,0.25);
+}
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+.dots {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+
+  padding: 0;
+
+  border: 1px solid currentColor;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.slider-dot.active {
+  transform: scale(1.6);
+
+  background: currentColor;
+}
+
+/* =========================================================
+   INTERACTION HINT
+========================================================= */
+
+.interaction-hint {
+  position: absolute;
+
+  right: clamp(24px, 5vw, 80px);
+
+  bottom: 7vh;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.16em;
+
+  opacity: 0.65;
+}
+
+.interaction-hint .line {
+  width: 35px;
+  height: 1px;
+
+  background: currentColor;
+}
+
+#explore-button {
+  position: fixed;
+  right: clamp(24px, 5vw, 80px);
+  top: clamp(24px, 5vw, 56px);
+  z-index: 6;
+  padding: 12px 20px;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: transparent;
+  color: #1F1D1B;
+  box-shadow: none;
+  font: 600 12px "Instrument Sans", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    box-shadow 0.2s ease;
+}
+
+#explore-button.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+#explore-button:hover {
+  background: var(--accent, #9FC79A);
+  color: #fff;
+  transform: translateY(2px);
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .shoe-info {
+    width: 280px;
+  }
+
+  #shoe-title {
+    font-size:
+      clamp(42px, 8vw, 70px);
+  }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  #welcome,
+  #welcome.welcome-left,
+  #welcome.welcome-right {
+    left: 50%;
+  }
+
+  .shoe-info {
+    left: 24px;
+    right: 24px;
+
+    bottom: 145px;
+
+    top: auto;
+
+    width: auto;
+
+    transform: none;
+
+    text-align: center;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  #shoe-title {
+    font-size:
+      clamp(42px, 13vw, 64px);
+  }
+
+  #shoe-tagline {
+    margin:
+      14px auto 0;
+
+    font-size: 14px;
+  }
+
+  .controls {
+    left: 50%;
+
+    bottom: 42px;
+
+    transform:
+      translateX(-50%);
+  }
+
+  .interaction-hint {
+    display: none;
+  }
+
+  .arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+}
+
+#shoe-details {
+  margin: 18px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(31, 29, 27, 0.6);
+  opacity: 0;
+}
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .shoe-info {
+    bottom: 135px;
+  }
+
+  #shoe-title {
+    font-size: 40px;
+  }
+
+}
+
+.ff-menu-content{height:calc(100vh - 86px);padding:30px clamp(30px,7vw,110px);display:flex;flex-direction:column;justify-content:center}.ff-menu-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;opacity:0;margin-bottom:32px;transform:translateY(30px);transition:.7s .15s}.ff-menu.open .ff-menu-kicker{opacity:.55;transform:none}.ff-menu-links{list-style:none;margin:0;padding:0}.ff-menu-links li{overflow:hidden}.ff-menu-links a{display:inline-flex;align-items:baseline;gap:16px;color:var(--ff-green);text-decoration:none;font-size:clamp(2.5rem,5.8vw,7rem);font-weight:800;letter-spacing:-.065em;line-height:.94;transform:translateY(110%);opacity:0;transition:transform .8s cubic-bezier(.16,1,.3,1),opacity .5s,color .3s}.ff-menu.open .ff-menu-links a{transform:none;opacity:1}.ff-number{width:30px;display:inline-block;font-size:10px;font-weight:500;letter-spacing:.04em;opacity:.4}.ff-menu-links:hover a{color:rgba(18,60,43,.22)}.ff-menu-links a:hover{color:var(--ff-dark);transform:translateX(18px)}.ff-menu-links a:hover .ff-number{opacity:1;transform:translateX(0)}
+.ff-video-preview{position:absolute;right:6vw;top:50%;width:clamp(240px,25vw,410px);aspect-ratio:4/5;transform:translateY(-50%) translateX(35px) scale(.94);overflow:hidden;background:var(--ff-dark);opacity:0;pointer-events:none;box-shadow:0 30px 80px rgba(18,60,43,.18);transition:.65s}.ff-menu.open .ff-video-preview{opacity:1;transform:translateY(-50%) scale(1)}.ff-preview-video{width:100%;height:100%;display:block;object-fit:cover;opacity:0;transform:scale(1.06);transition:.8s}.ff-video-preview.playing .ff-preview-video{opacity:1;transform:scale(1)}.ff-video-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,60,43,.02),rgba(18,60,43,.42))}.ff-video-label{position:absolute;left:20px;bottom:18px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}@media(max-width:700px){.ff-nav{top:16px;right:16px;left:auto;bottom:auto;height:64px;padding:0 9px 0 12px}.ff-logo{font-size:20px}.ff-logo-mark{width:29px;height:29px}.ff-chat-link,.ff-menu-text{display:none}.ff-menu-icon,.ff-close{width:43px;height:43px}.ff-menu-header{height:72px;padding:0 20px}.ff-menu-content{height:calc(100vh - 72px);padding:95px 20px 30px;justify-content:flex-start}.ff-menu-kicker{margin-bottom:22px}.ff-menu-links a{font-size:clamp(2.1rem,10.5vw,4rem);gap:7px}.ff-number{width:20px;font-size:8px}.ff-video-preview{width:115px;height:150px;right:18px;bottom:18px;top:auto;transform:translateY(20px) scale(.94);opacity:.55}.ff-menu.open .ff-video-preview{transform:none}.ff-video-label{left:8px;bottom:8px;font-size:7px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+:root{--ff-mint:#dff6eb;--ff-mint-2:#bfe8d5;--ff-green:#123c2b;--ff-dark:#0b281d;--ff-white:#fff}*{box-sizing:border-box}html,body{margin:0;padding:0}body.ff-menu-open{overflow:hidden}
+.ff-nav{position:fixed;top:20px;right:20px;left:auto;bottom:auto;width:auto;height:72px;padding:0 12px 0 16px;display:flex;align-items:center;justify-content:space-between;z-index:9999;color:var(--ff-green);font-family:Arial,Helvetica,sans-serif;transition:background .45s,box-shadow .45s,backdrop-filter .45s;border-radius:999px;background:rgba(191,232,213,.78);backdrop-filter:blur(14px);box-shadow:0 10px 30px -8px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}.ff-nav.scrolled{background:rgba(191,232,213,.88);backdrop-filter:blur(18px);box-shadow:0 1px 0 rgba(18,60,43,.08)}
+.ff-logo{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font-size:23px;font-weight:800;letter-spacing:-1.5px}.ff-logo-mark{width:32px;height:32px;display:grid;place-items:center;border:1.5px solid currentColor;border-radius:50%;font-size:15px;transition:.35s}.ff-logo:hover .ff-logo-mark{transform:rotate(25deg) scale(1.08);background:#7fc9aa}.ff-nav-right{display:flex;align-items:center;gap:28px}.ff-chat-link{display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;transition:transform .35s}.ff-chat-link:hover{transform:translateX(5px)}.ff-chat-dot{width:7px;height:7px;border-radius:50%;background:#7fc9aa;animation:ff-pulse 2s infinite}@keyframes ff-pulse{50%{transform:scale(1.5)}}
+.ff-menu-button{border:0;background:transparent;color:inherit;cursor:pointer;padding:0;display:flex;align-items:center;gap:12px;font:inherit}.ff-menu-text{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.ff-menu-icon{width:48px;height:48px;border:1px solid currentColor;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;transition:.35s}.ff-menu-icon span{width:17px;height:1.5px;display:block;background:currentColor;transition:.3s}.ff-menu-button:hover .ff-menu-icon{transform:rotate(45deg);background:var(--ff-green);color:#bfe8d5}
+.ff-menu{position:fixed;inset:0;z-index:10000;background:#bfe8d5;color:var(--ff-green);visibility:hidden;clip-path:circle(0 at calc(100% - 65px) 60px);transition:clip-path 1s cubic-bezier(.16,1,.3,1),visibility 0s linear 1s}.ff-menu.open{visibility:visible;clip-path:circle(150% at calc(100% - 65px) 60px);transition:clip-path 1s cubic-bezier(.16,1,.3,1),visibility 0s}.ff-menu-header{height:86px;padding:0 42px;display:flex;align-items:center;justify-content:space-between}.ff-menu-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;opacity:.5}.ff-close{width:48px;height:48px;border:1px solid rgba(18,60,43,.5);border-radius:50%;background:transparent;color:var(--ff-green);cursor:pointer;position:relative;transition:.35s}.ff-close:hover{transform:rotate(90deg);background:var(--ff-green);color:#bfe8d5}.ff-close:before,.ff-close:after{content:"";position:absolute;width:18px;height:1.5px;left:50%;top:50%;background:currentColor}.ff-close:before{transform:translate(-50%,-50%) rotate(45deg)}.ff-close:after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* Authoritative navbar placement: always top-right. */
+.ff-nav,
+header.ff-nav,
+#freshFindNav {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  bottom: auto !important;
+  left: auto !important;
+}
+
+@media (max-width: 700px) {
+  .ff-nav,
+  header.ff-nav,
+  #freshFindNav {
+    top: 16px !important;
+    right: 16px !important;
+    bottom: auto !important;
+    left: auto !important;
+  }
+}
+
+/* Keep the About link visible in the navbar on all screen sizes. */
+.ff-nav .ff-about-link {
+  display: inline-flex !important;
+  align-items: center;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 700px) {
+  .ff-nav .ff-about-link {
+    display: inline-flex !important;
+    font-size: 10px;
+    letter-spacing: .06em;
+  }
+}
+
+/* ============================================================
+   INLINE PAGE LINKS â€” every site page listed in the navbar pill,
+   always visible; wraps instead of clipping on narrow screens.
+   ============================================================ */
+.ff-nav {
+  height: auto;
+  min-height: 72px;
+  max-width: calc(100vw - 40px);
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.ff-nav-right { gap: 18px; flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
+.ff-nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; }
+.ff-nav-link {
+  color: inherit;
+  text-decoration: none;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  position: relative;
+  padding: 6px 0;
+  transition: color .25s;
+}
+.ff-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 2px;
+  background: var(--ff-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+.ff-nav-link:hover::after,
+.ff-nav-link:focus-visible::after { transform: scaleX(1); }
+.ff-nav-link[aria-current="page"] { color: var(--ff-dark); }
+.ff-nav-link[aria-current="page"]::after { transform: scaleX(1); }
+@media (max-width: 700px) {
+  /* No room for 9 links in the pill â€” the Explore overlay lists every page. */
+  .ff-nav-links { display: none; }
+}
+
+/* ============================================================
+   EXPLORE OVERLAY â€” all options reachable and fully visible at
+   any viewport height (scrolls instead of clipping).
+   ============================================================ */
+.ff-menu-content {
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+.ff-menu-inner { margin: auto 0; }
+.ff-menu-links a { font-size: clamp(1.5rem, 3.2vw, 3.4rem); letter-spacing: -.04em; }
+/* LONG LABELS â€” every overlay item now shares one size, so
+   "MARKET DIRECTORY / DETAIL" no longer scales down on its own. */
+.ff-menu-links a.ff-menu-link-long { max-width: 100%; }
+.ff-menu-links a.ff-menu-link-long:hover { transform: translateX(12px); }
+@media (max-width: 700px) {
+  .ff-menu-inner { margin: auto 0; }
+  .ff-menu-links a { font-size: clamp(1.15rem, 5.4vw, 2.1rem); }
+}
+
+/* ============================================================
+   MINIMAL CIRCLE NAV â€” navbar shows only the round Explore
+   circle button. Logo wordmark + inline page links are hidden;
+   every page stays reachable via the Explore overlay menu.
+   ============================================================ */
+.ff-nav .ff-logo,
+.ff-nav .ff-nav-links { display: none; }
+.ff-nav { justify-content: center; padding: 8px 12px; }
+
+:root{--aw-mint:#cdeedd;--aw-light:#e6f8ef;--aw-deep:#2f8f6a;--aw-dark:#1e6b4e;--aw-ink:#11362a;--aw-muted:#5c8a77;--aw-shade:rgba(22,92,62,.2);--aw-glow:rgba(255,255,255,.85)}
+.aw-messages{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:12px;padding:4px 16px 12px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#165c3c47 transparent}.aw-msg{max-width:88%;display:flex;flex-direction:column;gap:8px;animation:aw-pop .22s ease}.aw-msg.bot{align-self:flex-start;align-items:flex-start}.aw-msg.user{align-self:flex-end;align-items:flex-end}.aw-bubble{padding:10px 14px;border-radius:18px 18px 18px 6px;background:#ffffffb8;color:var(--aw-ink);box-shadow:2px 2px 6px #165c3c1a,-1px -1px 3px #ffffff8c;font-size:14px;line-height:1.48;white-space:pre-wrap;overflow-wrap:anywhere}.aw-msg.user .aw-bubble{border-radius:18px 18px 6px 18px;background:var(--aw-deep);color:#fff;box-shadow:3px 3px 8px #165c3c4d}.aw-links{display:flex;flex-wrap:wrap;gap:6px;padding-left:2px}.aw-link{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid #2f8f6a40;border-radius:99px;background:var(--aw-light);color:var(--aw-dark);font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 2px 4px #165c3c1f}.aw-link:after{content:"â†’";opacity:.7}.aw-link:hover{background:var(--aw-mint);transform:translateY(-1px)}.aw-typing .aw-bubble{display:flex;gap:4px;padding:13px 15px}.aw-dot{width:7px;height:7px;border-radius:50%;background:var(--aw-deep);animation:aw-blink 1.2s infinite}.aw-dot:nth-child(2){animation-delay:.18s}.aw-dot:nth-child(3){animation-delay:.36s}
+.aw-chips{flex:0 0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 16px 10px;max-height:132px;overflow-y:auto}.aw-chip{width:100%;padding:8px 11px;border:0;border-radius:14px;background:var(--aw-mint);color:var(--aw-dark);font:600 12px/1.32 inherit;text-align:left;cursor:pointer;box-shadow:2px 2px 5px var(--aw-shade),-2px -2px 5px var(--aw-glow)}.aw-chip:hover{color:var(--aw-deep);transform:translateY(-1px)}.aw-composer{flex:0 0 auto;display:flex;align-items:flex-end;gap:8px;padding:8px 14px 16px}.aw-composer textarea{flex:1;min-width:0;max-height:96px;padding:11px 16px;border:0;border-radius:99px;outline:0;resize:none;background:#c5e9d6;color:var(--aw-ink);font:14px/1.4 inherit;box-shadow:inset 3px 3px 6px var(--aw-shade),inset -3px -3px 6px var(--aw-glow)}.aw-composer textarea:focus{background:var(--aw-light);box-shadow:inset 3px 3px 6px #165c3c24,inset -3px -3px 6px var(--aw-glow),0 0 0 3px #2f8f6a2e}.aw-send{width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--aw-mint);color:var(--aw-dark);cursor:pointer;box-shadow:3px 3px 7px var(--aw-shade),-3px -3px 7px var(--aw-glow)}.aw-send:disabled{opacity:.5}@keyframes aw-pulse{0%{transform:scale(1);opacity:.55}70%,100%{transform:scale(1.35);opacity:0}}@keyframes aw-pop{from{opacity:0;transform:translateY(6px) scale(.98)}}@keyframes aw-blink{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+@media(max-width:480px){.avo-widget{left:20px;right:auto;bottom:20px;top:auto;align-items:flex-start}.avo-launcher{align-self:flex-start}.avo-panel{position:absolute;left:0;bottom:74px;width:min(384px,calc(100vw - 40px));height:calc(100dvh - 120px);max-height:none;border-radius:26px}.aw-stage{height:150px}}@media(prefers-reduced-motion:reduce){.avo-widget *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.avo-widget{position:fixed;left:20px;right:auto;bottom:20px;top:auto;z-index:9999;display:flex;flex-direction:column;align-items:flex-start;gap:14px;pointer-events:none;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.avo-launcher{pointer-events:auto;position:relative;width:60px;height:60px;display:grid;place-items:center;border:0;border-radius:50%;cursor:pointer;background:radial-gradient(circle at 30% 25%,#e6f8ef,var(--aw-mint) 65%);box-shadow:0 12px 28px -6px #0008,0 4px 10px -2px #0005,inset 0 2px 3px #ffffffe6,inset 0 -3px 6px #165c3c2e;transition:.2s}.avo-launcher:hover{transform:translateY(-2px) scale(1.03)}.avo-launcher:active{transform:scale(.95)}.avo-launcher:after{content:"";position:absolute;inset:-4px;border:2px solid var(--aw-mint);border-radius:50%;opacity:.6;animation:aw-pulse 2.4s ease-out infinite;pointer-events:none}.avo-widget.is-open .avo-launcher:after{display:none}.avo-launcher svg{display:block}.avo-launcher .icon-close{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:rotate(-45deg);color:var(--aw-dark);transition:.25s}.avo-launcher .icon-open{transition:.25s}.avo-widget.is-open .avo-launcher .icon-open{opacity:0;transform:rotate(45deg)}.avo-widget.is-open .avo-launcher .icon-close{opacity:1;transform:none}.avo-badge{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 6px;display:grid;place-items:center;border:2px solid var(--aw-mint);border-radius:99px;background:#e5593c;color:#fff;font-size:11px;font-weight:800;box-shadow:0 3px 8px #0005;transition:.2s}.avo-widget.is-open .avo-badge,.avo-badge.is-hidden{opacity:0;transform:scale(.5)}
+.avo-panel{pointer-events:auto;position:absolute;left:0;bottom:74px;width:384px;height:620px;max-height:calc(100dvh - 110px);display:flex;flex-direction:column;min-height:0;overflow:hidden;border-radius:32px;background:var(--aw-mint);box-shadow:rgba(22,92,62,.18) 0 -24px 32px inset,rgba(22,92,62,.12) 0 -40px 40px inset,rgba(255,255,255,.9) 0 3px 3px inset,0 24px 60px -12px #0009,0 8px 24px -6px #0006;opacity:0;visibility:hidden;transform:translateY(16px) scale(.94);transform-origin:bottom left;transition:opacity .25s,transform .3s cubic-bezier(.2,.9,.3,1.05),visibility 0s linear .3s}.avo-widget.is-open .avo-panel{opacity:1;visibility:visible;transform:none;transition:opacity .22s,transform .3s cubic-bezier(.2,.9,.3,1.05),visibility 0s}
+.aw-chat-header{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:16px 16px 12px 18px;box-shadow:0 1px 0 rgba(22,92,62,.12)}.aw-avatar{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--aw-mint);box-shadow:3px 3px 7px var(--aw-shade),-3px -3px 7px var(--aw-glow)}.aw-avatar svg{display:block}.aw-title{display:flex;flex:1;flex-direction:column;line-height:1.2;min-width:0}.aw-title h1{margin:0;font-size:14.5px}.aw-title p{margin:2px 0 0;font-size:11px;font-weight:600;color:var(--aw-deep)}.aw-title p:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:var(--aw-deep);vertical-align:middle}.aw-icon-btn{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:50%;cursor:pointer;color:var(--aw-dark);background:var(--aw-mint);box-shadow:3px 3px 7px var(--aw-shade),-3px -3px 7px var(--aw-glow)}.aw-icon-btn svg{display:block}.aw-icon-btn .aw-icon-muted{display:none}.aw-icon-btn.is-muted .aw-icon-on{display:none}.aw-icon-btn.is-muted .aw-icon-muted{display:block}
+.aw-stage{flex:0 0 auto;position:relative;height:170px;margin:0 16px 12px;overflow:hidden;border-radius:24px;background:radial-gradient(circle at 50% 42%,#ddf3e7,#b7e2cf 55%,#9fd3bd);box-shadow:inset 4px 4px 10px #165c3c38,inset -4px -4px 10px #ffffffe6;isolation:isolate}.aw-stage:before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(circle at 50% 55%,#ffffff8c,transparent 60%);pointer-events:none}.aw-avo-wrap{position:absolute;inset:0;display:grid;place-items:center;z-index:2}.aw-avo-glb{position:relative;width:82%;height:92%}.aw-avo-glb canvas{display:block;width:100%;height:100%}.aw-loading{position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);color:var(--aw-dark);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.aw-loading.is-hidden{display:none}
+
+/* =======================================================
+   MODEL BUTTONS - the "Let's Get Started" button sits just
+   above the market text and only shows for the model
+   currently in the middle.
+   Scoped with .model-cta so it never affects other buttons.
+   ======================================================== */
+
+#model-buttons{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+
+.model-cta{position:absolute;right:clamp(24px,7vw,100px);bottom:50%;pointer-events:auto;padding:12px 26px;background:transparent;font-family:"Instrument Sans",sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1F1D1B;border:1px solid #1F1D1B;border-radius:999px;cursor:pointer;transition:background .3s ease-in-out,color .3s ease-in-out,padding .3s ease-in-out,bottom .45s cubic-bezier(.22,1,.36,1);will-change:bottom;white-space:nowrap}
+.model-cta:hover{padding:12px 20px;background:var(--accent,#9FC79A);border-color:var(--accent,#9FC79A);color:#fff}
+.model-cta.is-hidden{opacity:0;pointer-events:none}
+.model-cta .model-cta-label{position:relative;z-index:1}
+
+.model-cta .icon-1,.model-cta .icon-2,.model-cta .icon-3,.model-cta .icon-4,.model-cta .icon-5{position:absolute;top:10%;left:50%;transform:translate(-50%,0);width:0;height:auto;transition:all .5s ease-in-out;z-index:-1;pointer-events:none}
+.model-cta .icon-2,.model-cta .icon-3,.model-cta .icon-4,.model-cta .icon-5{z-index:-2}
+
+.model-cta:hover .icon-1{top:-250%;left:50%;transform:translate(-50%,0);width:50px;height:auto;animation:inIcon1 1s ease .45s forwards}
+.model-cta:hover .icon-2{top:-200%;left:90%;transform:translate(-50%,0);width:75px;height:auto;animation:inIcon2 1s ease .45s forwards}
+.model-cta:hover .icon-3{top:-130%;left:20%;transform:translate(-50%,0);width:60px;height:auto;animation:inIcon3 1s ease .45s forwards}
+.model-cta:hover .icon-4{top:-300%;left:75%;transform:translate(-50%,0);width:55px;height:auto;animation:inIcon4 1s ease .45s forwards}
+.model-cta:hover .icon-5{top:-170%;left:5%;transform:translate(-50%,0);width:65px;height:auto;animation:inIcon5 1s ease .45s forwards}
+
+@keyframes inIcon1{0%{transform-origin:0 100%;transform:translate(-50%,0) rotate(0deg)}25%{transform:translate(-50%,0) rotate(5deg)}50%{transform:translate(-50%,0) rotate(1deg)}65%{transform:translate(-50%,0) rotate(3deg)}100%{transform:translate(-50%,0) rotate(0deg)}}
+@keyframes inIcon2{0%{transform:translate(-50%,0) rotate(0deg)}35%{transform:translate(-50%,0) rotate(10deg)}50%{transform:translate(-50%,0) rotate(4deg)}80%{transform:translate(-50%,0) rotate(5deg)}100%{transform:translate(-50%,0) rotate(0deg)}}
+@keyframes inIcon3{0%{transform:translate(-50%,0) rotate(0deg)}35%{transform:translate(-50%,0) rotate(-2deg)}100%{transform:translate(-50%,0) rotate(0deg)}}
+@keyframes inIcon4{0%{transform:translate(-50%,0) rotate(0deg)}30%{transform:translate(-50%,0) rotate(-6deg)}70%{transform:translate(-50%,0) rotate(4deg)}100%{transform:translate(-50%,0) rotate(0deg)}}
+@keyframes inIcon5{0%{transform:translate(-50%,0) rotate(0deg)}40%{transform:translate(-50%,0) rotate(7deg)}75%{transform:translate(-50%,0) rotate(-3deg)}100%{transform:translate(-50%,0) rotate(0deg)}}
+
+@media (max-width:700px){.model-cta{padding:10px 18px;font-size:11px;right:24px}}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="welcome-wrap">
+    Welcome to Market Stories
+  </div>
+</div>
+
+<canvas
+  id="gl"
+  aria-label="Interactive 3D market scenes"
+></canvas>
+
+<div id="model-buttons"></div>
+
+<main id="ui">
+
+  
+
+  <section id="shoe-info" class="shoe-info right">
+
+    <div id="shoe-kicker" class="eyebrow">
+      DAILY HARVEST
+    </div>
+
+    <h1 id="shoe-title">
+      Daily Harvest
+    </h1>
+
+    <p id="shoe-tagline">
+      Hand-picked, same-day
+    </p>
+
+    <p id="shoe-details">
+      Weight 12kg<br>
+      Items 18
+    </p>
+
+  </section>
+
+  
+
+  <div class="controls">
+
+    <button id="prev" class="arrow" type="button" aria-label="Previous scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+
+    <div
+      id="dots"
+      class="dots"
+    ></div>
+
+    <button id="next" class="arrow" type="button" aria-label="Next scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+
+  </div>
+
+  
+
+  <div class="interaction-hint">
+
+    <span>DRAG TO EXPLORE</span>
+
+    <span class="line"></span>
+
+    <span>SCROLL â†”</span>
+
+  </div>
+
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+/* =======================================================
+     INLINED: script.js
+   ======================================================== */
+
+import * as THREE from
+  "three";
+
+import {
+  GLTFLoader
+} from
+  "three/addons/loaders/GLTFLoader.js";
+
+import {
+  DRACOLoader
+} from
+  "three/addons/loaders/DRACOLoader.js";
+
+import {
+  MeshoptDecoder
+} from
+  "three/addons/libs/meshopt_decoder.module.js";
+
+/* =========================================================
+   SAFE MOTION
+   Animation is local and non-blocking. The first scene no longer
+   depends on GSAP or SplitText loading from a CDN.
+   ========================================================= */
+
+const runningMotion = new WeakMap();
+
+function getMotionTargets(target) {
+  if (!target) return [];
+  if (target instanceof Element) return [target];
+  if (Array.isArray(target)) return target.filter(Boolean);
+  if (typeof NodeList !== "undefined" && target instanceof NodeList) {
+    return Array.from(target);
+  }
+  return [target];
+}
+
+function setMotionValue(target, property, value) {
+  if (!(target instanceof Element)) {
+    target[property] = value;
+    return;
+  }
+
+  if (["x", "y", "scale", "rotateX"].includes(property)) {
+    const x = property === "x" ? value || 0 : 0;
+    const y = property === "y" ? value || 0 : 0;
+    const scale = property === "scale" ? value : 1;
+    const rotateX = property === "rotateX" ? value || 0 : 0;
+    target.style.transform = `translate(${x}px, ${y}px) rotateX(${rotateX}deg) scale(${scale})`;
+  } else if (property === "opacity") {
+    target.style.opacity = value;
+  } else if (property === "filter") {
+    target.style.filter = value;
+  } else if (property === "backgroundColor") {
+    target.style.backgroundColor = value;
+  }
+}
+
+const gsap = {
+  set(target, values) {
+    getMotionTargets(target).forEach(element => {
+      Object.entries(values).forEach(([property, value]) => {
+        setMotionValue(element, property, value);
+      });
+    });
+  },
+
+  to(target, values) {
+    const targets = getMotionTargets(target);
+    const duration = Math.max(0, (Number(values.duration) || 0) * 1000);
+    const stagger = Math.max(0, (Number(values.stagger) || 0) * 1000);
+
+    targets.forEach((element, index) => {
+      runningMotion.get(element)?.cancel();
+      const delay = index * stagger;
+      let animation;
+
+      if (element instanceof Element && element.animate) {
+        const from = {};
+        const to = {};
+        const x = Number(values.x) || 0;
+        const y = Number(values.y) || 0;
+        const scale = values.scale === undefined ? 1 : values.scale;
+
+        if (["x", "y", "scale", "rotateX"].some(key => values[key] !== undefined)) {
+          from.transform = "translate(0, 0) rotateX(0deg) scale(1)";
+          to.transform = `translate(${x}px, ${y}px) rotateX(${values.rotateX || 0}deg) scale(${scale})`;
+        }
+        ["opacity", "filter", "backgroundColor"].forEach(property => {
+          if (values[property] !== undefined) {
+            from[property] = getComputedStyle(element)[property];
+            to[property] = values[property];
+          }
+        });
+
+        animation = element.animate([from, to], {
+          duration,
+          delay,
+          fill: "forwards"
+        });
+      } else {
+        const startValues = {};
+        Object.keys(values).forEach(property => {
+          if (typeof values[property] === "number") {
+            startValues[property] = Number(element[property]) || 0;
+          }
+        });
+        const startTime = performance.now() + delay;
+        const animate = now => {
+          const elapsed = Math.max(0, now - startTime);
+          const progress = duration ? Math.min(1, elapsed / duration) : 1;
+          const eased = 1 - Math.pow(1 - progress, 3);
+          Object.entries(startValues).forEach(([property, start]) => {
+            element[property] = start + (values[property] - start) * eased;
+          });
+          if (progress < 1) animation = requestAnimationFrame(animate);
+        };
+        animation = requestAnimationFrame(animate);
+      }
+
+      runningMotion.set(element, {
+        cancel() {
+          if (typeof animation === "number") cancelAnimationFrame(animation);
+          else animation?.cancel();
+        }
+      });
+    });
+
+    if (typeof values.onComplete === "function") {
+      setTimeout(values.onComplete, duration + stagger * Math.max(0, targets.length - 1));
+    }
+  }
+};
+
+/* =========================================================
+   GSAP
+========================================================= */
+
+/* =========================================================
+   SHOE DATA
+========================================================= */
+
+const SHOES = [
+  {
+    file:
+      "./eggstand.draco.glb",
+    name:
+      "Dairy Farm",
+    tagline:
+      "Fresh milk, every day",
+    details:
+      "Farm-fresh milk|Pure dairy goodness",
+    welcome:
+      "dairy",
+    welcomeColor:
+      "#D8B56D",
+    link:
+      "dairymarketdirectory.html",
+    color:
+      "#D8B56D",
+    background:
+      "linear-gradient(135deg, #F7F0D8 0%, #E7F1E5 48%, #BFDCC7 100%)",
+    rotationY:
+      -0.5
+  },
+  {
+    file:
+      "./market%20glb/veg.glb",
+    name:
+      "Vegetable Farm",
+    tagline:
+      "Freshly harvested daily",
+    details:
+      "Seasonal vegetables|Farm-grown produce",
+    welcome:
+      "vegetable",
+    welcomeColor:
+      "#5D9B55",
+    link:
+      "vegmarketdirectory.html",
+    color:
+      "#5D9B55",
+    background:
+      "linear-gradient(135deg, #EAF4D2 0%, #B9D99A 48%, #6FAE70 100%)",
+    rotationY:
+      -0.5
+  },
+  {
+    file:
+      "./market%20glb/fruity.glb",
+    pin: true,
+    name:
+      "Fruit Farm",
+    tagline:
+      "Sweet, seasonal harvests",
+    details:
+      "Orchard-fresh fruit|Picked at peak ripeness",
+    welcome:
+      "fruit",
+    welcomeColor:
+      "#D96862",
+    link:
+      "fruit%20marketdiriectory.html",
+    color:
+      "#D96862",
+    background:
+      "linear-gradient(135deg, #FFE5B8 0%, #F7B7A3 48%, #D96B78 100%)",
+    rotationY:
+      -0.5
+  }
+
+];
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const SETTINGS = {
+
+  shoeSize:
+    3.2,
+
+  spacing:
+    3.6,
+
+  horizontalSpacing:
+    3.6,
+
+  cameraDistance:
+    9,
+
+  animationDuration:
+    1.25,
+
+  sideScale:
+    0.58,
+
+  sideDepth:
+    -1.2,
+
+  sideRotation:
+    0.35,
+
+  exitHeight:
+    5
+
+};
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const canvas =
+  document.querySelector("#gl");
+
+const stage =
+  document.querySelector("#stage");
+
+const title =
+  document.querySelector("#shoe-title");
+
+const shoeInfo =
+  document.querySelector("#shoe-info");
+
+const shoeKicker =
+  document.querySelector("#shoe-kicker");
+
+const tagline =
+  document.querySelector("#shoe-tagline");
+
+const shoeDetails =
+  document.querySelector("#shoe-details");
+
+const welcome =
+  document.querySelector("#welcome-wrap");
+
+const nextButton =
+  document.querySelector("#next");
+
+const previousButton =
+  document.querySelector("#prev");
+
+const dotsContainer =
+  document.querySelector("#dots");
+
+const exploreButton =
+  document.querySelector("#explore-button");
+
+const modelButtonsLayer =
+  document.querySelector("#model-buttons");
+
+/* =========================================================
+   RENDERER
+========================================================= */
+
+const renderer =
+  new THREE.WebGLRenderer({
+
+    canvas:
+
+      canvas,
+
+    antialias:
+
+      true,
+
+    alpha:
+
+      true,
+
+    powerPreference:
+
+      "high-performance"
+
+  });
+
+/* ADAPTIVE RESOLUTION
+   Only the drawing buffer is scaled (the CSS size stays at
+   100%), so the GPU can hold a steady frame rate. */
+
+const basePixelRatio =
+  Math.min(
+    window.devicePixelRatio || 1,
+    2
+  );
+
+let renderScale = 1;
+
+function applySize() {
+
+  renderer.setPixelRatio(
+
+    Math.max(
+      0.6,
+      basePixelRatio * renderScale
+
+    )
+
+  );
+
+  renderer.setSize(
+
+    window.innerWidth,
+
+    window.innerHeight,
+
+    false
+
+  );
+
+}
+
+applySize();
+
+renderer.outputColorSpace =
+  THREE.SRGBColorSpace;
+
+renderer.toneMapping =
+  THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure =
+  1.15;
+
+/* =========================================================
+   SCENE
+========================================================= */
+
+const scene =
+  new THREE.Scene();
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+const camera =
+  new THREE.PerspectiveCamera(
+
+    32,
+
+    window.innerWidth /
+      window.innerHeight,
+
+    0.1,
+
+    100
+
+  );
+
+camera.position.set(
+  0,
+  1.1,
+  SETTINGS.cameraDistance
+);
+
+camera.lookAt(
+  0,
+  1.15,
+  0
+);
+
+/* =========================================================
+   LIGHTS
+========================================================= */
+
+const ambient =
+  new THREE.HemisphereLight(
+
+    0xffffff,
+
+    0x777777,
+
+    2.2
+
+  );
+
+scene.add(
+  ambient
+);
+
+const keyLight =
+  new THREE.DirectionalLight(
+
+    0xffffff,
+
+    4
+
+  );
+
+keyLight.position.set(
+  4,
+  8,
+  6
+);
+
+keyLight.castShadow =
+  true;
+
+keyLight.shadow.mapSize.set(
+  2048,
+  2048
+);
+
+scene.add(
+  keyLight
+);
+
+const fillLight =
+  new THREE.DirectionalLight(
+
+    0xffffff,
+
+    2
+
+  );
+
+fillLight.position.set(
+  -5,
+  4,
+  3
+);
+
+scene.add(
+  fillLight
+);
+
+const rimLight =
+  new THREE.DirectionalLight(
+
+    0xffffff,
+
+    2.5
+
+  );
+
+rimLight.position.set(
+  0,
+  5,
+  -6
+);
+
+scene.add(
+  rimLight
+);
+
+/* =========================================================
+   FLOOR
+========================================================= */
+
+const floor =
+  new THREE.Mesh(
+
+    new THREE.PlaneGeometry(
+      50,
+      50
+    ),
+
+    new THREE.ShadowMaterial({
+
+      opacity:
+        0.16
+
+    })
+
+  );
+
+floor.rotation.x =
+  -Math.PI / 2;
+
+floor.position.y =
+  -1.55;
+
+floor.receiveShadow =
+  true;
+
+scene.add(
+  floor
+);
+
+/* =========================================================
+   GLTF LOADER
+========================================================= */
+
+const gltfLoader =
+  new GLTFLoader();
+
+const dracoLoader =
+  new DRACOLoader();
+
+dracoLoader.setDecoderPath(
+
+  "https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
+
+);
+
+gltfLoader.setDRACOLoader(
+  dracoLoader
+);
+
+gltfLoader.setMeshoptDecoder(
+  MeshoptDecoder
+);
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const shoes = [];
+
+let currentIndex =
+  0;
+
+let introMode =
+  false;
+
+let isAnimating =
+  false;
+
+let wheelLocked =
+  false;
+
+let welcomeSplit =
+  null;
+
+function animateWelcomeIntro() {
+  if (!welcome)
+    return;
+
+  if (welcomeSplit) {
+    welcomeSplit.revert();
+    welcomeSplit = null;
+  }
+
+  welcome.textContent =
+    "Welcome to Market Stories";
+
+  welcome.style.color =
+    "rgba(31, 29, 27, 0.12)";
+
+  welcome.style.opacity =
+    "1";
+
+  const originalText = "Welcome to Market Stories";
+  const fragment = document.createDocumentFragment();
+  const words = originalText.split(/\s+/).map((word, index, list) => {
+    const span = document.createElement("span");
+    span.className = "welcome-word";
+    span.textContent = word;
+    fragment.appendChild(span);
+    if (index < list.length - 1) fragment.appendChild(document.createTextNode(" "));
+    return span;
+  });
+
+  welcome.replaceChildren(fragment);
+  welcomeSplit = {
+    words,
+    revert() {
+      welcome.textContent = originalText;
+    }
+  };
+
+  gsap.set(
+    welcomeSplit.words,
+    {
+      opacity: 0,
+      y: 32,
+      rotateX: -25,
+      filter: "blur(6px)"
+    }
+  );
+
+  gsap.to(
+    welcomeSplit.words,
+    {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      filter: "blur(0px)",
+      stagger: 0.08,
+      duration: 0.8,
+      ease: "power3.out"
+    }
+  );
+}
+
+/* =========================================================
+   LOAD SHOE
+========================================================= */
+
+async function loadShoe(
+  config,
+  index
+) {
+
+  try {
+
+    if (!config.file) {
+      createLocationPin(config, index);
+      return;
+    }
+
+    const gltf =
+      await gltfLoader.loadAsync(
+        config.file
+      );
+
+    const model =
+      gltf?.scene;
+
+    if (!model) {
+      throw new Error("The GLB does not contain a scene.");
+    }
+
+    /* SHADOWS */
+
+    model.traverse(
+      object => {
+
+        if (
+          object.isMesh
+        ) {
+
+          object.castShadow =
+            true;
+
+          object.receiveShadow =
+            true;
+
+        }
+
+      }
+    );
+
+    /* SIZE */
+
+    const box =
+      new THREE.Box3()
+        .setFromObject(
+          model
+        );
+
+    const size =
+      box.getSize(
+        new THREE.Vector3()
+      );
+
+    const largest =
+      Math.max(
+        size.x,
+        size.y,
+        size.z
+      );
+
+    if (
+      !Number.isFinite(largest) ||
+      largest <= 0.000001
+    ) {
+      throw new Error("The GLB has invalid or empty bounds.");
+    }
+
+    model.scale.setScalar(
+
+      SETTINGS.shoeSize /
+        largest
+
+    );
+
+    /* CENTER */
+
+    model.updateMatrixWorld(
+      true
+    );
+
+    const newBox =
+      new THREE.Box3()
+        .setFromObject(
+          model
+        );
+
+    const center =
+      newBox.getCenter(
+        new THREE.Vector3()
+      );
+
+    model.position.x -=
+      center.x;
+
+    model.position.z -=
+      center.z;
+
+    model.position.y -=
+      newBox.min.y;
+
+    /* GROUP */
+
+    const group =
+      new THREE.Group();
+
+    group.add(
+      model
+    );
+
+    scene.add(
+      group
+    );
+
+    /* THE MODEL LANDS IN ITS OWN SLOT IMMEDIATELY, SO IT NEVER
+       SITS ON TOP OF THE MODELS THAT FINISHED LOADING. */
+
+    placeInLineUp(
+      group,
+      index
+    );
+
+    shoes[index] = {
+
+      group:
+
+        group,
+
+      model:
+
+        model,
+
+      config:
+
+        config,
+
+      index:
+
+        index,
+
+      baseRotation:
+
+        config.rotationY,
+
+      modelBaseY:
+        model.position.y,
+
+      pin:
+        Boolean(config.pin)
+
+    };
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "GLB loading error:",
+      config.file,
+      error
+    );
+
+    createFallback(
+      config,
+      index
+    );
+
+  }
+
+}
+
+/* =========================================================
+   FALLBACK
+========================================================= */
+
+function createFallback(
+  config,
+  index
+) {
+
+  const geometry =
+    new THREE.BoxGeometry(
+      2.8,
+      1,
+      1.2
+    );
+
+  const material =
+    new THREE.MeshStandardMaterial({
+
+      color:
+        config.color,
+
+      roughness:
+        0.45
+
+    });
+
+  const mesh =
+    new THREE.Mesh(
+      geometry,
+      material
+    );
+
+  mesh.position.y =
+    0.5;
+
+  mesh.castShadow =
+    true;
+
+  const group =
+    new THREE.Group();
+
+  group.add(
+    mesh
+  );
+
+  scene.add(
+    group
+  );
+
+  placeInLineUp(
+    group,
+    index
+  );
+
+  shoes[index] = {
+
+    group:
+
+      group,
+
+    model:
+
+      mesh,
+
+    config:
+
+      config,
+
+    index:
+
+      index,
+
+    baseRotation:
+
+      config.rotationY,
+
+    modelBaseY:
+
+      mesh.position.y,
+
+    pin:
+      Boolean(config.pin)
+
+  };
+
+}
+
+function createLocationPin(config, index) {
+  const group = new THREE.Group();
+  const pin = new THREE.Group();
+  const material = new THREE.MeshStandardMaterial({
+    color: config.color,
+    roughness: 0.3,
+    metalness: 0.05
+  });
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 20), material);
+  const point = new THREE.Mesh(new THREE.ConeGeometry(0.8, 1.5, 32), material);
+  const hole = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.24, 0.24, 0.08, 24),
+    new THREE.MeshStandardMaterial({ color: 0xFBF9F4 })
+  );
+
+  point.position.y = -0.85;
+  point.rotation.x = Math.PI;
+  hole.position.set(0, 0.05, 0.76);
+  hole.rotation.x = Math.PI / 2;
+  pin.add(head, point, hole);
+  pin.position.y = 1.6;
+  group.add(pin);
+  scene.add(group);
+  placeInLineUp(group, index);
+  shoes[index] = {
+    group,
+    model: pin,
+    config,
+    index,
+    baseRotation: config.rotationY,
+    modelBaseY: pin.position.y,
+    pin: true
+  };
+}
+
+/* =========================================================
+   CIRCULAR DISTANCE
+========================================================= */
+
+function getDistance(
+  index
+) {
+
+  let distance =
+    index -
+    currentIndex;
+
+  if (
+    distance >
+    SHOES.length / 2
+  ) {
+
+    distance -=
+      SHOES.length;
+
+  }
+
+  if (
+    distance <
+    -SHOES.length / 2
+  ) {
+
+    distance +=
+      SHOES.length;
+
+  }
+
+  return distance;
+
+}
+
+/* =========================================================
+   LINE-UP SLOT
+========================================================= */
+
+/* PUTS A MODEL STRAIGHT INTO ITS SIDE-BY-SIDE SLOT AS SOON
+   AS IT ARRIVES, SO MODELS THAT ARE STILL LOADING SIT NEXT
+   TO EACH OTHER INSTEAD OF STACKING UP IN THE MIDDLE. */
+
+function placeInLineUp(
+  group,
+  index
+) {
+
+  const distance =
+    getDistance(index);
+
+  const x =
+    distance * SETTINGS.spacing;
+
+  const z =
+    Math.abs(distance) * SETTINGS.sideDepth;
+
+  const scale =
+    distance === 0
+      ? 1
+      : SETTINGS.sideScale;
+
+  let rotation =
+    SHOES[index]
+      ? SHOES[index].rotationY
+      : 0;
+
+  if (distance < 0) {
+
+    rotation -=
+      SETTINGS.sideRotation;
+
+  }
+
+  if (distance > 0) {
+
+    rotation +=
+      SETTINGS.sideRotation;
+
+  }
+
+  group.position.set(
+    x,
+    0,
+    z
+  );
+
+  group.scale.setScalar(
+    scale
+  );
+
+  group.rotation.y =
+    rotation;
+
+}
+
+/* =========================================================
+   UPDATE SLIDER
+========================================================= */
+
+function updateSlider(
+  animate = true
+) {
+
+  shoeInfo.style.opacity =
+    introMode ? "0" : "1";
+
+  shoes.forEach(
+    shoe => {
+
+      const distance =
+        getDistance(
+          shoe.index
+        );
+
+      if (introMode) {
+
+        welcome.classList.remove(
+          "welcome-left",
+          "welcome-right"
+        );
+
+        const isLocationPin =
+          Boolean(shoe.pin);
+
+        const introX =
+          isLocationPin
+            ? 0
+            : shoe.index === 0
+              ? -(SETTINGS.spacing * 1.45)
+              : SETTINGS.spacing * 1.45;
+
+        const introZ =
+          isLocationPin
+            ? 0.15
+            : shoe.index === 0
+              ? -0.6
+              : 0.6;
+
+        if (animate) {
+
+          gsap.to(
+            shoe.group.position,
+            {
+              x: introX,
+              y: 0,
+              z: introZ,
+              duration: SETTINGS.animationDuration * 1.25,
+              ease: "power2.inOut",
+              overwrite: true
+            }
+          );
+
+          gsap.to(
+            shoe.group.scale,
+            {
+              x: 0.9,
+              y: 0.9,
+              z: 0.9,
+              duration: SETTINGS.animationDuration * 1.25,
+              ease: "power2.inOut",
+              overwrite: true
+            }
+          );
+
+        }
+        else {
+
+          shoe.group.position.set(
+            introX,
+            0,
+            introZ
+          );
+
+          shoe.group.scale.setScalar(
+            0.9
+          );
+
+        }
+
+        shoe.group.rotation.y =
+          shoe.baseRotation;
+
+        return;
+
+      }
+
+      /* POSITION */
+
+      const isLocationPin =
+        Boolean(shoe.pin);
+
+      // Straight horizontal layout: no alternating or zig-zag positions.
+      const x =
+        distance * SETTINGS.spacing;
+
+      // Keep every scene on the same horizontal plane.
+      const y = 0;
+
+      // Preserve depth layering without changing the horizontal path.
+      const z =
+        Math.abs(distance) * SETTINGS.sideDepth;
+
+      /* SCALE */
+
+      const scale =
+        distance === 0
+          ? 1
+          : SETTINGS.sideScale;
+
+      /* ROTATION */
+
+      let rotation =
+        shoe.baseRotation;
+
+      if (
+        distance < 0
+      ) {
+
+        rotation -=
+          SETTINGS.sideRotation;
+
+      }
+
+      if (
+        distance > 0
+      ) {
+
+        rotation +=
+          SETTINGS.sideRotation;
+
+      }
+
+      if (animate) {
+
+        gsap.to(
+          shoe.group.position,
+          {
+
+            x:
+              x,
+
+            y:
+              y,
+
+            z:
+              z,
+
+            duration:
+              SETTINGS.animationDuration,
+
+            ease:
+              "power2.inOut",
+
+            overwrite:
+              true
+
+          }
+        );
+
+        gsap.to(
+          shoe.group.scale,
+          {
+
+            x:
+              scale,
+
+            y:
+              scale,
+
+            z:
+              scale,
+
+            duration:
+              SETTINGS.animationDuration,
+
+            ease:
+              "power2.inOut",
+
+            overwrite:
+              true
+
+          }
+        );
+
+        gsap.to(
+          shoe.group.rotation,
+          {
+
+            y:
+              rotation,
+
+            duration:
+              SETTINGS.animationDuration,
+
+            ease:
+              "power2.inOut",
+
+            overwrite:
+              true
+
+          }
+        );
+
+      }
+
+      else {
+
+        shoe.group.position.set(
+          x,
+          y,
+          z
+        );
+
+        shoe.group.scale.setScalar(
+          scale
+        );
+
+        shoe.group.rotation.y =
+          rotation;
+
+      }
+
+      shoe.model.rotation.y =
+        0;
+
+    }
+  );
+
+  updateText();
+
+}
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+function updateText() {
+
+  const shoe =
+    shoes[currentIndex];
+
+  if (!shoe)
+    return;
+
+  if (!introMode) {
+
+    if (welcomeSplit) {
+      welcomeSplit.revert();
+      welcomeSplit = null;
+    }
+
+    welcome.textContent =
+      shoe.config.welcome;
+
+    welcome.style.color =
+      shoe.config.welcomeColor;
+
+    gsap.to(
+      welcome,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out"
+      }
+    );
+
+  } else {
+
+    /* ONLY SET UP THE INTRO ONCE SO PLACING
+       EACH MODEL DOES NOT RESTART IT */
+
+    if (!welcomeSplit) {
+
+      animateWelcomeIntro();
+
+    }
+
+  }
+
+  gsap.to(
+    stage,
+    {
+      duration:
+        SETTINGS.animationDuration,
+      ease:
+        "power2.out",
+      onStart() {
+        stage.style.background = shoe.config.background || shoe.config.color;
+      },
+      onComplete() {
+        stage.style.background = shoe.config.background || shoe.config.color;
+      }
+    }
+  );
+
+  document.documentElement.style.setProperty(
+    "--accent",
+    shoe.config.welcomeColor
+  );
+
+  const textTargets =
+    introMode
+      ? [title, tagline]
+      : [title, tagline, shoeDetails];
+
+  gsap.to(
+    textTargets,
+    {
+
+      opacity:
+        0,
+
+      y:
+        15,
+
+      duration:
+        0.2,
+
+      onComplete:
+        () => {
+
+          title.textContent =
+            shoe.config.name;
+
+          tagline.textContent =
+            shoe.config.tagline;
+
+          shoeDetails.innerHTML =
+            shoe.config.details
+              .split("|")
+              .join("<br>");
+
+          gsap.to(
+            textTargets,
+            {
+
+              opacity:
+                1,
+
+              y:
+                0,
+
+              duration:
+                0.6,
+
+              stagger:
+                0.08,
+
+              ease:
+                "power3.out"
+
+            }
+          );
+
+        }
+
+    }
+  );
+
+  shoeInfo.classList.toggle(
+    "left",
+    shoe.index % 2 !== 0
+  );
+
+  shoeInfo.classList.toggle(
+    "right",
+    shoe.index % 2 === 0
+  );
+
+  shoeKicker.textContent =
+    ["DAIRY FARM", "VEGETABLE FARM", "FRUIT FARM"][shoe.index];
+
+  updateDots();
+
+}
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function next() {
+
+  if (introMode) {
+
+    introMode =
+      false;
+
+    updateSlider(
+      true
+    );
+
+    return;
+
+  }
+
+  const nextIndex =
+    (currentIndex + 1) % SHOES.length;
+
+  if (
+    isAnimating ||
+    !shoes[nextIndex]
+  )
+    return;
+
+  isAnimating =
+    true;
+
+  currentIndex =
+    nextIndex;
+
+  updateSlider(
+    true
+  );
+
+  setTimeout(
+    () => {
+
+      isAnimating =
+        false;
+
+    },
+
+    SETTINGS.animationDuration *
+      1000
+
+  );
+
+}
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function previous() {
+
+  if (introMode) {
+
+    introMode =
+      false;
+
+    updateSlider(
+      true
+    );
+
+    return;
+
+  }
+
+  const previousIndex =
+    (currentIndex - 1 + SHOES.length) % SHOES.length;
+
+  if (
+    isAnimating ||
+    !shoes[previousIndex]
+  )
+    return;
+
+  isAnimating =
+    true;
+
+  currentIndex =
+    previousIndex;
+
+  updateSlider(
+    true
+  );
+
+  setTimeout(
+    () => {
+
+      isAnimating =
+        false;
+
+    },
+
+    SETTINGS.animationDuration *
+      1000
+
+  );
+
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+nextButton.addEventListener(
+  "click",
+  next
+);
+
+previousButton.addEventListener(
+  "click",
+  previous
+);
+
+if (exploreButton) {
+  exploreButton.addEventListener(
+    "click",
+    () => {
+
+      introMode = false;
+
+      exploreButton.classList.remove("is-visible");
+      updateSlider(true);
+    }
+  );
+}
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+window.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "ArrowRight"
+    ) {
+
+      next();
+
+    }
+
+    if (
+      event.key ===
+      "ArrowLeft"
+    ) {
+
+      previous();
+
+    }
+
+  }
+);
+
+/* =========================================================
+   DOTS
+========================================================= */
+
+function createDots() {
+
+  SHOES.forEach(
+    (_, index) => {
+
+      const dot =
+        document.createElement(
+          "button"
+        );
+
+      dot.type =
+        "button";
+
+      dot.className =
+        "slider-dot";
+
+      dot.setAttribute(
+        "aria-label",
+        `Show market scene ${index + 1}`
+      );
+
+      dot.addEventListener(
+        "click",
+        () => {
+
+          if (
+            isAnimating ||
+            !shoes[index]
+          )
+            return;
+
+          isAnimating =
+            true;
+
+          introMode =
+            false;
+
+          currentIndex =
+            index;
+
+          updateSlider(
+            true
+          );
+
+          setTimeout(
+            () => {
+
+              isAnimating =
+                false;
+
+            },
+
+            SETTINGS.animationDuration *
+              1000
+
+          );
+
+        }
+      );
+
+      dotsContainer.appendChild(
+        dot
+      );
+
+    }
+  );
+
+}
+
+function updateDots() {
+
+  const dots =
+    document.querySelectorAll(
+      ".slider-dot"
+    );
+
+  dots.forEach(
+    (dot, index) => {
+
+      dot.classList.toggle(
+        "active",
+        index ===
+          currentIndex
+      );
+
+    }
+  );
+
+}
+
+/* =========================================================
+   DRAG / SWIPE
+========================================================= */
+
+let startX =
+  0;
+
+let startY =
+  0;
+
+let dragging =
+  false;
+
+canvas.addEventListener(
+  "pointerdown",
+  event => {
+
+    startX =
+      event.clientX;
+
+    startY =
+      event.clientY;
+
+    dragging =
+      true;
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+
+  }
+);
+
+canvas.addEventListener(
+  "pointerup",
+  event => {
+
+    if (!dragging)
+      return;
+
+    dragging =
+      false;
+
+    const distanceX =
+      event.clientX -
+      startX;
+
+    const distanceY =
+      event.clientY -
+      startY;
+
+    if (
+      Math.abs(distanceX) < 45 &&
+      Math.abs(distanceY) < 45
+    ) {
+      welcome.classList.remove(
+        "welcome-left",
+        "welcome-right"
+      );
+    }
+
+    if (
+      Math.abs(distanceY) <
+      45
+    ) {
+
+      return;
+
+    }
+
+    if (distanceY < 0) {
+
+      previous();
+
+    }
+    else {
+
+      next();
+
+    }
+
+  }
+);
+
+/* =========================================================
+   WHEEL
+========================================================= */
+
+window.addEventListener(
+  "wheel",
+  event => {
+
+    if (
+      wheelLocked ||
+      isAnimating
+    )
+      return;
+
+    if (
+      Math.abs(event.deltaY) <
+      10
+    )
+      return;
+
+    if (introMode) {
+
+      if (event.deltaY > 0) {
+
+        introMode =
+          false;
+
+        updateSlider(
+          true
+        );
+
+      }
+
+      wheelLocked =
+        false;
+
+      return;
+
+    }
+
+    wheelLocked =
+      true;
+
+    if (
+      event.deltaY > 0
+    ) {
+
+      next();
+
+    }
+    else {
+
+      previous();
+
+    }
+
+    setTimeout(
+      () => {
+
+        wheelLocked =
+          false;
+
+      },
+
+      700
+
+    );
+
+  },
+  {
+    passive:
+      true
+  }
+);
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+let resizeQueued =
+  false;
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    if (resizeQueued)
+      return;
+
+    resizeQueued = true;
+
+    requestAnimationFrame(
+      () => {
+
+        resizeQueued = false;
+
+        camera.aspect =
+          window.innerWidth /
+          window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        applySize();
+
+      }
+    );
+
+  }
+);
+
+/* =========================================================
+   RENDER LOOP
+========================================================= */
+
+const LEAF_SVG =
+  '<svg viewBox="0 0 513.57 1042.57" xmlns="http://www.w3.org/2000/svg">' +
+  '<path fill="var(--accent, #5D9B55)" d="M207.74 252.52c0 0 -3.36 127.53 94.31 130.89 0 0 36.92 0.67 66.79 -32.89 0 0 -39.94 -10.4 -50.01 -47.99 -10.07 -37.59 63.1 -27.52 82.23 3.36 0 0 17.47 -34.44 35.17 -77.24 -60.5 -36.51 -169.57 -35.65 -182.77 -35.4 -16.15 16.52 -28.62 31.28 -37.69 42.91z"/>' +
+  '<path fill="var(--accent, #5D9B55)" opacity="0.65" d="M409.79 50.48c0 0 6.34 -10.74 15.1 -37.92 25.84 -13.42 40.95 2.68 38.93 7.72 -2.01 5.03 -36.92 38.6 -54.03 30.21z"/>' +
+  '</svg>';
+
+const modelButtons = [];
+
+function createModelButtons() {
+
+  if (!modelButtonsLayer)
+    return;
+
+  modelButtonsLayer.innerHTML = "";
+
+  modelButtons.length = 0;
+
+  SHOES.forEach(
+    (config, index) => {
+
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+
+      button.className = "model-cta";
+
+      button.setAttribute(
+        "aria-label",
+        `Let's get started with ${config.name}`
+      );
+
+      ["icon-1", "icon-2", "icon-3", "icon-4", "icon-5"].forEach(
+        className => {
+
+          const icon =
+            document.createElement("span");
+
+          icon.className = className;
+
+          icon.innerHTML = LEAF_SVG;
+
+          button.appendChild(icon);
+
+        }
+      );
+
+      const label =
+        document.createElement("span");
+
+      label.className = "model-cta-label";
+
+      label.textContent = "Let's Get Started";
+
+      button.insertBefore(
+        label,
+        button.firstChild
+      );
+
+      /* THE BUTTON OPENS THAT MARKET'S DIRECTORY PAGE */
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          if (!config.link)
+            return;
+
+          window.location.href =
+            config.link;
+
+        }
+      );
+
+      modelButtonsLayer.appendChild(button);
+
+      modelButtons[index] = button;
+
+    }
+  );
+
+}
+
+function updateModelButtons() {
+
+  if (!modelButtonsLayer)
+    return;
+
+  /* THE TEXT BLOCK IS VERTICALLY CENTRED AND ITS HEIGHT
+     CHANGES PER MODEL, SO MEASURE IT AND SIT THE BUTTON
+     DIRECTLY ABOVE IT, NEVER CROSSING INTO THE NAVBAR. */
+
+  const viewportHeight =
+    window.innerHeight;
+
+  const textTop =
+    shoeInfo
+      ? shoeInfo.getBoundingClientRect().top
+      : viewportHeight / 2;
+
+  const buttonHeight =
+    modelButtons[0]
+      ? modelButtons[0].offsetHeight
+      : 40;
+
+  const gap = 22;
+
+  /* KEEPS THE BUTTON CLEAR OF THE FIXED TOP-RIGHT NAVBAR */
+
+  const safeTop = 116;
+
+  let bottom =
+    viewportHeight - textTop + gap + buttonHeight;
+
+  const maxBottom =
+    viewportHeight - safeTop - buttonHeight;
+
+  if (bottom > maxBottom)
+    bottom = maxBottom;
+
+  shoes.forEach(
+    shoe => {
+
+      const button = modelButtons[shoe.index];
+
+      if (!button)
+        return;
+
+      /* ONLY THE MODEL IN THE MIDDLE SHOWS ITS BUTTON,
+         AND IT SITS ABOVE THE TEXT */
+
+      if (shoe.index === currentIndex) {
+
+        button.classList.remove("is-hidden");
+
+        button.style.bottom =
+          bottom + "px";
+
+      } else {
+
+        button.classList.add("is-hidden");
+
+      }
+
+    }
+  );
+
+}
+
+createModelButtons();
+
+const clock =
+  new THREE.Clock();
+
+function render() {
+
+  requestAnimationFrame(
+    render
+  );
+
+  const time =
+    clock.getElapsedTime();
+
+  shoes.forEach(
+    shoe => {
+
+      if (introMode) {
+
+        const idleFloat =
+          Math.sin(
+            time * 1.1 + shoe.index
+          ) * 0.08;
+
+        shoe.group.rotation.y =
+          shoe.baseRotation +
+          Math.sin(
+            time * 0.45 + shoe.index
+          ) * 0.05;
+
+        shoe.model.rotation.y =
+          time * 0.15;
+
+        shoe.model.rotation.z =
+          Math.sin(
+            time * 0.6 + shoe.index
+          ) * 0.008;
+
+        shoe.model.position.y =
+          shoe.modelBaseY +
+          idleFloat;
+
+        return;
+
+      }
+
+      if (
+        shoe.index ===
+        currentIndex
+      ) {
+
+        shoe.model.rotation.z =
+          Math.sin(
+            time * 0.8
+          ) * 0.015;
+
+        shoe.model.position.y =
+          shoe.modelBaseY +
+          Math.sin(
+            time * 1.5
+          ) * 0.0007;
+
+      }
+
+    }
+  );
+
+  monitorFps();
+
+  updateModelButtons();
+
+  renderer.render(
+    scene,
+    camera
+  );
+
+}
+
+/* FPS-GUIDED RESOLUTION
+   Shrinks the drawing buffer when the GPU cannot hold a
+   steady frame rate, and restores it when there is room. */
+
+let fpsFrames = 0;
+
+let fpsStamp = performance.now();
+
+function monitorFps() {
+
+  fpsFrames++;
+
+  const now = performance.now();
+
+  if (now - fpsStamp < 1000)
+    return;
+
+  const fps =
+    fpsFrames * 1000 / (now - fpsStamp);
+
+  fpsFrames = 0;
+  fpsStamp = now;
+
+  if (fps < 45 && renderScale > 0.6) {
+
+    renderScale =
+      Math.max(0.6, renderScale - 0.15);
+
+    applySize();
+
+  }
+  else if (fps > 57 && renderScale < 1) {
+
+    renderScale =
+      Math.min(1, renderScale + 0.1);
+
+    applySize();
+
+  }
+
+}
+
+render();
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function init() {
+
+  createDots();
+
+  /* THE PAGE IS VISIBLE IMMEDIATELY WITH NO LOADER,
+     SO START THE WELCOME RIGHT AWAY. */
+
+  /* SKIP THE INTRO LINE-UP - START STRAIGHT IN THE SLIDER. */
+
+  /* PLACE EACH GLB THE MOMENT IT ARRIVES - LOADED ONE
+     AT A TIME SO PARSING NEVER BLOCKS INPUT. */
+
+  /* QUICK LOAD - FETCH EVERY GLB IN PARALLEL INSTEAD OF
+     WAITING FOR EACH ONE BEFORE STARTING THE NEXT. */
+
+  await Promise.all(
+    SHOES.map(
+      (config, index) =>
+        loadShoe(
+          config,
+          index
+        )
+    )
+  );
+
+  updateSlider(
+    false
+  );
+
+  updateDots();
+
+  /* REVEAL THE EXPLORE BUTTON A MOMENT
+     AFTER THE MODELS ARE PLACED */
+
+  setTimeout(
+    () => {
+      exploreButton?.classList.add("is-visible");
+    },
+    700
+  );
+
+}
+
+init().catch(error => {
+  console.error("Index initialization failed:", error);
+});
+
+</script>
+<script>
+/* INLINED: navbar.js */
+(() => {
+  "use strict";
+const navigationItems = [['01','HOME','index.html','vids/farm-growth.mp4','FreshFind / Home'],['02','MARKET FIND','marketfind.html','vids/farm-growth.mp4','Find a Market'],['03','MARKET DIRECTORY / DETAIL','market.html','vids/farm-growth.mp4','Market Directory & Detail'],['05','PRODUCE','progress .html','vids/fruit.mp4','Fresh Produce'],['06','SEASONS','Seasonal.html','vids/fruit.mp4','Seasonal Freshness'],['07','ASK FRESHFIND','chat.html','vids/chat.mp4','Ask FreshFind'],['08','CONTACT','contact.html','vids/colorflow-animation (3).mp4','Get in Touch'],['09','ABOUT','about.html','vids/farm-growth.mp4','About FreshFind']];
+const nav=document.createElement('header');nav.className='ff-nav';nav.id='freshFindNav';nav.innerHTML=`<a href="index.html" class="ff-logo" aria-label="FreshFind home"><span class="ff-logo-mark">âœ¦</span><span>FreshFind</span></a><nav class="ff-nav-links" aria-label="Primary">${navigationItems.map(x=>`<a class="ff-nav-link${x[1].length>14?' ff-menu-link-long':''}" href="${x[2]}" title="${x[4]}">${x[1]}</a>`).join('')}</nav><button class="ff-menu-button" id="openMenu" type="button" aria-label="Open navigation" aria-expanded="false"><span class="ff-menu-text">Explore</span><span class="ff-menu-icon"><span></span><span></span></span></button></div>`;
+const menu=document.createElement('div');menu.className='ff-menu';menu.id='freshFindMenu';menu.setAttribute('aria-hidden','true');menu.innerHTML=`<div class="ff-menu-header"><div class="ff-menu-label">FreshFind / Navigation</div><button class="ff-close" id="closeMenu" type="button" aria-label="Close navigation"></button></div><div class="ff-menu-content"><div class="ff-menu-inner"><div class="ff-menu-kicker">Explore your local food system</div><nav aria-label="Main navigation"><ul class="ff-menu-links">${navigationItems.map(x=>`<li><a href="${x[2]}" data-video="${x[3]}" data-label="${x[4]}" class="${x[1].length>14?'ff-menu-link-long':''}"><span class="ff-number">${x[0]}</span>${x[1]}</a></li>`).join('')}</ul></nav></div></div><div class="ff-video-preview" id="ffVideoPreview"><video class="ff-preview-video" id="ffPreviewVideo" muted playsinline loop preload="metadata"></video><div class="ff-video-overlay"></div><div class="ff-video-label" id="ffVideoLabel">FreshFind</div></div>`;
+document.body.prepend(menu);document.body.prepend(nav);
+/* Mark the current page in the inline navbar links. */
+const here=decodeURIComponent((location.pathname.split('/').pop()||'index.html')).toLowerCase();
+let marked=false;document.querySelectorAll('.ff-nav-links a').forEach(a=>{if(marked)return;const h=a.getAttribute('href')||'';const base=decodeURIComponent(h.split('#')[0]).toLowerCase();if(base===here&&h.indexOf('#')===-1){a.setAttribute('aria-current','page');marked=true;}});
+const open=document.getElementById('openMenu'),close=document.getElementById('closeMenu'),pv=document.getElementById('ffPreviewVideo'),pc=document.getElementById('ffVideoPreview'),pl=document.getElementById('ffVideoLabel'),links=[...document.querySelectorAll('.ff-menu-links a')];let current='';
+function stop(){pv.pause();pv.removeAttribute('src');pv.load();pv.style.opacity='0';pc.classList.remove('playing');current=''}
+function openMenu(){menu.classList.add('open');menu.setAttribute('aria-hidden','false');open.setAttribute('aria-expanded','true');document.body.classList.add('ff-menu-open');setTimeout(()=>close.focus(),500)}
+function closeMenu(){menu.classList.remove('open');menu.setAttribute('aria-hidden','true');open.setAttribute('aria-expanded','false');document.body.classList.remove('ff-menu-open');stop();open.focus()}
+open.addEventListener('click',openMenu);close.addEventListener('click',closeMenu);
+function change(link){const src=link.dataset.video;if(!src||current===src){if(current===src)pv.play().catch(()=>{});return}current=src;pl.textContent=link.dataset.label||link.textContent.trim();pv.style.opacity='0';setTimeout(()=>{pv.pause();pv.src=src;pv.load();pv.addEventListener('loadeddata',()=>pv.play().then(()=>{pc.classList.add('playing');pv.style.opacity='1'}).catch(()=>pv.style.opacity='1'),{once:true})},120)}
+links.forEach(l=>{l.addEventListener('mouseenter',()=>change(l));l.addEventListener('focus',()=>change(l));l.addEventListener('click',closeMenu)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open'))closeMenu()});window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+})();
+</script>
+<script>
+/* INLINED: chat-widget.js */
+document.addEventListener("DOMContentLoaded",()=>{"use strict";
+const root=document.createElement('div');root.className='avo-widget';root.id='avoWidget';root.innerHTML=`<button class="avo-launcher" id="avoLauncher" type="button" aria-label="Open Avo chat" aria-expanded="false"><span class="icon-open"><svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/><circle cx="16" cy="15" r="1.6" fill="#1f2a14"/><circle cx="24" cy="15" r="1.6" fill="#1f2a14"/></svg></span><span class="icon-close" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="avo-badge" id="avoBadge">1</span></button><div class="avo-panel" id="avoPanel" role="dialog" aria-label="Avo chat"><header class="aw-chat-header">
+<div class="aw-avatar"><svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/></svg></div><div class="aw-title"><h1>Avo</h1><p>FreshFind Assistant</p></div><button class="aw-icon-btn aw-voice" id="avoVoice" type="button" aria-label="Toggle voice"><svg class="aw-icon-on" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Zm4.5 3.5a5 5 0 0 1 0 7M19 4a10 10 0 0 1 0 16" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="aw-icon-muted" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Z" fill="currentColor"/><path d="m17 9 5 6m0-6-5 6" stroke-linecap="round"/></svg></button><button class="aw-icon-btn" id="avoClose" type="button" aria-label="Close chat"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header><div class="aw-stage"><div class="aw-avo-wrap"><div class="aw-avo-glb" id="avoGlb"><canvas id="avoCanvas"></canvas><span class="aw-loading" id="avoLoading">Loading 3Dâ€¦</span></div></div></div><main class="aw-messages" id="avoMessages" aria-live="polite"></main><div class="aw-chips" id="avoChips"></div><form class="aw-composer" id="avoForm"><textarea id="avoInput" rows="1" placeholder="Ask about markets or produce..." aria-label="Message"></textarea><button class="aw-send" type="submit" aria-label="Send">âž¤</button></form></div>`;
+document.body.append(root);
+const $=id=>document.getElementById(id),widget=root,launcher=$('avoLauncher'),panel=$('avoPanel'),input=$('avoInput'),messages=$('avoMessages'),chips=$('avoChips'),form=$('avoForm'),sendButton=form.querySelector('.aw-send');let busy=false,voice=true,voicesOK='speechSynthesis'in window;
+const links={market:'market.html',produce:'progress .html',seasons:'Seasonal.html',process:'progress .html',chat:'chat.html'};
+const defaults=['What is FreshFind?','Find a market near me','What fruits are in season?','Can you suggest a recipe?'];
+function answer(text){const t=text.toLowerCase();if(/freshfind|what are you|about/.test(t))return ['FreshFind helps you discover local markets, seasonal produce, and fresh food stories.',[{label:'Find a Market',href:links.market},{label:'Seasons',href:links.seasons}]];if(/market|near me|find a/.test(t))return ['Use Find a Market to discover local farmers markets and fresh produce.',[{label:'Contact',href:links.market}]];if(/fruit|season|produce|vegetable/.test(t))return ['Explore seasonal produce and discover what is fresh for every season.',[{label:'Produce',href:links.produce},{label:'Seasons',href:links.seasons}]];if(/recipe|cook|meal|make/.test(t))return ['Tell me what fruits or vegetables you have and I can suggest a simple recipe.',[{label:'Produce Guide',href:links.produce}]];if(/contact|feedback|email/.test(t))return ['You can send a question or feedback through our contact page.',[{label:'Contact Us',href:links.market}]];return ['I can help with local markets, seasonal produce, recipes, and FreshFind questions.',[{label:'Produce',href:links.produce},{label:'Seasons',href:links.seasons}]]}
+function add(text,who='bot',items=[]){const row=document.createElement('div');row.className=`aw-msg ${who}`;const bubble=document.createElement('div');bubble.className='aw-bubble';bubble.textContent=text;row.append(bubble);if(items.length){const wrap=document.createElement('div');wrap.className='aw-links';items.forEach(item=>{const a=document.createElement('a');a.className='aw-link';a.href=item.href;a.textContent=item.label;wrap.append(a)});row.append(wrap)}messages.append(row);messages.scrollTop=messages.scrollHeight}
+function setChips(items){chips.innerHTML='';items.forEach(label=>{const b=document.createElement('button');b.className='aw-chip';b.type='button';b.textContent=label;b.onclick=()=>send(label);chips.append(b)})}
+function open(){widget.classList.add('is-open');launcher.classList.add('is-open');launcher.setAttribute('aria-expanded','true');$('avoBadge').classList.add('is-hidden');setTimeout(()=>input.focus(),260)}function close(){widget.classList.remove('is-open');launcher.classList.remove('is-open');launcher.setAttribute('aria-expanded','false');if(voicesOK)try{speechSynthesis.cancel()}catch(e){}}
+launcher.onclick=()=>widget.classList.contains('is-open')?close():open();$('avoClose').onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&widget.classList.contains('is-open'))close()});
+$('avoVoice').onclick=()=>{voice=!voice;$('avoVoice').classList.toggle('is-muted',!voice);if(!voice&&voicesOK)speechSynthesis.cancel()};
+function speak(text,done){if(!voice||!voicesOK){setTimeout(done,450);return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=1;u.pitch=1.15;u.onend=done;u.onerror=done;speechSynthesis.speak(u)}catch(e){done()}}
+async function send(text){if(busy||!text.trim())return;busy=true;sendButton.disabled=true;add(text.trim(),'user');input.value='';const row=document.createElement('div');row.className='aw-msg bot aw-typing';row.innerHTML='<div class="aw-bubble"><span class="aw-dot"></span><span class="aw-dot"></span><span class="aw-dot"></span></div>';messages.append(row);await new Promise(r=>setTimeout(r,450));row.remove();const [reply,items]=answer(text);add(reply,'bot',items);await new Promise(r=>speak(reply,r));setChips(defaults);busy=false;sendButton.disabled=false;input.focus()}
+form.onsubmit=e=>{e.preventDefault();send(input.value)};input.oninput=()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,96)+'px'};input.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}};
+import("https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js").then(async THREE=>{const canvas=document.getElementById('avoCanvas'),mount=document.getElementById('avoGlb'),loading=document.getElementById('avoLoading');if(!canvas||!mount)return;const {GLTFLoader}=await import("https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js");const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(0,.15,4.2);camera.lookAt(0,0,0);scene.add(new THREE.HemisphereLight(0xffffff,0x426b4a,2.4));const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(3,4,5);scene.add(key);const fill=new THREE.DirectionalLight(0xb8f0cf,1.5);fill.position.set(-4,1,3);scene.add(fill);const loader=new GLTFLoader();let model=null;loader.load('chat%20glb/AVOCADO%20by%20sugamo%20-%201tgxGbXymi_.glb',gltf=>{model=gltf.scene;const box=new THREE.Box3().setFromObject(model),size=box.getSize(new THREE.Vector3()),largest=Math.max(size.x,size.y,size.z);if(largest>0)model.scale.setScalar(2.45/largest);model.position.sub(new THREE.Box3().setFromObject(model).getCenter(new THREE.Vector3()));model.rotation.set(0,Math.PI,0);scene.add(model);loading?.classList.add('is-hidden')},undefined,error=>{console.error('Could not load Avo GLB:',error);if(loading)loading.textContent='3D unavailable'});const resize=()=>{const w=mount.clientWidth,h=mount.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)};new ResizeObserver(resize).observe(mount);resize();const animate=time=>{requestAnimationFrame(animate);if(model)model.position.y=Math.sin(time*.0012)*.035;renderer.render(scene,camera)};requestAnimationFrame(animate)}).catch(error=>console.error('Avo 3D setup failed:',error));
+add('Hello! Iâ€™m Avo, your FreshFind assistant. Ask me about markets, seasonal produce, or recipes.','bot',[{label:'Produce',href:links.produce},{label:'Seasons',href:links.seasons}]);setChips(defaults);
+});
+
+</script>
+<script src="bookmark-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

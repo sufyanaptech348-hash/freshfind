@@ -1,4 +1,4 @@
-﻿
+
 
 window.FRESHFIND_MARKET_DATA = (function () {
   'use strict';
@@ -108,3 +108,5 @@ window.FRESHFIND_MARKET_DATA = (function () {
     produce: produce
   };
 })();
+
+

@@ -1,4 +1,4 @@
-﻿
+
 :root{
   --bfb-mint:#cdeedd;--bfb-light:#e6f8ef;--bfb-deep:#2f8f6a;--bfb-dark:#1e6b4e;
   --bfb-ink:#11362a;--bfb-muted:#5c8a77;--bfb-shade:rgba(22,92,62,.2);--bfb-glow:rgba(255,255,255,.85);
@@ -158,3 +158,5 @@
 @media(prefers-reduced-motion:reduce){
   .ffb-widget *,.ffb-btn{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FreshFind | Dairy Farm Market Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dairymarketdirectory.css">
+
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="video-bg" aria-hidden="true">
+  <video id="bgVideo" autoplay muted loop playsinline preload="auto"
+         poster="https://placehold.co/1920x1080/c98b2a/ffffff?text=FreshFind">
+    <source src="vids/directory/dairy.mp4" type="video/mp4" />
+  </video>
+</div>
+<div class="video-overlay" aria-hidden="true"></div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="label">spring physics</span>
+    <h1 class="text">Dairy Farm Market Directory</h1>
+    <div class="baseline"></div>
+    <button id="replay" type="button">↺ replay</button>
+    <p>Discover local dairy markets, fresh milk, artisan cheese, cream, and farm-fresh goods near you.</p>
+  </div>
+</section>
+
+<section class="filters">
+  <div><label for="area">Area / Neighborhood</label><select id="area"><option value="all">All areas</option></select></div>
+  <div><label for="day">Operating day</label><select id="day"><option value="all">Any day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+  <div><label for="produce">Produce type</label><select id="produce"><option value="all">All produce</option><option value="fruit">Fruit</option><option value="vegetable">Vegetable</option><option value="dairy">Dairy</option></select></div>
+  <div><label for="sort">Sort by</label><select id="sort"><option value="alpha">Alphabetically</option><option value="proximity">Proximity</option><option value="next">Next open day</option></select></div>
+</section>
+
+<main>
+  <div class="directory-top"><h2 id="heading">All Markets</h2><span id="count"></span></div>
+  <div id="markets" class="grid"></div>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close aria-label="Close market details">×</button>
+    <div class="modal-hero"><img id="modalImg" src="" alt="" /></div>
+    <div class="modal-body">
+      <span class="tag" id="modalTag"></span>
+      <h2 id="modalTitle"></h2>
+      <p class="lead" id="modalDesc"></p>
+
+      <p class="section-title">Location Details</p>
+      <div class="location-box">
+        <div class="location-info">
+          <div><div class="k">Address</div><div class="v" id="modalAddress"></div></div>
+          <div><div class="k">Area / Neighborhood</div><div class="v" id="modalArea"></div></div>
+          <div><div class="k">Distance</div><div class="v" id="modalDistance"></div></div>
+          <div><div class="k">Phone</div><div class="v" id="modalPhone"></div></div>
+        </div>
+        <div class="map-wrap">
+          <iframe id="modalMapFrame" src="" loading="lazy" allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade" title="Market location map"></iframe>
+        </div>
+      </div>
+
+      <p class="section-title">Weekly Schedule</p>
+      <table class="schedule-table" id="modalSchedule">
+        <thead><tr><th>Day</th><th>Hours</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <p class="section-title">Available Produce</p>
+      <div class="product-grid" id="modalProductsGrid"></div>
+
+      <div class="modal-actions">
+        <a class="btn btn-primary" id="modalCall" href="#">📞 Call market</a>
+        <a class="btn btn-ghost" id="modalMap" href="#" target="_blank" rel="noopener">📍 Get directions</a>
+        <button class="btn btn-ghost" type="button" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="dairymarketdirectory.js"></script>
+
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Natural — Fresh. Organic. Honest.</title>
+  <meta
+    name="description"
+    content="Natural — a fresh food experience rooted in organic sourcing, seasonal produce, and honest craft."
+  />
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="about.css" />
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  
+  <div class="brand-mark liquid-glass">
+    <span class="brand-icon"></span>
+    Natural
+  </div>
+
+  <main>
+    
+    <section class="hero" id="home">
+      <div class="hero-bg-text" id="parallax-text">NATURAL</div>
+
+      <div class="hero-container">
+        <div class="hero-content">
+          <span class="hero-eyebrow gsap-reveal">Farm to Table · Since 2014</span>
+          <h1 class="hero-title gsap-reveal">
+            Fresh. Organic.<br /><em>Honest.</em>
+          </h1>
+          <p class="hero-subtitle gsap-reveal">
+            Rooted in the soil and shaped by the seasons — Natural brings you
+            produce, plates, and pantry staples crafted with uncompromising
+            care and radical transparency.
+          </p>
+        </div>
+
+        <div class="carousel-container" id="harvest">
+          <div class="carousel-track" id="carousel">
+            <div class="carousel-card liquid-glass clay-border">
+              <div
+                class="card-image"
+                style="background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80');"
+              ></div>
+              <div class="card-info">
+                <h3>Garden Greens</h3>
+                <p>Picked This Morning</p>
+              </div>
+            </div>
+            <div class="carousel-card liquid-glass clay-border">
+              <div
+                class="card-image"
+                style="background-image: url('https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&q=80');"
+              ></div>
+              <div class="card-info">
+                <h3>Seasonal Fruit</h3>
+                <p>Sun-Ripened & Sweet</p>
+              </div>
+            </div>
+            <div class="carousel-card liquid-glass clay-border">
+              <div
+                class="card-image"
+                style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80');"
+              ></div>
+              <div class="card-info">
+                <h3>Artisan Bread</h3>
+                <p>Baked Fresh Daily</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="stats">
+      <div class="stats">
+        <div class="stat-card chunky-clay gsap-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Years Farm-to-Table</div>
+        </div>
+        <div class="stat-card chunky-clay gsap-card">
+          <div class="stat-number">120</div>
+          <div class="stat-label">Local Growers</div>
+        </div>
+        <div class="stat-card chunky-clay gsap-card">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Artificial Additives</div>
+        </div>
+        <div class="stat-card chunky-clay gsap-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Organic Certified</div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="produce">
+      <div class="section-header">
+        <h2 class="gsap-reveal">From the Ground Up</h2>
+        <p class="gsap-reveal">
+          Every ingredient tells a story — of soil, of sun, of hands that
+          cared. Explore what's in season right now.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="grid-item chunky-clay gsap-card">
+          <img
+            src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80"
+            alt="Fresh vegetables"
+          />
+          <div class="grid-content">
+            <h4>Root Vegetables</h4>
+            <p>Earthy, hearty, harvested by hand</p>
+          </div>
+        </div>
+        <div class="grid-item chunky-clay gsap-card">
+          <img
+            src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=800&q=80"
+            alt="Fresh fruit"
+          />
+          <div class="grid-content">
+            <h4>Orchard Fruit</h4>
+            <p>Sun-ripened and picked at peak</p>
+          </div>
+        </div>
+        <div class="grid-item chunky-clay gsap-card">
+          <img
+            src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80"
+            alt="Artisan bread"
+          />
+          <div class="grid-content">
+            <h4>Daily Bakes</h4>
+            <p>Sourdough, rye, and ancient grains</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="story">
+      <div class="section-header">
+        <h2 class="gsap-reveal">Our Roots</h2>
+        <p class="gsap-reveal">
+          A decade of growing, cooking, and sharing — told through the people
+          and principles behind every plate.
+        </p>
+      </div>
+
+      <div class="story">
+        <div
+          class="story-image chunky-clay gsap-card"
+          style="background-image: url('https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800&q=80');"
+        ></div>
+
+        <div class="story-text gsap-reveal">
+          <h3>
+            Started with a question — <em>why should good food be
+            complicated?</em>
+          </h3>
+          <p>
+            In 2014, our founders — a chef and a farmer — began with a single
+            field and a simple promise: grow honestly, cook simply, share
+            generously.
+          </p>
+          <p>
+            Today, Natural works with over 120 local growers, bakers, and
+            makers. Every ingredient is traceable to its source. Every
+            recipe is tested in our own kitchen. Every bite is a small act
+            of trust.
+          </p>
+          <p>
+            We believe food should taste like where it came from. And we
+            hold ourselves to that, every single day.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="values">
+      <div class="section-header">
+        <h2 class="gsap-reveal">What We Stand For</h2>
+        <p class="gsap-reveal">
+          Four principles guide everything we grow, cook, and share.
+        </p>
+      </div>
+
+      <div class="values">
+        <div class="value-item chunky-clay gsap-card">
+          <span class="value-number">01</span>
+          <h4>Soil First</h4>
+          <p>
+            Regenerative farming practices that give back more than they
+            take. Healthy soil grows healthy food.
+          </p>
+        </div>
+        <div class="value-item chunky-clay gsap-card">
+          <span class="value-number">02</span>
+          <h4>Truly Seasonal</h4>
+          <p>
+            We don't force nature. What's ripe is what's on the menu. No
+            air-freighted out-of-season imports.
+          </p>
+        </div>
+        <div class="value-item chunky-clay gsap-card">
+          <span class="value-number">03</span>
+          <h4>Fair to Farmers</h4>
+          <p>
+            Every grower in our network is paid above market rate and
+            credited by name. Transparency, always.
+          </p>
+        </div>
+        <div class="value-item chunky-clay gsap-card">
+          <span class="value-number">04</span>
+          <h4>Zero Waste Kitchen</h4>
+          <p>
+            Scraps become stock. Peels become compost. What can't be used
+            goes back to the soil it came from.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="menu">
+      <div class="section-header">
+        <h2 class="gsap-reveal">This Week's Table</h2>
+        <p class="gsap-reveal">
+          A rotating selection of what's peaking right now — cooked simply,
+          served generously.
+        </p>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-card chunky-clay gsap-card">
+          <span class="menu-tag">Breakfast</span>
+          <h4>Heritage Grain Porridge</h4>
+          <p>
+            Stone-milled oats, orchard apple, toasted hazelnut, raw honey.
+          </p>
+          <span class="menu-price">$9</span>
+        </div>
+        <div class="menu-card chunky-clay gsap-card">
+          <span class="menu-tag">Lunch</span>
+          <h4>Root Cellar Bowl</h4>
+          <p>
+            Roasted beet, heirloom carrot, wild rice, tahini, micro greens.
+          </p>
+          <span class="menu-price">$16</span>
+        </div>
+        <div class="menu-card chunky-clay gsap-card">
+          <span class="menu-tag">Dinner</span>
+          <h4>Slow-Braised Greens</h4>
+          <p>
+            Market kale, white bean, preserved lemon, sourdough crumb.
+          </p>
+          <span class="menu-price">$22</span>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section about-platform-section" id="platform-info">
+      <nav class="breadcrumb liquid-glass" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="about.html">About</a><span aria-hidden="true">/</span><span aria-current="page">Platform information</span></nav>
+      <div class="section-header about-platform-heading"><div><span class="hero-eyebrow">About the platform</span><h2 class="gsap-reveal">Built for a better local food system.</h2></div><p class="gsap-reveal">Natural connects people with nearby growers, seasonal produce, and the people who make every market feel local.</p></div>
+      <div class="about-info-grid">
+        <article class="about-info-card liquid-glass clay-border gsap-card"><span class="info-card-icon">♣</span><h3>About Natural</h3><p>Natural is a calm, transparent way to discover local food. Our platform brings together market stories, seasonal produce, and practical information for everyday cooks.</p><div class="team-row" aria-label="FreshFind team"><span class="team-avatar">AM</span><span class="team-avatar">JR</span><span class="team-avatar">SK</span><span class="team-note">The people behind FreshFind</span></div></article>
+        <article class="about-info-card liquid-glass clay-border gsap-card live-card"><div class="live-card-heading"><span class="info-card-icon">◷</span><span class="live-pill">Live</span></div><h3>Local time &amp; market pulse</h3><p>Use your location to see which partner markets are open right now.</p><div class="live-data"><span class="live-label">Your local time</span><strong id="about-clock">--:--:--</strong></div><div class="live-data"><span class="live-label">Nearby markets</span><strong id="about-market-status">Enable location to check</strong></div><button class="about-action-button" id="about-location-button" type="button">Use my location</button></article>
+        <article class="about-info-card liquid-glass clay-border gsap-card visitor-card"><div class="live-card-heading"><span class="info-card-icon">♟</span><span class="live-pill soft">Today</span></div><h3>A growing community</h3><p>People discovering better food, one market visit at a time.</p><div class="visitor-number" id="about-visitor-count">1,248</div><span class="live-label">visitors exploring Natural today</span></article>
+        <article class="about-info-card liquid-glass clay-border gsap-card auth-card"><div class="live-card-heading"><span class="info-card-icon">↗</span><span class="live-pill soft">Preview</span></div><h3>Keep your fresh list close</h3><p>Save favourites and seasonal reminders with a future FreshFind account.</p><div class="auth-actions"><button type="button" class="about-action-button" data-auth-action="login">Log in</button><button type="button" class="about-action-button secondary" data-auth-action="signup">Sign up</button></div><small class="auth-note">Preview controls — no account is created.</small></article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 Natural. Grown with care.</p>
+      <div class="footer-links">
+        <a href="#story">Our Farms</a>
+        <a href="#values">Sourcing</a>
+        <a href="#menu">Recipes</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+  </main>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script src="about.js"></script>
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+</body>
+</html>

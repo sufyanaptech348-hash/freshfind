@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FreshFind | Dairy Farm Market Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../navbar.css">
+<link rel="stylesheet" href="../chat-widget.css">
+<link rel="stylesheet" href="../bookmark-widget.css">
+<style>
+:root{
+  /* Dairy palette — milk, butter, cream, honey */
+  --milk:#fbf6e9;
+  --cream:#f5ecd6;
+  --butter:#f4d97a;
+  --honey:#e8b74a;
+  --caramel:#c98b2a;
+  --cheddar:#b8761e;
+  --yogurt:#efe4c8;
+  --vanilla:#fbeecb;
+  --mocha:#8a6a3a;
+  --soft-white:#fffdf6;
+  --dark:#3a2a12;
+  --muted:#8a7448;
+}
+*{box-sizing:border-box}
+html{background:var(--cream)}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:transparent;
+  color:var(--dark);
+  overflow-x:hidden;
+}
+body.modal-open{overflow:hidden}
+
+/* ---------- VIDEO BACKGROUND ---------- */
+.video-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.video-bg video{width:100%;height:100%;object-fit:cover;display:block}
+.video-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(244,217,122,.22) 0%,
+    rgba(232,183,74,.10) 25%,
+    rgba(0,0,0,0)       48%,
+    rgba(251,246,233,.12) 72%,
+    rgba(201,139,42,.30) 100%);}
+@media (prefers-reduced-motion: reduce){
+  .video-bg{display:none}
+  body{background:linear-gradient(135deg,#fbeecb,#f4d97a 40%,#efe4c8 70%,#fffdf6);background-attachment:fixed}
+}
+
+/* ---------- LAYOUT ---------- */
+section.hero,.filters,main{position:relative;z-index:2}
+
+.hero{
+  padding:clamp(24px, 5vw, 60px) clamp(16px, 5vw, 7%) clamp(20px, 4vw, 40px);
+  background:transparent;
+}
+
+.hero-inner{
+  width:100%;
+  max-width:min(820px, 100%);
+  background:linear-gradient(145deg, rgba(255,253,246,.94), rgba(245,236,214,.90));
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  padding:clamp(20px, 4vw, 34px) clamp(18px, 4vw, 40px) clamp(18px, 3.5vw, 26px);
+  border-radius:clamp(18px, 3vw, 28px);
+  box-shadow:0 12px 40px rgba(201,139,42,.25), 0 0 0 1px rgba(232,183,74,.30) inset;
+  border:1px solid rgba(255,255,255,.65);
+  position:relative;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+/* ============================================================
+   SPRING PHYSICS HEADING — solid caramel gold
+   ============================================================ */
+.label{
+  display:block;
+  font-family:'DM Mono', monospace;
+  font-size:clamp(9px, 1.2vw, 10px);
+  font-weight:300;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:#a89670;
+  margin-bottom:clamp(10px, 1.6vw, 20px);
+}
+
+.text{
+  display:block;
+  font-family:'Instrument Serif', Georgia, serif;
+  font-size:clamp(26px, 7vw, 96px);
+  font-weight:400;
+  font-style:italic;
+  color:#b8761e;            /* solid cheddar gold */
+  letter-spacing:-0.025em;
+  line-height:1.08;
+  margin:0;
+  word-break:normal;
+  overflow-wrap:break-word;
+  hyphens:none;
+  max-width:100%;
+}
+
+.word{
+  display:inline-block;
+  white-space:nowrap;
+  max-width:100%;
+}
+
+.char{
+  display:inline-block;
+  white-space:pre;
+  opacity:0;
+  will-change:transform,opacity;
+  color:#b8761e;
+}
+
+.baseline{
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg,var(--cheddar),var(--caramel),var(--honey),var(--butter),var(--vanilla));
+  margin-top:clamp(10px, 2vw, 18px);
+  opacity:0.75;
+  border-radius:2px;
+}
+
+#replay{
+  margin-top:clamp(14px, 3vw, 28px);
+  padding:0;
+  background:none;
+  border:none;
+  font-family:'DM Mono', monospace;
+  font-size:clamp(10px, 1.3vw, 11px);
+  font-weight:300;
+  letter-spacing:0.12em;
+  color:var(--cheddar);
+  cursor:pointer;
+  text-transform:lowercase;
+  transition:opacity 0.2s;
+}
+#replay:hover{opacity:0.6}
+
+.hero p{
+  max-width:650px;
+  font-size:clamp(.92rem, 1.1vw, 1.05rem);
+  margin:clamp(10px, 2vw, 16px) 0 0;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+@media (max-width:400px){
+  .text{font-size:clamp(22px, 7.5vw, 34px)}
+  .hero{padding:18px 12px 14px}
+  .hero-inner{padding:16px 14px 14px;border-radius:16px}
+}
+
+/* ---------- FILTERS ---------- */
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;
+  padding:clamp(16px, 3vw, 25px) clamp(16px, 5vw, 7%);
+  background:linear-gradient(135deg, rgba(251,238,203,.95), rgba(245,236,214,.94) 50%, rgba(232,183,74,.35));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:6;border-bottom:2px solid rgba(201,139,42,.35)}
+label{font-size:.8rem;font-weight:800;margin-bottom:6px;display:block;color:var(--cheddar);letter-spacing:.02em}
+select,input{width:100%;padding:13px;border:2px solid rgba(201,139,42,.30);border-radius:12px;
+  background:rgba(255,255,255,.96);color:var(--dark);font-weight:600;transition:border-color .2s,box-shadow .2s}
+select:focus,input:focus{outline:none;border-color:var(--cheddar);box-shadow:0 0 0 3px rgba(201,139,42,.22)}
+
+main{padding:clamp(24px, 4vw, 35px) clamp(16px, 5vw, 7%)}
+.directory-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;
+  background:linear-gradient(135deg, rgba(255,253,246,.92), rgba(245,236,214,.88));
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:14px 20px;border-radius:20px;margin-bottom:6px;
+  border:1px solid rgba(201,139,42,.25);
+  box-shadow:0 6px 20px rgba(201,139,42,.12)}
+.directory-top h2{color:var(--cheddar);margin:0}
+#count{color:var(--honey);font-weight:800;text-shadow:0 1px 2px rgba(184,118,30,.15)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px, 3vw, 30px);margin-top:25px}
+
+/* ---------- CARDS (dairy-cream neumorphic) ---------- */
+.card{width:100%;min-height:400px;border-radius:50px;overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .25s ease,box-shadow .25s ease}
+
+/* Dairy — creamy vanilla / honey */
+.card.dairy{background:linear-gradient(145deg,#fff8dd,#ffeab0);
+  box-shadow:20px 20px 60px #d8cc96,-20px -20px 60px #ffffff}
+.card.dairy:hover{transform:translateY(-6px);box-shadow:24px 24px 70px #c8bc86,-24px -24px 70px #ffffff}
+
+/* Fruit — soft peach-cream (toned for dairy-page cohesion) */
+.card.fruit{background:linear-gradient(145deg,#fbeecb,#f2ddb0);
+  box-shadow:20px 20px 60px #d4c194,-20px -20px 60px #ffffff}
+.card.fruit:hover{transform:translateY(-6px);box-shadow:24px 24px 70px #c4b184,-24px -24px 70px #ffffff}
+
+/* Vegetable — pale butter-green */
+.card.vegetable{background:linear-gradient(145deg,#f4efd6,#dce3b0);
+  box-shadow:20px 20px 60px #bcc594,-20px -20px 60px #ffffff}
+.card.vegetable:hover{transform:translateY(-6px);box-shadow:24px 24px 70px #acb584,-24px -24px 70px #ffffff}
+
+.thumb{height:175px;background:#e8d8b0;overflow:hidden;cursor:pointer;border-radius:50px 50px 0 0}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.card:hover .thumb img{transform:scale(1.06)}
+.content{padding:22px 22px 28px;display:flex;flex-direction:column;flex:1}
+.content h2{margin:13px 0 7px;font-size:1.25rem}
+.card.dairy .content h2{color:#9c6b0a}
+.card.fruit .content h2{color:#a85a1a}
+.card.vegetable .content h2{color:#5a7a2a}
+.meta{color:#8a7448;font-size:.9rem;font-weight:500}
+
+.tag{display:inline-block;color:#fff;padding:6px 12px;border-radius:30px;
+  font-size:.72rem;font-weight:800;letter-spacing:.06em;align-self:flex-start}
+.card.dairy .tag{background:linear-gradient(135deg,#e8b74a,#b8761e);box-shadow:0 6px 14px rgba(184,118,30,.40)}
+.card.fruit .tag{background:linear-gradient(135deg,#f0c060,#c98b2a);box-shadow:0 6px 14px rgba(201,139,42,.35)}
+.card.vegetable .tag{background:linear-gradient(135deg,#d0c460,#8a7a2a);box-shadow:0 6px 14px rgba(138,122,42,.35)}
+
+.details{display:inline-block;margin-top:auto;padding-top:15px;font-weight:800;text-decoration:none;
+  background:none;border:0;font:inherit;font-weight:800;cursor:pointer;text-align:left}
+.card.dairy .details{color:var(--cheddar)}
+.card.fruit .details{color:var(--caramel)}
+.card.vegetable .details{color:#7a6a1e}
+.details:hover{text-decoration:underline}
+
+.empty{padding:35px;text-align:center;background:linear-gradient(145deg,#fff8dd,#ffeab0);
+  border-radius:50px;box-shadow:20px 20px 60px #d8cc96,-20px -20px 60px #ffffff;color:var(--cheddar);font-weight:700}
+
+/* ---------- DETAIL MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px}
+.modal[hidden]{display:none}
+.modal-backdrop{position:absolute;inset:0;
+  background:linear-gradient(135deg, rgba(184,118,30,.55), rgba(232,183,74,.45));
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadeIn .22s ease}
+.modal-card{position:relative;width:100%;max-width:820px;max-height:92vh;overflow-y:auto;
+  background:linear-gradient(180deg,#fffdf6 0%,#f9eed3 100%);
+  border-radius:24px;box-shadow:0 30px 80px rgba(184,118,30,.40);
+  border:2px solid rgba(201,139,42,.30);
+  animation:slideUp .28s cubic-bezier(.2,.8,.3,1);overscroll-behavior:contain}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.modal-close{position:absolute;top:14px;right:14px;z-index:3;width:40px;height:40px;border-radius:50%;
+  border:0;cursor:pointer;font-size:1.4rem;line-height:1;display:grid;place-items:center;
+  background:linear-gradient(135deg,#b8761e,#e8b74a);color:#fff;box-shadow:0 6px 16px rgba(184,118,30,.45)}
+.modal-close:hover{background:linear-gradient(135deg,#9a5f10,#c98b2a)}
+.modal-hero{height:250px;overflow:hidden;background:#e8d8b0}
+.modal-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.modal-body{padding:28px 30px 34px}
+.modal-body h2{margin:12px 0 6px;font-size:clamp(1.4rem,3.5vw,2rem);color:var(--cheddar)}
+.modal-body .lead{color:#4a3a1e;margin:0 0 20px;font-weight:500}
+
+.section-title{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--caramel);margin:26px 0 10px;
+  display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cheddar),var(--honey))}
+.section-title:first-of-type{margin-top:0}
+
+.location-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.location-info{display:flex;flex-direction:column;gap:12px}
+.location-info .k{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--caramel)}
+.location-info .v{margin-top:2px;font-size:.95rem;font-weight:600;color:var(--dark)}
+.map-wrap{border-radius:16px;overflow:hidden;border:2px solid rgba(201,139,42,.30);background:#f4ecd6;min-height:220px;
+  box-shadow:0 6px 18px rgba(184,118,30,.18)}
+.map-wrap iframe{width:100%;height:100%;min-height:220px;border:0;display:block}
+
+.schedule-table{width:100%;border-collapse:separate;border-spacing:0;background:#fffdf6;
+  border:2px solid rgba(201,139,42,.25);border-radius:16px;overflow:hidden}
+.schedule-table th,.schedule-table td{padding:12px 16px;text-align:left;font-size:.9rem;
+  border-bottom:1px solid rgba(201,139,42,.18)}
+.schedule-table th{background:linear-gradient(135deg,#fbeecb,#f4d97a);color:var(--cheddar);
+  font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.schedule-table tr:last-child td{border-bottom:0}
+.schedule-table td.day{font-weight:700;width:40%;color:var(--dark)}
+.schedule-table td.hours{color:var(--muted)}
+.schedule-table tr.closed td.hours{color:#c9b88a;font-style:italic}
+.schedule-table tr.closed td.day{color:#c9b88a}
+.schedule-table tr.open td.hours{color:var(--cheddar);font-weight:700}
+.schedule-table tr.open{background:linear-gradient(90deg, rgba(244,217,122,.55), rgba(255,253,246,.4))}
+.schedule-table tr:nth-child(even).closed{background:rgba(251,238,203,.45)}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-bottom:22px}
+.product-item{
+  background:linear-gradient(145deg,#fffdf6,#fbeecb);
+  border:1px solid rgba(201,139,42,.25);border-radius:16px;padding:14px 8px;
+  text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.product-item:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(184,118,30,.22);
+  background:linear-gradient(145deg,#fbeecb,#f4d97a)}
+.product-item .emoji{font-size:2rem;line-height:1}
+.product-item .name{font-size:.78rem;font-weight:700;color:var(--dark);text-align:center}
+
+.modal-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.btn{border:0;cursor:pointer;font:inherit;font-weight:800;padding:13px 20px;border-radius:30px;
+  text-decoration:none;display:inline-block;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+.btn-primary{background:linear-gradient(135deg,var(--cheddar),var(--honey));color:#fff;
+  box-shadow:0 8px 20px rgba(184,118,30,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(184,118,30,.45)}
+.btn-ghost{background:linear-gradient(135deg,#fbeecb,#f4d97a);color:var(--cheddar);
+  border:1px solid rgba(201,139,42,.35)}
+.btn-ghost:hover{background:linear-gradient(135deg,#f4d97a,#e8b74a);transform:translateY(-2px)}
+
+#modalTag{color:#fff;padding:6px 12px;border-radius:30px;font-size:.72rem;font-weight:800;letter-spacing:.06em}
+#modalTag.tag-dairy{background:linear-gradient(135deg,#e8b74a,#b8761e);box-shadow:0 6px 14px rgba(184,118,30,.35)}
+#modalTag.tag-fruit{background:linear-gradient(135deg,#f0c060,#c98b2a);box-shadow:0 6px 14px rgba(201,139,42,.35)}
+#modalTag.tag-vegetable{background:linear-gradient(135deg,#d0c460,#8a7a2a);box-shadow:0 6px 14px rgba(138,122,42,.35)}
+
+@media(max-width:760px){
+  .location-box{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  main{padding-left:16px;padding-right:16px}
+  .filters{padding:16px}
+  .modal{padding:0}
+  .modal-card{max-height:100vh;height:100%;border-radius:0}
+  .modal-hero{height:200px}
+  .modal-body{padding:22px}
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+}
+</style>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<div class="video-bg" aria-hidden="true">
+  <video id="bgVideo" autoplay muted loop playsinline preload="auto"
+         poster="https://placehold.co/1920x1080/c98b2a/ffffff?text=FreshFind">
+    <source src="../vids/directory/dairy.mp4" type="video/mp4" />
+  </video>
+</div>
+<div class="video-overlay" aria-hidden="true"></div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="label">spring physics</span>
+    <h1 class="text">Dairy Farm Market Directory</h1>
+    <div class="baseline"></div>
+    <button id="replay" type="button">↺ replay</button>
+    <p>Discover local dairy markets, fresh milk, artisan cheese, cream, and farm-fresh goods near you.</p>
+  </div>
+</section>
+
+<section class="filters">
+  <div><label for="area">Area / Neighborhood</label><select id="area"><option value="all">All areas</option></select></div>
+  <div><label for="day">Operating day</label><select id="day"><option value="all">Any day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+  <div><label for="produce">Produce type</label><select id="produce"><option value="all">All produce</option><option value="fruit">Fruit</option><option value="vegetable">Vegetable</option><option value="dairy">Dairy</option></select></div>
+  <div><label for="sort">Sort by</label><select id="sort"><option value="alpha">Alphabetically</option><option value="proximity">Proximity</option><option value="next">Next open day</option></select></div>
+</section>
+
+<main>
+  <div class="directory-top"><h2 id="heading">All Markets</h2><span id="count"></span></div>
+  <div id="markets" class="grid"></div>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close aria-label="Close market details">×</button>
+    <div class="modal-hero"><img id="modalImg" src="" alt="" /></div>
+    <div class="modal-body">
+      <span class="tag" id="modalTag"></span>
+      <h2 id="modalTitle"></h2>
+      <p class="lead" id="modalDesc"></p>
+
+      <p class="section-title">Location Details</p>
+      <div class="location-box">
+        <div class="location-info">
+          <div><div class="k">Address</div><div class="v" id="modalAddress"></div></div>
+          <div><div class="k">Area / Neighborhood</div><div class="v" id="modalArea"></div></div>
+          <div><div class="k">Distance</div><div class="v" id="modalDistance"></div></div>
+          <div><div class="k">Phone</div><div class="v" id="modalPhone"></div></div>
+        </div>
+        <div class="map-wrap">
+          <iframe id="modalMapFrame" src="" loading="lazy" allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade" title="Market location map"></iframe>
+        </div>
+      </div>
+
+      <p class="section-title">Weekly Schedule</p>
+      <table class="schedule-table" id="modalSchedule">
+        <thead><tr><th>Day</th><th>Hours</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <p class="section-title">Available Produce</p>
+      <div class="product-grid" id="modalProductsGrid"></div>
+
+      <div class="modal-actions">
+        <a class="btn btn-primary" id="modalCall" href="#">📞 Call market</a>
+        <a class="btn btn-ghost" id="modalMap" href="#" target="_blank" rel="noopener">📍 Get directions</a>
+        <button class="btn btn-ghost" type="button" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   SPRING PHYSICS HEADING — word-wrapped, replayable
+   ================================================================ */
+const TEXT = document.querySelector('.text');
+const BTN  = document.getElementById('replay');
+
+function split(el) {
+  const raw = el.textContent;
+  el.textContent = '';
+  const chars = [];
+  const tokens = raw.split(/(\s+)/);
+
+  tokens.forEach(token => {
+    if (!token) return;
+    if (/^\s+$/.test(token)) {
+      for (const ch of token) {
+        const s = document.createElement('span');
+        s.className = 'char';
+        s.textContent = ch;
+        el.appendChild(s);
+        chars.push(s);
+      }
+    } else {
+      const word = document.createElement('span');
+      word.className = 'word';
+      for (const ch of token) {
+        const s = document.createElement('span');
+        s.className = 'char';
+        s.textContent = ch;
+        word.appendChild(s);
+        chars.push(s);
+      }
+      el.appendChild(word);
+    }
+  });
+  return chars;
+}
+
+function run(fn){ fn(); BTN.onclick = fn; }
+
+function spring(s, target, k = 0.08, d = 0.72) {
+  s.vel += (target - s.pos) * k;
+  s.vel *= d;
+  s.pos += s.vel;
+  return Math.abs(s.vel) + Math.abs(target - s.pos) < 0.05;
+}
+
+let _raf = null, _cleanup = () => {};
+function loop(onTick, cleanup = () => {}) {
+  cancelAnimationFrame(_raf);
+  _cleanup(); _cleanup = cleanup;
+  function tick() { if (!onTick()) _raf = requestAnimationFrame(tick); }
+  _raf = requestAnimationFrame(tick);
+}
+
+function center_burst() {
+  const chars = split(TEXT);
+  const textRect = TEXT.getBoundingClientRect();
+  const cx = textRect.left + textRect.width / 2;
+  const offsets = chars.map(ch => {
+    const r = ch.getBoundingClientRect();
+    return (r.left + r.width / 2) - cx;
+  });
+  const xst = chars.map((_, i) => ({ pos: -offsets[i], vel: 0 }));
+  const yst = chars.map(() => ({ pos: (Math.random() - 0.5) * 40, vel: 0 }));
+  const ops = chars.map(() => ({ pos: 0, vel: 0 }));
+  loop(() => chars.every((ch, i) => {
+    const xd = spring(xst[i], 0, 0.07, 0.70);
+    const yd = spring(yst[i], 0, 0.09, 0.68);
+    spring(ops[i], 1, 0.08, 0.74);
+    ch.style.transform = `translate(${xst[i].pos}px, ${yst[i].pos}px)`;
+    ch.style.opacity   = ops[i].pos;
+    return xd && yd;
+  }));
+}
+
+run(center_burst);
+
+/* ================================================================
+   MARKET DIRECTORY DATA
+   ================================================================ */
+const markets=[
+{id:1,name:'Orchard Lane Fruit Market',area:'Clifton',days:['Friday','Saturday','Sunday'],hours:'8:00 AM – 5:00 PM',type:'fruit',distance:2.4,emoji:'🍎',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Orchard+Lane',description:'Seasonal fruit, citrus, berries, and orchard-fresh harvests.',
+ address:'12 Orchard Lane, Block 5, Clifton',phone:'+92 300 1234567',rating:4.8,established:2012,products:['Apples','Oranges','Strawberries','Grapes','Lemons']},
+{id:2,name:'Green Basket Vegetable Market',area:'Gulshan',days:['Tuesday','Thursday','Saturday'],hours:'7:00 AM – 4:00 PM',type:'vegetable',distance:4.1,emoji:'🥬',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Green+Basket',description:'Fresh leafy greens, seasonal vegetables, herbs, and farm produce.',
+ address:'45 Green Avenue, Block 6, Gulshan-e-Iqbal',phone:'+92 301 2345678',rating:4.6,established:2009,products:['Spinach','Tomatoes','Coriander','Potatoes','Cucumbers']},
+{id:3,name:'Golden Meadow Dairy Market',area:'DHA',days:['Wednesday','Friday','Sunday'],hours:'9:00 AM – 6:00 PM',type:'dairy',distance:5.2,emoji:'🥛',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Golden+Meadow',description:'Fresh milk, yogurt, butter, and locally produced dairy goods.',
+ address:'7 Meadow Road, Phase 5, DHA',phone:'+92 302 3456789',rating:4.9,established:2015,products:['Fresh Milk','Yogurt','Butter','Cream','Cheese']},
+{id:4,name:'Harvest Corner Farm Stand',area:'North Nazimabad',days:['Monday','Saturday'],hours:'8:00 AM – 3:00 PM',type:'vegetable',distance:7.3,emoji:'🥕',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Harvest+Corner',description:'Farm-grown vegetables and naturally cultivated seasonal produce.',
+ address:'88 Harvest Street, Block H, North Nazimabad',phone:'+92 303 4567890',rating:4.4,established:2011,products:['Carrots','Onions','Peas','Beetroot','Pumpkin']},
+{id:5,name:'Fresh Orchard Collective',area:'PECHS',days:['Thursday','Friday','Saturday'],hours:'8:30 AM – 5:30 PM',type:'fruit',distance:6.7,emoji:'🍊',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Fresh+Orchard',description:'Hand-picked seasonal fruits from local growers.',
+ address:'23 Orchard Plaza, Block 2, PECHS',phone:'+92 304 5678901',rating:4.7,established:2016,products:['Mangoes','Kiwis','Peaches','Plums','Berries']},
+{id:6,name:'Pure Pasture Dairy Hub',area:'Bahadurabad',days:['Tuesday','Sunday'],hours:'8:00 AM – 2:00 PM',type:'dairy',distance:3.8,emoji:'🧀',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Pure+Pasture',description:'Farm-fresh dairy products with simple, trusted ingredients.',
+ address:'5 Pasture Lane, Bahadurabad',phone:'+92 305 6789012',rating:4.5,established:2013,products:['Milk','Paneer','Ghee','Yogurt','Lassi']},
+{id:7,name:'Sunrise Berry Farm Stall',area:'Saddar',days:['Monday','Wednesday','Friday'],hours:'7:30 AM – 4:30 PM',type:'fruit',distance:1.9,emoji:'🍓',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Sunrise+Berry',description:'Sweet berries, stone fruit, and small-batch jams made on the farm.',
+ address:'19 Sunrise Road, Saddar',phone:'+92 306 7890123',rating:4.8,established:2018,products:['Strawberries','Blueberries','Raspberries','Jam','Cherries']},
+{id:8,name:'Root & Leaf Vegetable Yard',area:'F.B. Area',days:['Monday','Tuesday','Thursday','Saturday'],hours:'6:30 AM – 3:30 PM',type:'vegetable',distance:8.5,emoji:'🥦',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Root+%26+Leaf',description:'Crisp greens, root vegetables, and chemical-free produce delivered daily.',
+ address:'60 Root Street, Block 4, F.B. Area',phone:'+92 307 8901234',rating:4.3,established:2008,products:['Broccoli','Cauliflower','Lettuce','Radish','Kale']},
+{id:9,name:'Clover Dairy Barn',area:'Malir',days:['Wednesday','Saturday','Sunday'],hours:'9:00 AM – 7:00 PM',type:'dairy',distance:11.2,emoji:'🐄',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Clover+Dairy',description:'Grass-fed milk, cream, and handmade cheeses from a family dairy.',
+ address:'101 Clover Road, Malir Cantt',phone:'+92 308 9012345',rating:4.7,established:2014,products:['Milk','Cream','Cheddar','Mozzarella','Butter']},
+{id:10,name:'Mango Grove Market',area:'Korangi',days:['Friday','Saturday','Sunday'],hours:'9:00 AM – 6:00 PM',type:'fruit',distance:9.4,emoji:'🥭',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Mango+Grove',description:'Peak-season mangoes, guavas, and tropical fruit straight from the grove.',
+ address:'14 Mango Grove, Korangi No. 5',phone:'+92 309 0123456',rating:4.9,established:2017,products:['Sindhri Mangoes','Chaunsa','Guavas','Papaya','Bananas']},
+{id:11,name:'Terra Verde Farmers Market',area:'Scheme 33',days:['Sunday'],hours:'7:00 AM – 1:00 PM',type:'vegetable',distance:12.8,emoji:'🌽',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Terra+Verde',description:'Weekly market with sweet corn, squash, tomatoes, and artisan growers.',
+ address:'3 Terra Verde Lane, Scheme 33',phone:'+92 310 1234567',rating:4.6,established:2019,products:['Sweet Corn','Squash','Tomatoes','Zucchini','Peppers']},
+{id:12,name:'Willow Creek Creamery',area:'Garden East',days:['Monday','Thursday'],hours:'10:00 AM – 6:00 PM',type:'dairy',distance:5.9,emoji:'🧈',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Willow+Creek',description:'Small-batch butter, yogurt, and fresh paneer made every morning.',
+ address:'27 Willow Creek, Garden East',phone:'+92 311 2345678',rating:4.8,established:2020,products:['Butter','Yogurt','Paneer','Cream Cheese','Kefir']},
+{id:13,name:'Vine & Stone Fruit Stand',area:'Tariq Road',days:['Tuesday','Friday','Saturday'],hours:'8:00 AM – 5:00 PM',type:'fruit',distance:4.6,emoji:'🍇',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Vine+%26+Stone',description:'Grapes, figs, pomegranates, and dried fruit from local vineyards.',
+ address:'52 Vine Street, Tariq Road',phone:'+92 312 3456789',rating:4.5,established:2010,products:['Grapes','Figs','Pomegranates','Dates','Dried Apricots']},
+{id:14,name:'Blue Hen Poultry & Dairy',area:'Nazimabad',days:['Monday','Wednesday','Sunday'],hours:'8:00 AM – 4:00 PM',type:'dairy',distance:6.3,emoji:'🥚',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Blue+Hen',description:'Free-range eggs, fresh milk, and farm dairy in one convenient stop.',
+ address:'36 Blue Hen Lane, Block 2, Nazimabad',phone:'+92 313 4567890',rating:4.4,established:2012,products:['Free-range Eggs','Milk','Yogurt','Chicken','Butter']},
+{id:15,name:'Coastal Citrus Grove',area:'Defence Phase 2',days:['Wednesday','Saturday','Sunday'],hours:'8:00 AM – 6:00 PM',type:'fruit',distance:8.1,emoji:'🍋',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Coastal+Citrus',description:'Bright citrus, limes, and tropical fruit grown along the coastal belt.',
+ address:'14 Coastal Road, Defence Phase 2',phone:'+92 314 5678901',rating:4.7,established:2016,products:['Limes','Grapefruit','Oranges','Lemons','Tangerines']},
+{id:16,name:'Herb Haven Garden Market',area:'Clifton Block 2',days:['Tuesday','Friday','Sunday'],hours:'7:30 AM – 3:30 PM',type:'vegetable',distance:2.9,emoji:'🌿',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Herb+Haven',description:'Fragrant herbs, microgreens, and specialty salad vegetables.',
+ address:'8 Garden Court, Clifton Block 2',phone:'+92 315 6789012',rating:4.6,established:2020,products:['Basil','Mint','Rosemary','Microgreens','Arugula']},
+{id:17,name:'Alpine Dairy Fresh',area:'Federal B Area',days:['Monday','Wednesday','Friday'],hours:'9:00 AM – 5:00 PM',type:'dairy',distance:7.8,emoji:'🥛',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Alpine+Dairy',description:'Chilled alpine-style dairy with fresh milk, curd, and flavored yogurt.',
+ address:'29 Alpine Street, Block 12, F.B. Area',phone:'+92 316 7890123',rating:4.8,established:2018,products:['Milk','Curd','Flavored Yogurt','Butter','Cream']},
+{id:18,name:'Tropical Paradise Fruit Stand',area:'Gulistan-e-Johar',days:['Thursday','Saturday','Sunday'],hours:'8:30 AM – 5:00 PM',type:'fruit',distance:10.5,emoji:'🍍',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Tropical+Paradise',description:'Pineapples, coconuts, dragon fruit, and exotic tropical treats.',
+ address:'77 Paradise Lane, Block 15, Gulistan-e-Johar',phone:'+92 317 8901234',rating:4.5,established:2021,products:['Pineapples','Coconuts','Dragon Fruit','Lychees','Passion Fruit']},
+{id:19,name:'Organic Roots Vegetable Farm',area:'Shah Faisal',days:['Monday','Thursday','Saturday'],hours:'6:30 AM – 2:30 PM',type:'vegetable',distance:9.9,emoji:'🥔',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Organic+Roots',description:'Certified organic vegetables grown without pesticides or chemicals.',
+ address:'5 Organic Way, Block 3, Shah Faisal Colony',phone:'+92 318 9012345',rating:4.7,established:2015,products:['Sweet Potatoes','Turnips','Ginger','Garlic','Green Beans']},
+{id:20,name:'Morning Fresh Dairy Co-op',area:'Landhi',days:['Tuesday','Wednesday','Sunday'],hours:'7:00 AM – 4:00 PM',type:'dairy',distance:13.4,emoji:'🧀',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Morning+Fresh',description:'A farmer-owned co-op offering fresh dairy at fair prices every morning.',
+ address:'110 Co-op Road, Landhi No. 6',phone:'+92 319 0123456',rating:4.6,established:2013,products:['Milk','Yogurt','Cheese','Butter','Cottage Cheese']},
+{id:21,name:'Whispering Pines Berry Farm',area:'DHA Phase 6',days:['Monday','Wednesday','Saturday'],hours:'8:00 AM – 4:00 PM',type:'fruit',distance:7.1,emoji:'🫐',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Whispering+Pines',description:'Woodland berries picked fresh daily, including rare varieties from the pines.',
+ address:'18 Pine Trail, DHA Phase 6',phone:'+92 320 1234567',rating:4.9,established:2019,products:['Blackberries','Gooseberries','Mulberries','Currants','Elderberries']},
+{id:22,name:'Highland Creamery & Cheese',area:'Clifton Block 9',days:['Tuesday','Friday','Sunday'],hours:'9:30 AM – 5:30 PM',type:'dairy',distance:3.2,emoji:'🧀',image:'https://placehold.co/600x400/c98b2a/ffffff?text=Highland+Creamery',description:'Artisan cheeses and creamery treats handcrafted from highland pasture milk.',
+ address:'22 Highland Terrace, Clifton Block 9',phone:'+92 321 2345678',rating:4.8,established:2021,products:['Feta','Ricotta','Halloumi','Buttermilk','Heavy Cream']}
+];
+
+const productEmoji = {
+  'Apples':'🍎','Oranges':'🍊','Strawberries':'🍓','Grapes':'🍇','Lemons':'🍋',
+  'Spinach':'🥬','Tomatoes':'🍅','Coriander':'🌿','Potatoes':'🥔','Cucumbers':'🥒',
+  'Fresh Milk':'🥛','Yogurt':'🥣','Butter':'🧈','Cream':'🍶','Cheese':'🧀',
+  'Carrots':'🥕','Onions':'🧅','Peas':'🫛','Beetroot':'🫒','Pumpkin':'🎃',
+  'Mangoes':'🥭','Kiwis':'🥝','Peaches':'🍑','Plums':'🍑','Berries':'🫐',
+  'Milk':'🥛','Paneer':'🧀','Ghee':'🧈','Lassi':'🥛',
+  'Blueberries':'🫐','Raspberries':'🍓','Jam':'🍯','Cherries':'🍒',
+  'Broccoli':'🥦','Cauliflower':'🥦','Lettuce':'🥬','Radish':'🥕','Kale':'🥬',
+  'Cheddar':'🧀','Mozzarella':'🧀',
+  'Sindhri Mangoes':'🥭','Chaunsa':'🥭','Guavas':'🍈','Papaya':'🍈','Bananas':'🍌',
+  'Sweet Corn':'🌽','Squash':'🎃','Zucchini':'🥒','Peppers':'🌶️',
+  'Cream Cheese':'🧀','Kefir':'🥛',
+  'Figs':'🍈','Pomegranates':'🍎','Dates':'🌴','Dried Apricots':'🍑',
+  'Free-range Eggs':'🥚','Chicken':'🍗',
+  'Limes':'🍋','Grapefruit':'🍊','Tangerines':'🍊',
+  'Basil':'🌿','Mint':'🌿','Rosemary':'🌿','Microgreens':'🥬','Arugula':'🥬',
+  'Curd':'🥣','Flavored Yogurt':'🥣',
+  'Pineapples':'🍍','Coconuts':'🥥','Dragon Fruit':'🐉','Lychees':'🍒','Passion Fruit':'🍈',
+  'Sweet Potatoes':'🍠','Turnips':'🥬','Ginger':'🫚','Garlic':'🧄','Green Beans':'🫛',
+  'Cottage Cheese':'🧀',
+  'Blackberries':'🫐','Gooseberries':'🫐','Mulberries':'🫐','Currants':'🍇','Elderberries':'🫐',
+  'Feta':'🧀','Ricotta':'🧀','Halloumi':'🧀','Buttermilk':'🥛','Heavy Cream':'🍶'
+};
+
+const $ = id => document.getElementById(id);
+const areaSelect = $('area');
+const daySelect = $('day');
+const produceSelect = $('produce');
+const sortSelect = $('sort');
+
+/* ---- Default filter: DAIRY for this page ---- */
+const params = new URLSearchParams(location.search);
+const forcedProduce = params.get('type') || 'dairy';
+if (['fruit','vegetable','dairy'].includes(forcedProduce)) {
+  produceSelect.value = forcedProduce;
+  produceSelect.disabled = true;
+}
+
+function getFilteredMarkets(ignoreArea = false) {
+  return markets.filter(m => {
+    if (!ignoreArea && areaSelect.value !== 'all' && m.area !== areaSelect.value) return false;
+    if (daySelect.value !== 'all' && !m.days.includes(daySelect.value)) return false;
+    if (produceSelect.value !== 'all' && m.type !== produceSelect.value) return false;
+    return true;
+  });
+}
+
+function populateAreas() {
+  const current = areaSelect.value;
+  const relevant = markets.filter(m => {
+    if (daySelect.value !== 'all' && !m.days.includes(daySelect.value)) return false;
+    if (produceSelect.value !== 'all' && m.type !== produceSelect.value) return false;
+    return true;
+  });
+  const areas = [...new Set(relevant.map(m => m.area))].sort();
+  areaSelect.innerHTML = '<option value="all">All areas</option>';
+  areas.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a;
+    opt.textContent = a;
+    areaSelect.appendChild(opt);
+  });
+  areaSelect.value = areas.includes(current) ? current : 'all';
+}
+
+function render() {
+  const list = getFilteredMarkets();
+  if (sortSelect.value === 'alpha') list.sort((a,b) => a.name.localeCompare(b.name));
+  if (sortSelect.value === 'proximity') list.sort((a,b) => a.distance - b.distance);
+  if (sortSelect.value === 'next') list.sort((a,b) => a.days[0].localeCompare(b.days[0]));
+
+  $('heading').textContent =
+    produceSelect.value === 'all' ? 'All Markets'
+    : produceSelect.value.charAt(0).toUpperCase() + produceSelect.value.slice(1) + ' Markets';
+  $('count').textContent = `${list.length} market${list.length === 1 ? '' : 's'}`;
+
+  const container = $('markets');
+  if (!list.length) {
+    container.innerHTML = '<div class="empty">No markets match your selected filters.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(m => `
+    <article class="card ${m.type}">
+      <div class="thumb" data-open="${m.id}" role="button" tabindex="0" aria-label="View details for ${m.name}">
+        <img src="${m.image}" alt="${m.name}" loading="lazy">
+      </div>
+      <div class="content">
+        <span class="tag">${m.type.toUpperCase()}</span>
+        <h2>${m.name}</h2>
+        <div class="meta">📍 ${m.area}</div>
+        <div class="meta">📅 ${m.days.join(', ')}</div>
+        <div class="meta">🕒 ${m.hours}</div>
+        <p>${m.description}</p>
+        <button class="details" type="button" data-open="${m.id}">View market details ↗</button>
+      </div>
+    </article>
+  `).join('');
+}
+
+const modal = $('modal');
+const modalImg = $('modalImg');
+const modalTag = $('modalTag');
+const modalTitle = $('modalTitle');
+const modalDesc = $('modalDesc');
+const modalAddress = $('modalAddress');
+const modalArea = $('modalArea');
+const modalDistance = $('modalDistance');
+const modalPhone = $('modalPhone');
+const modalMapFrame = $('modalMapFrame');
+const modalSchedule = $('modalSchedule');
+const modalProductsGrid = $('modalProductsGrid');
+const modalCall = $('modalCall');
+const modalMap = $('modalMap');
+let lastFocused = null;
+
+const ALL_DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+function fillModal(m) {
+  modalImg.src = m.image;
+  modalImg.alt = m.name;
+  modalTag.textContent = m.type.toUpperCase();
+  modalTag.className = 'tag tag-' + m.type;
+  modalTitle.textContent = m.name;
+  modalDesc.textContent = m.description;
+  modalAddress.textContent = m.address || '—';
+  modalArea.textContent = m.area;
+  modalDistance.textContent = `${m.distance.toFixed(1)} km away`;
+  modalPhone.textContent = m.phone || '—';
+
+  const mapQuery = encodeURIComponent(m.address || m.area);
+  modalMapFrame.src = `https://maps.google.com/maps?q=${mapQuery}&output=embed`;
+
+  const tbody = modalSchedule.querySelector('tbody');
+  tbody.innerHTML = ALL_DAYS.map(day => {
+    const isOpen = m.days.includes(day);
+    return `<tr class="${isOpen ? 'open' : 'closed'}">
+      <td class="day">${day}</td>
+      <td class="hours">${isOpen ? m.hours : 'Closed'}</td>
+    </tr>`;
+  }).join('');
+
+  modalProductsGrid.innerHTML = (m.products || []).map(p => {
+    const emoji = productEmoji[p] || '🧺';
+    return `<div class="product-item">
+      <div class="emoji">${emoji}</div>
+      <div class="name">${p}</div>
+    </div>`;
+  }).join('');
+
+  const tel = (m.phone || '').replace(/[^\d+]/g, '');
+  modalCall.href = tel ? `tel:${tel}` : '#';
+  modalCall.style.display = tel ? '' : 'none';
+  const query = encodeURIComponent(`${m.name}, ${m.address || m.area}`);
+  modalMap.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+function openDetail(id, push = true) {
+  const m = markets.find(x => x.id === Number(id));
+  if (!m) return;
+  fillModal(m);
+  lastFocused = document.activeElement;
+  modal.hidden = false;
+  document.body.classList.add('modal-open');
+  $('modal').querySelector('.modal-close').focus();
+  if (push && location.hash !== `#market-${m.id}`) {
+    history.pushState({ market: m.id }, '', `#market-${m.id}`);
+  }
+}
+
+function closeDetail(push = true) {
+  if (modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove('modal-open');
+  if (push && location.hash.startsWith('#market-')) {
+    history.pushState(null, '', location.pathname + location.search);
+  }
+  if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+}
+
+document.addEventListener('click', e => {
+  const trigger = e.target.closest('[data-open]');
+  if (trigger) {
+    e.preventDefault();
+    openDetail(trigger.dataset.open);
+    return;
+  }
+  if (e.target.closest('[data-close]')) {
+    e.preventDefault();
+    closeDetail();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !modal.hidden) { closeDetail(); return; }
+  const trigger = e.target.closest?.('.thumb[data-open]');
+  if (trigger && (e.key === 'Enter' || e.key === ' ')) {
+    e.preventDefault();
+    openDetail(trigger.dataset.open);
+  }
+});
+
+modal.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const focusables = modal.querySelectorAll('button, a[href], iframe, [tabindex]:not([tabindex="-1"])');
+  const list = [...focusables].filter(el => el.offsetParent !== null);
+  if (!list.length) return;
+  const first = list[0], last = list[list.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+function syncFromHash() {
+  const match = location.hash.match(/^#market-(\d+)$/);
+  if (match) openDetail(match[1], false);
+  else closeDetail(false);
+}
+window.addEventListener('popstate', syncFromHash);
+window.addEventListener('hashchange', syncFromHash);
+
+areaSelect.addEventListener('change', render);
+daySelect.addEventListener('change', () => { populateAreas(); render(); });
+produceSelect.addEventListener('change', () => { populateAreas(); render(); });
+sortSelect.addEventListener('change', render);
+
+populateAreas();
+render();
+syncFromHash();
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+
+  
+  <script src="../navbar.js"></script>
+  <script src="../chat-widget.js"></script>
+<script src="../bookmark-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,7 +1,23 @@
-﻿
-
 (function () {
   'use strict';
+
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js-enabled';
+
+  
+  var revealElements = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    revealElements.forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    revealElements.forEach(function(el){ el.classList.add('is-visible'); });
+  }
 
   
   var DATA = window.FRESHFIND_MARKET_DATA || { DAYS:[], WEEK_ORDER:[], SHORT_DAY:{}, markets:[] };
@@ -50,7 +66,6 @@
   var chatForm = document.getElementById('chatForm');
   var chatInput = document.getElementById('chatInput');
 
-  
   function ffb(){ return window.FreshFindBookmarks || null; }
   function ffbId(m){ return 'market:find:' + m.id; }
   function findMarket(id){
@@ -60,15 +75,14 @@
   function bookmarkEntry(m){
     return {
       id: ffbId(m), kind: 'market', title: m.name,
-      meta: [m.location, formatTime(m.open) + 'â€“' + formatTime(m.close)]
-        .filter(Boolean).join(' Â· ')
+      meta: [m.location, formatTime(m.open) + '–' + formatTime(m.close)]
+        .filter(Boolean).join(' · ')
     };
   }
   function isBookmarked(m){
     var api = ffb();
     return !!(api && m && api.has(ffbId(m)));
   }
-  
   function repaintHearts(){
     var btns = document.querySelectorAll('.save-btn');
     for (var i = 0; i < btns.length; i++){
@@ -77,7 +91,7 @@
       var on = isBookmarked(m);
       btns[i].classList.toggle('is-saved', on);
       btns[i].setAttribute('aria-pressed', String(on));
-      btns[i].textContent = on ? 'â™¥' : 'â™¡';
+      btns[i].textContent = on ? '♥' : '♡';
       btns[i].setAttribute('aria-label', (on ? 'Remove bookmark for ' : 'Bookmark ') + m.name);
     }
   }
@@ -151,7 +165,7 @@
     if (state.userLocation) {
       distance = '<span class="distance">' + formatDistance(haversine(state.userLocation,m)) + '</span>';
     }
-    var dayLabels = m.days.map(function(d){ return SHORT_DAY[d]; }).join(' Â· ');
+    var dayLabels = m.days.map(function(d){ return SHORT_DAY[d]; }).join(' · ');
     var tags = m.produce.slice(0,3).map(function(t){ return '<li class="tag">' + t + '</li>'; }).join('');
 
     return '' +
@@ -166,14 +180,14 @@
             '<button class="save-btn' + (saved ? ' is-saved' : '') + '" type="button"' +
               ' data-id="' + m.id + '" aria-pressed="' + saved + '"' +
               ' aria-label="' + (saved ? 'Remove' : 'Save') + ' ' + m.name + '">' +
-              (saved ? 'â™¥' : 'â™¡') +
+              (saved ? '♥' : '♡') +
             '</button>' +
           '</div>' +
           '<div class="mc-meta">' +
             '<span class="status ' + (open ? 'is-open' : 'is-closed') + '">' +
               (open ? 'Open now' : 'Closed') +
             '</span>' +
-            '<span class="mc-hours">' + formatTime(m.open) + 'â€“' + formatTime(m.close) + '</span>' +
+            '<span class="mc-hours">' + formatTime(m.open) + '–' + formatTime(m.close) + '</span>' +
           '</div>' +
           '<p class="mc-days">' + dayLabels + '</p>' +
           '<ul class="tags">' + tags + '</ul>' +
@@ -186,11 +200,14 @@
   }
 
   function renderMarkets(list){
+    if (!marketGrid) return;
     marketGrid.innerHTML = list.map(createMarketCard).join('');
     marketGrid.hidden = list.length === 0;
-    emptyState.hidden = list.length !== 0;
-    resultCount.innerHTML = (list.length === 1 ? '1 market' : list.length + ' markets') +
-      '<small>Demo data â€” sample markets for illustration</small>';
+    if (emptyState) emptyState.hidden = list.length !== 0;
+    if (resultCount) {
+      resultCount.innerHTML = (list.length === 1 ? '1 market' : list.length + ' markets') +
+        '<small>Demo data — sample markets for illustration</small>';
+    }
   }
 
   function render(){
@@ -199,11 +216,10 @@
     updateMap(list);
   }
 
-  
   var map = null, markers = [], userMarker = null;
   var mapsReady = false, mapTimer = null;
 
-  function setMapFallback(msg){ mapFallbackText.textContent = msg; mapFallback.hidden = false; }
+  function setMapFallback(msg){ if (mapFallbackText) mapFallbackText.textContent = msg; if (mapFallback) mapFallback.hidden = false; }
 
   function popupHtml(m){
     return '<div class="freshfind-popup">' +
@@ -233,7 +249,7 @@
     }).addTo(map);
 
     mapsReady = true;
-    mapFallback.hidden = true;
+    if (mapFallback) mapFallback.hidden = true;
 
     if (state.userLocation) placeUserMarker(state.userLocation);
     updateMap(getFilteredMarkets());
@@ -324,14 +340,14 @@
       locNote.textContent = 'This browser does not support location services.';
       return;
     }
-    locNote.textContent = 'Getting your locationâ€¦';
+    locNote.textContent = 'Getting your location…';
     locateBtn.disabled = true;
 
     navigator.geolocation.getCurrentPosition(
       function(pos){
         locateBtn.disabled = false;
         state.userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        locNote.textContent = 'Location found â€” showing the markets nearest to you.';
+        locNote.textContent = 'Location found — showing the markets nearest to you.';
         state.sort = 'nearest'; sortSelect.value = 'nearest';
         placeUserMarker(state.userLocation);
         if (mapsReady && map) map.setView([state.userLocation.lat, state.userLocation.lng], 12);
@@ -340,7 +356,7 @@
       function(err){
         locateBtn.disabled = false;
         locNote.textContent = err.code === 1
-          ? 'Location permission denied â€” you can still search by area below.'
+          ? 'Location permission denied — you can still search by area below.'
           : 'We could not get your location right now. Try searching by area instead.';
       },
       { enableHighAccuracy:false, timeout:8000, maximumAge:600000 }
@@ -367,7 +383,7 @@
       var openToday = m.days.indexOf(d) !== -1;
       return '<li class="' + (openToday ? 'is-open' : '') + '">' +
         '<span>' + d + '</span>' +
-        '<span>' + (openToday ? formatTime(m.open) + ' â€“ ' + formatTime(m.close) : 'Closed') + '</span>' +
+        '<span>' + (openToday ? formatTime(m.open) + ' – ' + formatTime(m.close) : 'Closed') + '</span>' +
       '</li>';
     }).join('');
 
@@ -398,36 +414,38 @@
 
   var searchDebounce = null;
 
-  searchInput.addEventListener('input', function(){
-    if (searchDebounce) clearTimeout(searchDebounce);
-    searchDebounce = setTimeout(function(){
-      state.query = searchInput.value.trim(); render();
-    }, 220);
-  });
-  searchInput.addEventListener('keydown', function(e){
-    if (e.key === 'Enter') {
-      e.preventDefault();
+  if (searchInput) {
+    searchInput.addEventListener('input', function(){
       if (searchDebounce) clearTimeout(searchDebounce);
-      state.query = searchInput.value.trim(); render();
-    }
-  });
-  searchBtn.addEventListener('click', function(){
+      searchDebounce = setTimeout(function(){
+        state.query = searchInput.value.trim(); render();
+      }, 220);
+    });
+    searchInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (searchDebounce) clearTimeout(searchDebounce);
+        state.query = searchInput.value.trim(); render();
+      }
+    });
+  }
+  if (searchBtn) searchBtn.addEventListener('click', function(){
     if (searchDebounce) clearTimeout(searchDebounce);
     state.query = searchInput.value.trim(); render();
   });
-  areaFilter.addEventListener('change', function(){ state.area = areaFilter.value; render(); });
-  dayFilter.addEventListener('change', function(){ state.day = dayFilter.value; render(); });
-  produceFilter.addEventListener('change', function(){ state.produce = produceFilter.value; render(); });
-  sortSelect.addEventListener('change', function(){
+  if (areaFilter) areaFilter.addEventListener('change', function(){ state.area = areaFilter.value; render(); });
+  if (dayFilter) dayFilter.addEventListener('change', function(){ state.day = dayFilter.value; render(); });
+  if (produceFilter) produceFilter.addEventListener('change', function(){ state.produce = produceFilter.value; render(); });
+  if (sortSelect) sortSelect.addEventListener('change', function(){
     state.sort = sortSelect.value;
     if (state.sort === 'nearest' && !state.userLocation) {
       locNote.textContent = 'Allow location access to sort markets by distance.';
     }
     render();
   });
-  locateBtn.addEventListener('click', useMyLocation);
+  if (locateBtn) locateBtn.addEventListener('click', useMyLocation);
 
-  quickRow.addEventListener('click', function(e){
+  if (quickRow) quickRow.addEventListener('click', function(e){
     var pill = e.target.closest('.pill');
     if (!pill) return;
     state.quick = pill.getAttribute('data-quick');
@@ -437,7 +455,7 @@
     render();
   });
 
-  resetFilters.addEventListener('click', function(){
+  if (resetFilters) resetFilters.addEventListener('click', function(){
     state.query = ''; state.area = 'all'; state.day = 'all';
     state.produce = 'all'; state.quick = 'all'; state.sort = 'az';
     searchInput.value = ''; areaFilter.value = 'all';
@@ -449,14 +467,14 @@
     render();
   });
 
-  marketGrid.addEventListener('click', function(e){
+  if (marketGrid) marketGrid.addEventListener('click', function(e){
     var sb = e.target.closest('.save-btn');
     if (sb) { toggleSave(sb.getAttribute('data-id'), sb); return; }
     var vb = e.target.closest('[data-view]');
     if (vb) openMarketModal(vb.getAttribute('data-view'));
   });
 
-  modal.addEventListener('click', function(e){
+  if (modal) modal.addEventListener('click', function(e){
     if (e.target.closest('[data-close]')) closeMarketModal();
   });
 
@@ -470,7 +488,7 @@
     { test:/(open|opening|hours|closing|close|timing|what time)/i,
       reply:"Each market card shows its opening hours and operating days. Markets marked 'Open now' are trading at this moment, and you can sort by 'Open first' to see them at the top." },
     { test:/(save|saved|favourite|favorite|bookmark)/i,
-      reply:"Tap the ðŸ”– on any market, produce guide entry or seasonal pick to save it. Your bookmarks are kept in one list where you can add a personal note, export the list as text, and share it on social." },
+      reply:"Tap the 🔖 on any market, produce guide entry or seasonal pick to save it. Your bookmarks are kept in one list where you can add a personal note, export the list as text, and share it on social." },
     { test:/(contact|email|reach|get in touch|phone)/i,
       reply:"You can reach FreshFind at hello@freshfind.example." },
     { test:/(find|near me|nearby|where|location|map|direction|market|markets|stall)/i,
@@ -511,40 +529,28 @@
     chatPanel.setAttribute('aria-hidden', 'true');
     chatFab.setAttribute('aria-expanded', 'false');
   }
-  chatFab.addEventListener('click', function(){
+  if (chatFab) chatFab.addEventListener('click', function(){
     if (chatPanel.classList.contains('is-open')) closeChat(); else openChat();
   });
-  chatClose.addEventListener('click', closeChat);
-  chatQuick.addEventListener('click', function(e){
+  if (chatClose) chatClose.addEventListener('click', closeChat);
+  if (chatQuick) chatQuick.addEventListener('click', function(e){
     var btn = e.target.closest('button');
     if (btn) sendChatMessage(btn.textContent);
   });
-  chatForm.addEventListener('submit', function(e){
+  if (chatForm) chatForm.addEventListener('submit', function(e){
     e.preventDefault();
     sendChatMessage(chatInput.value);
   });
 
   document.addEventListener('keydown', function(e){
     if (e.key !== 'Escape') return;
-    if (modal.classList.contains('is-open')) closeMarketModal();
-    if (chatPanel.classList.contains('is-open')) closeChat();
+    if (modal && modal.classList.contains('is-open')) closeMarketModal();
+    if (chatPanel && chatPanel.classList.contains('is-open')) closeChat();
   });
 
-  if ('IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
-    document.querySelectorAll('[data-reveal]').forEach(function(el){ revealObserver.observe(el); });
-  } else {
-    document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-visible'); });
-  }
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  document.getElementById('year').textContent = new Date().getFullYear();
   render();
   loadLeaflet();
 

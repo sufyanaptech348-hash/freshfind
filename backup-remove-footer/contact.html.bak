@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Fresh Farm Brand</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="contact.css">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+    
+    <video class="background-video" autoplay loop muted playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
+        <source src="vids/colorflow-animation%20(3).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    
+    <div class="background-overlay"></div>
+
+    
+    <div class="bg-particle mint" style="top: 10%; left: 5%; font-size: 24px;"><i class="fas fa-leaf"></i></div>
+    <div class="bg-particle sky" style="top: 70%; left: 85%; font-size: 32px;"><i class="fas fa-seedling"></i></div>
+    <div class="bg-particle mint" style="top: 40%; left: 90%; font-size: 20px;"><i class="fas fa-leaf"></i></div>
+    <div class="bg-particle sky" style="top: 85%; left: 15%; font-size: 28px;"><i class="fas fa-seedling"></i></div>
+    <div class="bg-particle mint" style="top: 20%; left: 75%; font-size: 18px;"><i class="fas fa-leaf"></i></div>
+
+    <div class="dashboard" id="dashboard">
+        
+        <div class="card-stack hero-stack" id="stack-hero">
+            <div class="card">
+                <video class="hero-video" autoplay loop muted playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
+                    <source src="vids/8541069-hd_1080_1920_30fps.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <div class="video-overlay">
+                    <h1 class="hero-title text-reveal">Let's Grow <span>Together</span></h1>
+                    <p class="hero-sub text-reveal">Have a question about our farm, products, or delivery? We'd love to hear from you.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-stack form-stack" id="stack-form">
+            <div class="card">
+                <div class="form-header">
+                    <h3>Contact Our Farm Team</h3>
+                    <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+                </div>
+                
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" placeholder="+92 300 1234567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" placeholder="Tell us how we can help you..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-send" id="btn-send">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card-stack info-stack" id="stack-visit">
+            <div class="card">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h4>Visit Us</h4>
+                <p>123 Green Valley Farm<br>Punjab, Pakistan</p>
+            </div>
+        </div>
+
+        <div class="card-stack info-stack location-stack" id="stack-location">
+            <div class="card">
+                <div class="info-icon"><i class="fas fa-location-crosshairs"></i></div>
+                <h4>Find Us Nearby</h4>
+                <p id="location-status">Share your location to open our farm in Google Maps.</p>
+                <div class="location-actions">
+                    <button class="location-button" id="use-location" type="button"><i class="fas fa-crosshairs"></i> Use my location</button>
+                    <a class="maps-link" id="farm-map-link" href="https://www.google.com/maps/search/?api=1&query=Green+Valley+Farm+Punjab+Pakistan" target="_blank" rel="noopener noreferrer"><i class="fab fa-google"></i> Google Maps</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-stack info-stack" id="stack-email">
+            <div class="card">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <h4>Email Us</h4>
+                <p>hello@greenvalleyfarm.com</p>
+            </div>
+        </div>
+
+        <div class="card-stack info-stack" id="stack-call">
+            <div class="card">
+                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                <h4>Call Us</h4>
+                <p>+92 300 1234567</p>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="contact.js"></script>
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

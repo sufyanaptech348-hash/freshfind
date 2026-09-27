@@ -1,4 +1,4 @@
-﻿
+
 const FFB_ROOT=(()=>{try{
   const s=document.currentScript;if(!s||!s.src)return '';
   const seg=p=>p.replace(/^\/+|\/+$/g,'').split('/').filter(Boolean);
@@ -31,7 +31,7 @@ const noteFor=id=>notes[id]||'';
 const setNote=(id,value)=>{const text=(value||'').trim();if(text)notes[id]=text;else delete notes[id];saveNotes()};
 
 const KIND_LABEL={market:'Market',produce:'Produce guide',season:'Seasonal pick',page:'Page'};
-const KIND_EMOJI={market:'ðŸª',produce:'ðŸ¥•',season:'ðŸƒ',page:'ðŸŒ¿'};
+const KIND_EMOJI={market:'🏪',produce:'🥕',season:'🍃',page:'🌿'};
 
 const DESCRIPTORS=[
   {
@@ -39,28 +39,28 @@ const DESCRIPTORS=[
     kind:'market',
     id:el=>'market:'+(el.dataset.open||el.querySelector('[data-open]')?.dataset.open||text(el,'h2')),
     title:el=>text(el,'h2')||el.getAttribute('aria-label')||'Market',
-    meta:el=>[...el.querySelectorAll('.meta')].map(n=>n.textContent.trim()).join(' Â· ')
+    meta:el=>[...el.querySelectorAll('.meta')].map(n=>n.textContent.trim()).join(' · ')
   },
   {
     sel:'.market-card',
     kind:'market',
     id:el=>'market:find:'+(el.querySelector('[data-view]')?.dataset.view||text(el,'h3')),
     title:el=>text(el,'h3')||'Market',
-    meta:el=>[text(el,'.mc-loc'),el.querySelector('.mc-hours')?.textContent.trim()].filter(Boolean).join(' Â· ')
+    meta:el=>[text(el,'.mc-loc'),el.querySelector('.mc-hours')?.textContent.trim()].filter(Boolean).join(' · ')
   },
   {
     sel:'.catalogue-card',
     kind:'produce',
     id:el=>'produce:'+(text(el,'h3')||'').toLowerCase(),
     title:el=>text(el,'h3')||'Produce',
-    meta:el=>[text(el,'.catalogue-category'),text(el,'.catalogue-season')].filter(Boolean).join(' Â· ')
+    meta:el=>[text(el,'.catalogue-category'),text(el,'.catalogue-season')].filter(Boolean).join(' · ')
   },
   {
     sel:'article.product-item',
     kind:'season',
     id:el=>'season:'+(text(el,'.card-content h2')||text(el,'.card-number')||'').toLowerCase(),
     title:el=>text(el,'.card-content h2')||text(el,'.card-number')||'Seasonal pick',
-    meta:el=>[text(el,'.card-number'),text(el,'.card-content p')].filter(Boolean).join(' Â· ')
+    meta:el=>[text(el,'.card-number'),text(el,'.card-content p')].filter(Boolean).join(' · ')
   },
   {
     sel:'.product-grid .product-item',
@@ -74,7 +74,7 @@ const DESCRIPTORS=[
     kind:'page',
     id:el=>'page:'+(el.dataset.ffbTitle||'').toLowerCase().replace(/\s+/g,'-'),
     title:el=>el.dataset.ffbTitle||document.title,
-    meta:el=>el.dataset.ffbMeta||document.title.replace(/\s*[â€”|Â·].*$/,'').trim()
+    meta:el=>el.dataset.ffbMeta||document.title.replace(/\s*[—|·].*$/,'').trim()
   }
 ];
 
@@ -94,7 +94,7 @@ root.innerHTML=
  '</button>'+
  '<div class="ffb-panel" id="ffbPanel" role="dialog" aria-label="FreshFind bookmarks">'+
    '<header class="ffb-head">'+
-     '<div class="ffb-leaf">ðŸ”–</div>'+
+     '<div class="ffb-leaf">🔖</div>'+
      '<div class="ffb-head-text"><h2>Your Bookmarks</h2><p id="ffbSummary">Nothing saved yet</p></div>'+
      '<button class="ffb-icon-btn" id="ffbPageSave" type="button" aria-label="Bookmark this page">'+ICON_TAG+'</button>'+
      '<button class="ffb-icon-btn" id="ffbClose" type="button" aria-label="Close bookmarks">'+ICON_CLOSE+'</button>'+
@@ -160,7 +160,7 @@ function buildButton(entry,host,inline){
   const btn=document.createElement('button');
   btn.type='button';
   btn.className='ffb-btn'+(inline?' ffb-btn-inline':'');
-  btn.innerHTML='<span aria-hidden="true">ðŸ”–</span>';
+  btn.innerHTML='<span aria-hidden="true">🔖</span>';
   btn.setAttribute('aria-pressed',String(isSaved(entry.id)));
   btn.setAttribute('aria-label',(isSaved(entry.id)?'Remove bookmark for ':'Bookmark ')+entry.title);
   if(inline)btn.append(document.createTextNode(isSaved(entry.id)?'Bookmarked':'Bookmark this'));
@@ -260,13 +260,13 @@ function itemNode(item){
   const note=noteFor(item.id);
   node.innerHTML=
     '<div class="ffb-item-top">'+
-      '<div class="ffb-emoji" aria-hidden="true">'+(KIND_EMOJI[item.kind]||'ðŸ”–')+'</div>'+
+      '<div class="ffb-emoji" aria-hidden="true">'+(KIND_EMOJI[item.kind]||'🔖')+'</div>'+
       '<div class="ffb-item-body">'+
         '<h3 class="ffb-item-title"></h3>'+
         (item.meta?'<p class="ffb-item-meta"></p>':'')+
         '<span class="ffb-kind ffb-kind-'+item.kind+'">'+(KIND_LABEL[item.kind]||'Saved')+'</span>'+
       '</div>'+
-      '<button class="ffb-remove" type="button" aria-label="Remove bookmark">Ã—</button>'+
+      '<button class="ffb-remove" type="button" aria-label="Remove bookmark">×</button>'+
     '</div>'+
     '<p class="ffb-note-label">Personal note <span class="ffb-session-tag">this session only</span></p>'+
     '<textarea class="ffb-note" rows="1" placeholder="e.g. ask for the Saturday crate deal"></textarea>';
@@ -296,9 +296,9 @@ function render(){
   if(!visible.length){
     const empty=document.createElement('div');
     empty.className='ffb-empty';
-    empty.innerHTML='<span class="ffb-empty-icon" aria-hidden="true">ðŸ§º</span>'+
+    empty.innerHTML='<span class="ffb-empty-icon" aria-hidden="true">🧺</span>'+
       '<strong>'+(items.length?'Nothing in this filter':'Your basket is empty')+'</strong>'+
-      '<p>Tap the ðŸ”– button on any market, produce guide entry or seasonal pick to save it here, add a personal note, then export or share your list.</p>';
+      '<p>Tap the 🔖 button on any market, produce guide entry or seasonal pick to save it here, add a personal note, then export or share your list.</p>';
     listEl.appendChild(empty);
   }else{
     visible.forEach(item=>listEl.appendChild(itemNode(item)));
@@ -306,7 +306,7 @@ function render(){
   count.textContent=String(items.length);
   count.classList.toggle('is-empty',items.length===0);
   summaryEl.textContent=items.length
-    ? items.length+(items.length===1?' bookmark':' bookmarks')+(notesCount()?' Â· '+notesCount()+' noted':'')
+    ? items.length+(items.length===1?' bookmark':' bookmarks')+(notesCount()?' · '+notesCount()+' noted':'')
     : 'Nothing saved yet';
   const pageBtn=$('ffbPageSave');
   if(pageBtn){
@@ -320,9 +320,9 @@ function render(){
 }
 
 function buildText(){
-  if(!items.length)return 'FreshFind â€” My Bookmarks\n\nNo bookmarks saved yet.';
+  if(!items.length)return 'FreshFind — My Bookmarks\n\nNo bookmarks saved yet.';
   const stamp=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-  const lines=['ðŸŒ¿ FRESHFIND â€” MY BOOKMARKS','Exported '+stamp,'='.repeat(34),''];
+  const lines=['🌿 FRESHFIND — MY BOOKMARKS','Exported '+stamp,'='.repeat(34),''];
   const order=['market','produce','season','page'];
   const headings={market:'FAVOURITE MARKETS',produce:'PRODUCT GUIDE ENTRIES',season:'SEASONAL PICKS',page:'PAGES'};
   order.forEach(kind=>{
@@ -373,7 +373,7 @@ function download(){
 
 $('ffbCopy').addEventListener('click',async()=>{
   if(!items.length){toast('Nothing to export yet');return}
-  toast(await copyText(buildText())?'List copied to clipboard':'Copy failed â€” use Download instead');
+  toast(await copyText(buildText())?'List copied to clipboard':'Copy failed — use Download instead');
 });
 $('ffbDownload').addEventListener('click',()=>{
   if(!items.length){toast('Nothing to export yet');return}
@@ -386,14 +386,14 @@ const SOCIAL=[
   {key:'facebook',label:'Facebook',bg:'#1877F2',link:()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href.split('#')[0])},
   {key:'x',label:'X',bg:'#000000',link:t=>'https://twitter.com/intent/tweet?text='+encodeURIComponent(t)},
   {key:'telegram',label:'Telegram',bg:'#229ED9',link:t=>'https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent(t)},
-  {key:'email',label:'Email',bg:'#123c2b',link:t=>'mailto:?subject='+encodeURIComponent('FreshFind â€” my bookmarked markets & produce')+'&body='+encodeURIComponent(t)},
+  {key:'email',label:'Email',bg:'#123c2b',link:t=>'mailto:?subject='+encodeURIComponent('FreshFind — my bookmarked markets & produce')+'&body='+encodeURIComponent(t)},
   {key:'copy',label:'Copy link',copy:true}
 ];
 function shareText(){
-  if(!items.length)return 'FreshFind â€” discover local markets and seasonal produce. '+location.href.split('#')[0];
-  const titles=items.slice(0,6).map(x=>'â€¢ '+x.title).join('\n');
-  return 'FreshFind â€” my bookmarked markets & produce:\n'+titles+
-    (items.length>6?'\nâ€¢ +'+(items.length-6)+' more':'')+
+  if(!items.length)return 'FreshFind — discover local markets and seasonal produce. '+location.href.split('#')[0];
+  const titles=items.slice(0,6).map(x=>'• '+x.title).join('\n');
+  return 'FreshFind — my bookmarked markets & produce:\n'+titles+
+    (items.length>6?'\n• +'+(items.length-6)+' more':'')+
     '\n\nOpen my list: '+location.href.split('#')[0];
 }
 function syncSocial(){
@@ -405,7 +405,7 @@ function syncSocial(){
       const btn=document.createElement('button');
       btn.type='button';btn.className='ffb-social';
       btn.style.cssText='border:0;cursor:pointer';
-      btn.textContent='ðŸ”—';btn.title='Copy share text';
+      btn.textContent='🔗';btn.title='Copy share text';
       btn.setAttribute('aria-label','Copy share text');
       btn.addEventListener('click',async()=>{toast(await copyText(shareText())?'Share text copied':'Copy failed')});
       wrap.appendChild(btn);
@@ -463,3 +463,5 @@ window.addEventListener('storage',e=>{
 });
 }
 })();
+
+

@@ -1,4 +1,4 @@
-﻿
+
 
 const fs = require('fs');
 const zlib = require('zlib');
@@ -74,3 +74,5 @@ while ((m = objRe.exec(latin)) !== null) {
 pages.sort((a, b) => a.num - b.num);
 console.error(`inflated: ${ok}, skipped: ${bad}, text streams: ${pages.length}`);
 console.log(pages.map((p) => p.body).join('\n\n'));
+
+

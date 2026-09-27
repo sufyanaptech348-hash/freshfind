@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#eaf7ee" />
+<title>Our Process — From Seed to Harvest</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="progress.css">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+
+<div class="top-progress" id="topProgress"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker">Our Workflow</p>
+    <h1 class="impact">Our<br />Produce</h1>
+    <p class="hero-sub">From Seed to Harvest</p>
+    <div class="hero-rule"></div>
+  </div>
+  <div class="scroll-hint-hero">
+    <span>Scroll</span>
+    <span class="arrow"></span>
+  </div>
+</header>
+
+<div class="scroll-container" id="scrollContainer">
+  <div class="sticky-wrapper">
+
+    <div class="hud">
+      <div class="hud-row">
+        <span class="hud-title">Our Process</span>
+        <span class="hud-count">
+          <em id="stepNow">01</em> / <span id="stepTotal">06</span>
+        </span>
+      </div>
+      <div class="hud-line"><span id="hudFill"></span></div>
+    </div>
+
+    <div class="track" id="track"></div>
+
+  </div>
+</div>
+
+  
+<section class="experience" id="experience">
+  <div class="stage" id="stage">
+
+    <video
+      class="farm-video"
+      id="farmVideo"
+      src="vids/farm-growth.mp4"
+      muted
+      playsinline
+      webkit-playsinline
+      preload="auto"
+      disablepictureinpicture
+    ></video>
+
+    <div class="chapter-scrim"></div>
+
+    <div class="chapter" id="chapter">
+      <div class="chapter-index" id="chapterIndex">01 / 04</div>
+      <h2 class="chapter-title" id="chapterTitle">The <i>beginning</i></h2>
+      <p class="chapter-description" id="chapterDescription">
+        Every harvest begins with a single seed, healthy soil and a little care.
+      </p>
+    </div>
+
+    <div class="rail">
+      <div class="rail-item"><div class="rail-fill"></div></div>
+      <div class="rail-item"><div class="rail-fill"></div></div>
+      <div class="rail-item"><div class="rail-fill"></div></div>
+      <div class="rail-item"><div class="rail-fill"></div></div>
+    </div>
+
+    <div class="scroll-hint-video" id="scrollHint">
+      SCROLL
+      <div class="scroll-hint-line"></div>
+    </div>
+
+    <div class="readout" id="readout">0:00 / 0:00</div>
+
+  </div>
+</section>
+
+    <section class="catalogue" id="produce-catalogue" aria-labelledby="catalogue-title">
+      <div class="catalogue-inner">
+        <div class="catalogue-heading">
+          <p class="catalogue-kicker">From the fields</p>
+          <h2 id="catalogue-title">What’s in season</h2>
+          <p>Browse local produce by category, discover when it is harvested, and find the markets carrying it.</p>
+        </div>
+        <div class="catalogue-toolbar">
+          <div class="catalogue-filters" id="catalogue-filters" role="group" aria-label="Filter produce by category"></div>
+          <span class="catalogue-count" id="catalogue-count" aria-live="polite"></span>
+        </div>
+        <div class="catalogue-grid" id="catalogue-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+<script src="progress.js"></script>
+
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+<script src="progress-catalogue.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

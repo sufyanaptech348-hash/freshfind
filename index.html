@@ -2,206 +2,415 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-  
-
->
-
-<title>Market Stories</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshFind — Market Stories</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 
-<link
-  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
-  rel="stylesheet"
->
-<link rel="icon" href="./fruit img/logo.png" type="image/png">
-
-<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="./fruit-img/logo.png" type="image/png">
 <link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="chat-widget.css">
 <link rel="stylesheet" href="bookmark-widget.css">
-</head>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-basket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8Z"/><path d="M8 9c0-3 1.8-5 4-5s4 2 4 5"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/>
+    </symbol>
+    <symbol id="i-farmer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="7" r="3"/><path d="M4 21v-2a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v2"/><path d="M9 7h6"/>
+    </symbol>
+    <symbol id="i-carrot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 4 4 20l16-10-6-6z"/><path d="M14 4c2 0 4 1 5 3"/><path d="M16 8c2 .5 4 2 5 4"/>
+    </symbol>
+  </defs>
+</svg>
+<link rel="stylesheet" href="styles.css">
+</head>
 <body>
 
-<div id="stage">
-  <div id="welcome-wrap">
-    Welcome to Market Stories
+
+<div class="loader" id="loader" aria-live="polite">
+  <div class="loader-mark">
+    <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8Z"/>
+      <path d="M8 9c0-3 1.8-5 4-5s4 2 4 5"/>
+    </svg>
   </div>
+  <p class="loader-text">Preparing your market…</p>
+  <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+  <p class="loader-count" id="loaderCount">0 / 3</p>
 </div>
 
-<canvas
-  id="gl"
-  aria-label="Interactive 3D market scenes"
-></canvas>
+
+<section class="hero" id="hero">
+  <div class="hero-sticky">
+    <div id="stage">
+      <div id="welcome-wrap">Welcome to Market Stories</div>
+    </div>
+    <canvas id="gl" aria-label="Interactive 3D market scenes"></canvas>
+
+    <section id="shoe-info" class="shoe-info right">
+      <div id="shoe-kicker" class="eyebrow">DAILY HARVEST</div>
+      <h1 id="shoe-title">Daily Harvest</h1>
+      <p id="shoe-tagline">Hand-picked, same-day</p>
+      <p id="shoe-details">Weight 12kg<br>Items 18</p>
+    </section>
+
+    <div class="controls">
+      <button id="prev" class="arrow" type="button" aria-label="Previous scene">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      </button>
+      <div id="dots" class="dots"></div>
+      <button id="next" class="arrow" type="button" aria-label="Next scene">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="scroll-hint">
+      <span>SCROLL</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></svg>
+    </div>
+  </div>
+</section>
+
 
 <main id="ui">
 
- 
+  <section class="section intro-section" id="homeRail">
+    <div class="container">
+      <div class="intro-grid">
 
-  <aside id="homeRail" class="home-rail" aria-label="FreshFind quick find and highlights">
+        <div class="intro-left">
+          <a class="home-brand" href="index.html" aria-label="FreshFind home">
+            <span class="home-brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8Z"/>
+                <path d="M8 9c0-3 1.8-5 4-5s4 2 4 5"/>
+              </svg>
+            </span>
+            <span>
+              <span class="home-brand-name">FreshFind</span>
+              <span class="home-brand-tag">Green Basket</span>
+            </span>
+          </a>
 
-    <a class="home-brand" href="index.html" aria-label="FreshFind home">
-      <span class="home-brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="19" height="19" fill="none"
-             stroke="currentColor" stroke-width="1.7"
-             stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9h18l-1.6 10.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8Z" />
-          <path d="M8 9c0-3 1.8-5 4-5s4 2 4 5" />
-        </svg>
-      </span>
-      <span>
-        <span class="home-brand-name">FreshFind</span>
-        <span class="home-brand-tag">eGreen Basket</span>
-      </span>
-    </a>
+          <span class="section-eyebrow">Welcome to FreshFind</span>
+          <h2 class="section-title">Find the freshest food near you.</h2>
+          <p class="section-lead">
+            FreshFind brings together the location, operating day, hours, and seasonal
+            produce of local farmers markets across Karachi, so you can plan a visit
+            before you leave the house.
+          </p>
 
-    <h2 class="home-intro-title">Find the freshest food near you.</h2>
+          <form class="home-find" id="hfForm" role="search" aria-label="Find a market near you">
+            <span class="home-find-eyebrow">Find a market near you</span>
 
-    <p class="home-intro-text">
-      FreshFind brings together the location, operating day, hours, and seasonal
-      produce of local farmers markets across Karachi, so you can plan a visit
-      before you leave the house.
-    </p>
+            <label class="home-find-field">
+              <span>Search</span>
+              <input class="home-find-input" id="hfQuery" type="search" placeholder="Market, area or produce" autocomplete="off">
+            </label>
 
-    
-    <form class="home-find" id="hfForm" role="search" aria-label="Find a market near you">
+            <div class="home-find-row">
+              <label class="home-find-field">
+                <span>Area</span>
+                <select class="home-find-select" id="hfArea"></select>
+              </label>
+              <label class="home-find-field">
+                <span>Day</span>
+                <select class="home-find-select" id="hfDay"></select>
+              </label>
+            </div>
 
-      <span class="home-find-eyebrow">Find a market near you</span>
+            <label class="home-find-field">
+              <span>Produce</span>
+              <select class="home-find-select" id="hfProduce"></select>
+            </label>
 
-      <label class="home-find-field">
-        <span>Search</span>
-        <input class="home-find-input" id="hfQuery" type="search"
-               placeholder="Market, area or produce" autocomplete="off">
-      </label>
+            <div class="home-find-actions">
+              <button class="home-find-submit" type="submit">Search</button>
+              <button class="home-find-reset" type="button" id="hfReset">Reset</button>
+            </div>
 
-      <div class="home-find-row">
-        <label class="home-find-field">
-          <span>Area</span>
-          <select class="home-find-select" id="hfArea"></select>
-        </label>
+            <p class="home-find-status" id="hfStatus" role="status" aria-live="polite"></p>
+            <div class="home-find-results" id="hfResults"></div>
+          </form>
 
-        <label class="home-find-field">
-          <span>Day</span>
-          <select class="home-find-select" id="hfDay"></select>
-        </label>
-      </div>
+          <section class="home-highlights" aria-label="Featured markets and seasonal picks">
+            <div class="home-highlights-head">
+              <h3 class="home-highlights-eyebrow">Highlights</h3>
+              <div class="home-highlights-nav">
+                <button class="home-highlights-btn" type="button" id="hfPrev" aria-label="Previous highlight">&#8249;</button>
+                <button class="home-highlights-btn" type="button" id="hfNext" aria-label="Next highlight">&#8250;</button>
+              </div>
+            </div>
+            <div class="home-highlights-track" id="hfHighlights"></div>
+            <div class="home-highlights-dots" id="hfDots"></div>
+          </section>
 
-      <label class="home-find-field">
-        <span>Produce</span>
-        <select class="home-find-select" id="hfProduce"></select>
-      </label>
-
-      <div class="home-find-actions">
-        <button class="home-find-submit" type="submit">Search</button>
-        <button class="home-find-reset" type="button" id="hfReset">Reset</button>
-      </div>
-
-      <p class="home-find-status" id="hfStatus" role="status" aria-live="polite"></p>
-      <div class="home-find-results" id="hfResults"></div>
-
-    </form>
-
-    
-    <section class="home-highlights" aria-label="Featured markets and seasonal picks">
-
-      <div class="home-highlights-head">
-        <h3 class="home-highlights-eyebrow">Highlights</h3>
-        <div class="home-highlights-nav">
-          <button class="home-highlights-btn" type="button" id="hfPrev" aria-label="Previous highlight">&#8249;</button>
-          <button class="home-highlights-btn" type="button" id="hfNext" aria-label="Next highlight">&#8250;</button>
+          <div class="home-meta">
+            <span><span class="home-meta-dot" aria-hidden="true"></span><span id="hfOpenNow">markets open now</span></span>
+            <span>Local <b id="hfClock">--:--:--</b></span>
+            <span>Markets <b id="hfVisitor">0</b></span>
+          </div>
         </div>
+
+        <div class="intro-right" aria-hidden="true">
+          <div class="stage-viewport">
+            <div class="stage-image is-active" data-index="0" style="background-image:url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=80&auto=format&fit=crop')"></div>
+            <div class="stage-image" data-index="1" style="background-image:url('https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1200&q=80&auto=format&fit=crop')"></div>
+            <div class="stage-image" data-index="2" style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&q=80&auto=format&fit=crop')"></div>
+            <div class="stage-image" data-index="3" style="background-image:url('https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=1200&q=80&auto=format&fit=crop')"></div>
+
+            <div class="stage-dots">
+              <button class="stage-dot is-active" type="button" data-index="0" aria-label="Show slide 1"></button>
+              <button class="stage-dot" type="button" data-index="1" aria-label="Show slide 2"></button>
+              <button class="stage-dot" type="button" data-index="2" aria-label="Show slide 3"></button>
+              <button class="stage-dot" type="button" data-index="3" aria-label="Show slide 4"></button>
+            </div>
+
+            <div class="stage-overlay">
+              <span class="stage-badge" id="stageBadge">Featured</span>
+              <h3 class="stage-title" id="stageTitle">Daily Harvest</h3>
+              <p class="stage-meta" id="stageMeta">Hand-picked, same-day from local farms</p>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <div class="home-highlights-track" id="hfHighlights"></div>
-      <div class="home-highlights-dots" id="hfDots"></div>
-
-    </section>
-
-    
-    <div class="home-meta">
-      <span><span class="home-meta-dot" aria-hidden="true"></span><span id="hfOpenNow">markets open now</span></span>
-      <span>Local <b id="hfClock">--:--:--</b></span>
-      <span>Markets <b id="hfVisitor">0</b></span>
     </div>
-
-  </aside>
-
-  
-
-  <section id="shoe-info" class="shoe-info right">
-
-    <div id="shoe-kicker" class="eyebrow">
-      DAILY HARVEST
-    </div>
-
-    <h1 id="shoe-title">
-      Daily Harvest
-    </h1>
-
-    <p id="shoe-tagline">
-      Hand-picked, same-day
-    </p>
-
-    <p id="shoe-details">
-      Weight 12kg<br>
-      Items 18
-    </p>
-
   </section>
 
   
-
-  <div class="controls">
-
-    <button id="prev" class="arrow" type="button" aria-label="Previous scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
-
-    <div
-      id="dots"
-      class="dots"
-    ></div>
-
-    <button id="next" class="arrow" type="button" aria-label="Next scene"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-
-  </div>
+  <section class="section stats-section">
+    <div class="container stats-grid">
+      <div class="stat-card reveal">
+        <span class="stat-icon"><svg><use href="#i-basket"/></svg></span>
+        <span class="stat-num" data-count="24">0</span>
+        <span class="stat-label">Markets listed</span>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon"><svg><use href="#i-farmer"/></svg></span>
+        <span class="stat-num" data-count="86">0</span>
+        <span class="stat-label">Local farmers</span>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon"><svg><use href="#i-carrot"/></svg></span>
+        <span class="stat-num" data-count="42">0</span>
+        <span class="stat-label">Produce types</span>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon"><svg><use href="#i-pin"/></svg></span>
+        <span class="stat-num" data-count="12">0</span>
+        <span class="stat-label">Neighborhoods</span>
+      </div>
+    </div>
+  </section>
 
   
+  <section class="section categories-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Explore by Category</span>
+        <h2 class="section-title">What's in season right now?</h2>
+        <p class="section-lead">Fresh picks from local farmers, updated weekly. Find exactly what you're looking for.</p>
+      </div>
 
-  <div class="interaction-hint">
+      <div class="categories-grid">
 
-    <span>DRAG TO EXPLORE</span>
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&q=80&auto=format&fit=crop" alt="Fresh seasonal fruits" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Fruits</h3>
+            <p>Sweet, sun-ripened picks.</p>
+          </div>
+        </a>
 
-    <span class="line"></span>
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=80&auto=format&fit=crop" alt="Fresh farm vegetables" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Vegetables</h3>
+            <p>Farm-fresh greens &amp; roots.</p>
+          </div>
+        </a>
 
-    <span>SCROLL â†“</span>
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80&auto=format&fit=crop" alt="Fragrant fresh herbs" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Herbs</h3>
+            <p>Fragrant, hand-tied bunches.</p>
+          </div>
+        </a>
 
-  </div>
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=800&q=80&auto=format&fit=crop" alt="Fresh local dairy" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Dairy</h3>
+            <p>Local milk, yogurt, cheese.</p>
+          </div>
+        </a>
+
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80&auto=format&fit=crop" alt="Wholesome grains and flours" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Grains</h3>
+            <p>Wholesome staples &amp; flours.</p>
+          </div>
+        </a>
+
+        <a href="progress.html" class="cat-card reveal">
+          <div class="cat-image">
+            <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&q=80&auto=format&fit=crop" alt="Raw unfiltered watermelon" loading="lazy">
+          </div>
+          <div class="cat-body">
+            <h3>Honey</h3>
+            <p>Raw, unfiltered, local.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section feature-section">
+    <div class="feature-block reveal">
+      <div class="feature-text">
+        <span class="feature-eyebrow">From Field to Basket</span>
+        <h2>Bring home the freshest harvest, every week.</h2>
+        <p>
+          Every market on FreshFind is verified by our community. Meet the growers,
+          taste the produce, and support the people who feed your neighborhood.
+        </p>
+        <a href="marketfind.html" class="feature-cta">
+          Explore markets
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="feature-image">
+        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=80&auto=format&fit=crop" alt="A grower working in a lush green garden" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section newsletter-section">
+    <div class="container">
+      <div class="newsletter-inner reveal">
+
+        <div class="newsletter-text">
+          <span class="section-eyebrow">Stay in the loop</span>
+          <h2 class="section-title">Get weekly market updates.</h2>
+          <p class="section-lead">Fresh drops, seasonal alerts, and new market openings — straight to your inbox.</p>
+        </div>
+
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset();">
+          <div class="newsletter-field">
+            <input type="email" placeholder="you@example.com" required aria-label="Email address">
+          </div>
+          <button type="submit" class="newsletter-btn">
+            <span>Subscribe</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  
+  <footer class="footer">
+    <div class="footer-inner">
+
+      <div class="footer-top">
+
+        <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+          <span class="footer-brand-mark" aria-hidden="true">
+            <img src="./fruit-img/logo.png" alt="" width="32" height="32" loading="lazy">
+          </span>
+          <span class="footer-brand-text">
+            <span class="footer-brand-name">FreshFind</span>
+            <span class="footer-brand-tag">Green Basket</span>
+          </span>
+        </a>
+
+        <div class="footer-cols">
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Explore</h4>
+            <a href="marketfind.html">Market Directory</a>
+            <a href="progress.html">Produce Guide</a>
+            <a href="seasonal.html">Seasonal Picks</a>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">About</h4>
+            <a href="#">Our Story</a>
+            <a href="contact.html">Contact</a>
+            <a href="#">Careers</a>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Follow</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Newsletter</a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+
+        <div class="footer-meta">
+          <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+          <span class="footer-meta-sep"></span>
+          
+        </div>
+
+        <div class="footer-wordmark" aria-hidden="true">
+          <span>FRESHFIND</span>
+        </div>
+
+      </div>
+
+    </div>
+  </footer>
 
 </main>
 
 <script type="importmap">
 {
   "imports": {
-    "three":
-      "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-
-    "three/addons/":
-      "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
   }
 }
 </script>
 
 <script type="module" src="./script.js"></script>
-
+<script src="market-data.js"></script>
 <script src="navbar.js"></script>
 <script src="chat-widget.js"></script>
 <script src="bookmark-widget.js"></script>
-<script src="market-data.js"></script>
 <script src="home-extras.js"></script>
+
 </body>
 </html>

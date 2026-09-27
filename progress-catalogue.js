@@ -8,3 +8,5 @@ function render(){const items=active==="All"?data.products:data.products.filter(
 function buildFilters(){data.categories.forEach(category=>{const button=document.createElement("button");button.type="button";button.dataset.category=category;button.textContent=category;button.addEventListener("click",()=>{active=category;render()});filters.append(button)});render()}
 fetch("produce.json").then(response=>{if(!response.ok)throw new Error("Catalogue unavailable");return response.json()}).then(json=>{data=json;buildFilters()}).catch(()=>{data=fallback;buildFilters()});
 })();
+
+

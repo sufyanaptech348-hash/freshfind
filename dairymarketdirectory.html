@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<link rel="icon" href="./fruit-img/logo.png" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>FreshFind | Dairy Farm Market Directory</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="navbar.css">
 <link rel="stylesheet" href="chat-widget.css">
 <link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -27,7 +28,7 @@
     <span class="label">spring physics</span>
     <h1 class="text">Dairy Farm Market Directory</h1>
     <div class="baseline"></div>
-    <button id="replay" type="button">â†º replay</button>
+    <button id="replay" type="button">↺ replay</button>
     <p>Discover local dairy markets, fresh milk, artisan cheese, cream, and farm-fresh goods near you.</p>
   </div>
 </section>
@@ -47,7 +48,7 @@
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
   <div class="modal-backdrop" data-close></div>
   <div class="modal-card">
-    <button class="modal-close" type="button" data-close aria-label="Close market details">Ã—</button>
+    <button class="modal-close" type="button" data-close aria-label="Close market details">×</button>
     <div class="modal-hero"><img id="modalImg" src="" alt="" /></div>
     <div class="modal-body">
       <span class="tag" id="modalTag"></span>
@@ -78,8 +79,8 @@
       <div class="product-grid" id="modalProductsGrid"></div>
 
       <div class="modal-actions">
-        <a class="btn btn-primary" id="modalCall" href="#">ðŸ“ž Call market</a>
-        <a class="btn btn-ghost" id="modalMap" href="#" target="_blank" rel="noopener">ðŸ“ Get directions</a>
+        <a class="btn btn-primary" id="modalCall" href="#">📞 Call market</a>
+        <a class="btn btn-ghost" id="modalMap" href="#" target="_blank" rel="noopener">📍 Get directions</a>
         <button class="btn btn-ghost" type="button" data-close>Close</button>
       </div>
     </div>
@@ -91,5 +92,9 @@
 <script src="navbar.js"></script>
 <script src="chat-widget.js"></script>
 <script src="bookmark-widget.js"></script>
+
 </body>
 </html>
+
+
+

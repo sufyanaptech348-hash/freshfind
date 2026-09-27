@@ -1,4 +1,4 @@
-﻿
+
 :root{
   --milk:#fbf6e9;
   --cream:#f5ecd6;
@@ -281,3 +281,5 @@ main{padding:clamp(24px, 4vw, 35px) clamp(16px, 5vw, 7%)}
   .modal-body{padding:22px}
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
 }
+
+

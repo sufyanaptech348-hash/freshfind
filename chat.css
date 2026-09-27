@@ -1,4 +1,4 @@
-﻿
+
   *, *::before, *::after { box-sizing: border-box; }
 
   :root {
@@ -621,3 +621,4 @@
     .stage.act-bounce .avo-svg,
     .stage.act-dance .avo-svg { animation: none; }
   }
+

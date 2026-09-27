@@ -1,4 +1,3 @@
-﻿
 :root{
   --mint:#BFE8D5;
   --mint-light:#E7F8EF;
@@ -1006,12 +1005,21 @@ select:hover{border-color:var(--mint-dark);}
 }
 .chat-form button:hover{background:var(--mint-dark);transform:scale(1.06);}
 
-[data-reveal]{
-  opacity:0;transform:translateY(30px);
-  transition:opacity .85s var(--ease),transform .85s var(--ease);
-  transition-delay:var(--delay,0ms);
+
+.no-js [data-reveal] {
+  opacity: 1;
+  transform: none;
 }
-[data-reveal].is-visible{opacity:1;transform:none;}
+.js-enabled [data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .85s var(--ease), transform .85s var(--ease);
+  transition-delay: var(--delay, 0ms);
+}
+.js-enabled [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
 
 @media (max-width:1100px){
   .seasons-3d-grid {

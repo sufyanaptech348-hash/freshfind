@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Stories</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="market.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================== -->
+
+<div id="stage">
+  <div id="welcome-wrap">
+    Welcome to Market Stories
+  </div>
+</div>
+
+<!-- =======================================================
+     THREE.JS CANVAS
+======================================================== -->
+
+<canvas
+  id="gl"
+  aria-label="Interactive 3D market scenes"
+></canvas>
+
+<!-- =======================================================
+     UI
+======================================================== -->
+
+<main id="ui">
+
+  <!-- MARKET INFORMATION -->
+
+  <section id="shoe-info" class="shoe-info right">
+
+    <div id="shoe-kicker" class="eyebrow">
+      DAILY HARVEST
+    </div>
+
+    <h1 id="shoe-title">
+      Daily Harvest
+    </h1>
+
+    <p id="shoe-tagline">
+      Hand-picked, same-day
+    </p>
+
+    <p id="shoe-details">
+      Weight 12kg<br>
+      Items 18
+    </p>
+
+  </section>
+
+  <!-- CONTROLS -->
+
+  <div class="controls">
+
+    <button
+      id="prev"
+      class="arrow"
+      type="button"
+      aria-label="Previous scene"
+    >
+      Ã¢â€ Â
+    </button>
+
+    <div
+      id="dots"
+      class="dots"
+    ></div>
+
+    <button
+      id="next"
+      class="arrow"
+      type="button"
+      aria-label="Next scene"
+    >
+      Ã¢â€ â€™
+    </button>
+
+  </div>
+
+  <!-- HINT -->
+
+  <div class="interaction-hint">
+
+    <span>DRAG TO EXPLORE</span>
+
+    <span class="line"></span>
+
+    <span>SCROLL Ã¢â€ â€</span>
+
+  </div>
+
+</main>
+
+<script type="module" src="market.js"></script>
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

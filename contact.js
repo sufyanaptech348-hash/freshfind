@@ -1,19 +1,7 @@
-﻿/* =========================================================
-   FRESHFIND CONTACT PAGE
-========================================================= */
-
 gsap.registerPlugin(ScrollTrigger);
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 const prefersReducedMotion =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* =========================================================
-   PAGE ENTRANCE ANIMATION
-========================================================= */
 
 if (prefersReducedMotion) {
 
@@ -70,7 +58,6 @@ if (prefersReducedMotion) {
         ease: "back.out(1.7)"
     }, "-=0.5");
 
-    /* Contact section */
     gsap.from(".contact-form-card", {
         scrollTrigger: {
             trigger: ".contact-grid",
@@ -94,17 +81,6 @@ if (prefersReducedMotion) {
         ease: "power3.out"
     });
 
-    gsap.from(".nearby-card", {
-        scrollTrigger: {
-            trigger: ".nearby-card",
-            start: "top 90%"
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        ease: "power3.out"
-    });
-
     gsap.from(".fruit-banner", {
         scrollTrigger: {
             trigger: ".fruit-banner",
@@ -116,10 +92,6 @@ if (prefersReducedMotion) {
         ease: "power3.out"
     });
 }
-
-/* =========================================================
-   CONTACT FORM VALIDATION & POPUP
-========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -137,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalClose    = document.getElementById("modalClose");
     const successBtn    = document.getElementById("successBtn");
     const submitBtn     = contactForm.querySelector(".submit-btn");
-
-    /* ---------- Validation Functions ---------- */
 
     function validateName() {
         const value = nameInput.value.trim();
@@ -193,13 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
-    /* ---------- Live Validation ---------- */
-
     nameInput.addEventListener("input", validateName);
     emailInput.addEventListener("input", validateEmail);
     messageInput.addEventListener("input", validateMessage);
-
-    /* ---------- Form Submit → Show Popup ---------- */
 
     contactForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -224,7 +190,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (submitBtn) submitBtn.disabled = false;
 
-            console.log("Form submitted successfully!");
         } else {
             const firstInvalid = document.querySelector(".input-box.invalid");
             if (firstInvalid) {
@@ -237,8 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-
-    /* ---------- Close Popup ---------- */
 
     function closeModal() {
         successModal.classList.remove("show");

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./fruit img/logo.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<title>Favorite Fruit of the Seasons</title>
+
+<link rel="stylesheet" href="seasonal.css">
+<link rel="stylesheet" href="navbar.css">
+<link rel="stylesheet" href="chat-widget.css">
+<link rel="stylesheet" href="bookmark-widget.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<video
+    class="page-background-video"
+    muted
+    playsinline
+    preload="auto"
+    aria-hidden="true">
+
+    <source
+        src="vids/fruit.mp4"
+        type="video/mp4">
+
+</video>
+
+<div
+    class="page-background-frames"
+    aria-hidden="true"
+    hidden>
+
+    <img class="season-frame is-active" src="seasonal%20scroll/frame_01%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_02%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_03%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_04%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_05%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_06%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_07%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_08%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_09%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_10%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_11%20(2).jpg" alt="">
+    <img class="season-frame" src="seasonal%20scroll/frame_12%20(2).jpg" alt="">
+
+</div>
+
+<div class="page-background-overlay" aria-hidden="true"></div>
+
+<nav class="season-progress" aria-label="Season progress">
+    <span class="season-progress-item is-active" data-season="0">Spring</span>
+    <span class="season-progress-item" data-season="1">Summer</span>
+    <span class="season-progress-item" data-season="2">Autumn</span>
+    <span class="season-progress-item" data-season="3">Winter</span>
+</nav>
+
+<svg
+    class="noise-filter"
+    aria-hidden="true">
+
+    <filter
+        id="card-noise">
+
+        <feTurbulence
+            type="turbulence"
+            baseFrequency="0.9"
+            numOctaves="2"
+            seed="1"
+            stitchTiles="stitch"
+            result="turbulence">
+        </feTurbulence>
+
+        <feDisplacementMap
+            in="SourceGraphic"
+            in2="turbulence"
+            scale="18"
+            xChannelSelector="R"
+            yChannelSelector="G">
+        </feDisplacementMap>
+
+    </filter>
+
+</svg>
+
+<main class="products-section">
+
+    
+
+    <header class="section-header">
+
+        <span class="section-label">
+            Favorite Fruit of Every Season
+        </span>
+
+        <h1>
+            Seasonal Favorites
+        </h1>
+
+        <p>
+            One fruit for each season, picked at its
+            sweetest and ready to enjoy.
+        </p>
+
+    </header>
+
+    
+
+    <section class="products-grid">
+
+        
+
+        <article
+            class="product-item"
+            data-model="models/realistic_strawberry_3d_model.glb">
+
+            <div class="product-card">
+
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-arrow">
+                    →
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-number">
+                        Spring
+                    </span>
+
+                    <h2>
+                        Strawberry
+                    </h2>
+
+                    <p>
+                        Sweet and juicy, first to ripen
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Peak season: April to June</h3>
+
+                <p>The first sweet fruit after winter. Best eaten fresh, within a day or two of picking.</p>
+
+                <ul>
+                    <li><span>Taste</span>Sweet, slightly tart</li>
+                    <li><span>Pairs with</span>Cream, mint, balsamic</li>
+                    <li><span>Good source of</span>Vitamin C</li>
+                </ul>
+
+            </div>
+
+        </article>
+
+        
+
+        <article
+            class="product-item"
+            data-model="models/mango.glb">
+
+            <div class="product-card">
+
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-arrow">
+                    →
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-number">
+                        Summer
+                    </span>
+
+                    <h2>
+                        Mango
+                    </h2>
+
+                    <p>
+                        Golden, tropical and sun-ripened
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Peak season: May to August</h3>
+
+                <p>Ripe when it gives slightly under your thumb and smells fragrant at the stem.</p>
+
+                <ul>
+                    <li><span>Taste</span>Honey-sweet, tropical</li>
+                    <li><span>Pairs with</span>Lime, chili, yogurt</li>
+                    <li><span>Good source of</span>Vitamins A and C</li>
+                </ul>
+
+            </div>
+
+        </article>
+
+        
+
+        <article
+            class="product-item"
+            data-model="models/red_apple.glb">
+
+            <div class="product-card">
+
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-arrow">
+                    →
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-number">
+                        Autumn
+                    </span>
+
+                    <h2>
+                        Apple
+                    </h2>
+
+                    <p>
+                        Crisp and fresh from the orchard
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Peak season: September to November</h3>
+
+                <p>Crisp and sturdy, apples keep for weeks in a cool place, so the autumn harvest lasts into winter.</p>
+
+                <ul>
+                    <li><span>Taste</span>Crisp, sweet-tart</li>
+                    <li><span>Pairs with</span>Cinnamon, cheddar, oats</li>
+                    <li><span>Good source of</span>Fiber and vitamin C</li>
+                </ul>
+
+            </div>
+
+        </article>
+
+        
+
+        <article
+            class="product-item"
+            data-model="models/orange.glb">
+
+            <div class="product-card">
+
+                <div class="model-wrapper model-orbit">
+
+                    <div class="model-container">
+
+                        <div class="model-loading"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-arrow">
+                    →
+                </div>
+
+                <div class="card-content">
+
+                    <span class="card-number">
+                        Winter
+                    </span>
+
+                    <h2>
+                        Orange
+                    </h2>
+
+                    <p>
+                        Bright citrus for cold days
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Peak season: December to February</h3>
+
+                <p>Citrus is at its best when the days are shortest. Heavy, thin-skinned oranges are the juiciest.</p>
+
+                <ul>
+                    <li><span>Taste</span>Bright, sweet-tart</li>
+                    <li><span>Pairs with</span>Dark chocolate, fennel</li>
+                    <li><span>Good source of</span>Vitamin C</li>
+                </ul>
+
+            </div>
+
+        </article>
+
+    </section>
+
+</main>
+
+<script type="importmap">
+
+{
+
+    "imports": {
+
+        "three":
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+
+        "three/addons/":
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+
+    }
+
+}
+
+</script>
+
+<script type="module" src="seasonal.js"></script>
+<script src="navbar.js"></script>
+<script src="chat-widget.js"></script>
+<script src="bookmark-widget.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+
+      <a class="footer-brand" href="index.html" aria-label="FreshFind home">
+        <span class="footer-brand-mark" aria-hidden="true">
+          <img src="./fruit img/logo.png" alt="" width="32" height="32" loading="lazy">
+        </span>
+        <span class="footer-brand-text">
+          <span class="footer-brand-name">FreshFind</span>
+          <span class="footer-brand-tag">Green Basket</span>
+        </span>
+      </a>
+
+      <div class="footer-cols">
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <a href="marketfind.html">Market Directory</a>
+          <a href="progress.html">Produce Guide</a>
+          <a href="seasonal.html">Seasonal Picks</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">About</h4>
+          <a href="#">Our Story</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">Follow</h4>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Newsletter</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+
+      <div class="footer-meta">
+        <span>© <span id="hfYear">2026</span> FreshFind — All rights reserved.</span>
+        <span class="footer-meta-sep"></span>
+        <span>Made with 🌿 in Karachi</span>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">
+        <span>FRESHFIND</span>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

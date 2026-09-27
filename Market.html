@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="./fruit img/logo.png" type="image/png">
+  <link rel="icon" href="./fruit-img/logo.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Market Stories</title>
 
-  <!-- ⚡ SPEED: Preconnect to all third-party origins -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -15,14 +15,14 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="https://www.gstatic.com">
 
-  <!-- ⚡ SPEED: Load fonts non-blocking -->
+  
   <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
     media="print" onload="this.media='all'">
 
-  <!-- ⚡ SPEED: Preload first GLB so it starts downloading immediately -->
+  
   <link rel="preload" as="fetch" href="./eggstand.draco.glb" crossorigin>
 
   <link rel="stylesheet" href="navbar.css">
@@ -1068,7 +1068,7 @@
     }
 
     .aw-link:after {
-      content: "→";
+      content: "?";
       opacity: .7
     }
 
@@ -1737,11 +1737,12 @@
       }
     }
   </style>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <!-- ⚡ PRELOADER -->
+  
   <div id="preloader">
     <div class="pl-ring"></div>
     <div class="pl-label">Loading Market Stories</div>
@@ -1782,7 +1783,7 @@
     <div class="interaction-hint">
       <span>DRAG TO EXPLORE</span>
       <span class="line"></span>
-      <span>SCROLL ↔</span>
+      <span>SCROLL ?</span>
     </div>
   </main>
 
@@ -1959,7 +1960,7 @@
     ];
 
     /* =========================================================
-       SETTINGS — Optimized
+       SETTINGS � Optimized
     ========================================================= */
     const SETTINGS = {
       shoeSize: 3.2,
@@ -2026,7 +2027,7 @@
     camera.lookAt(0, 1.15, 0);
 
     /* =========================================================
-       LIGHTS — Optimized (fewer, cheaper shadows)
+       LIGHTS � Optimized (fewer, cheaper shadows)
     ========================================================= */
     const ambient = new THREE.HemisphereLight(0xffffff, 0x777777, 2.2);
     scene.add(ambient);
@@ -2034,7 +2035,7 @@
     const keyLight = new THREE.DirectionalLight(0xffffff, 4);
     keyLight.position.set(4, 8, 6);
     keyLight.castShadow = true;
-    // ⚡ SPEED: smaller shadow map = faster rendering
+    // ? SPEED: smaller shadow map = faster rendering
     keyLight.shadow.mapSize.set(1024, 1024);
     keyLight.shadow.camera.left = -6;
     keyLight.shadow.camera.right = 6;
@@ -2065,12 +2066,12 @@
     scene.add(floor);
 
     /* =========================================================
-       GLTF LOADER — Optimized DRACO path (Google CDN is faster)
+       GLTF LOADER � Optimized DRACO path (Google CDN is faster)
     ========================================================= */
     const gltfLoader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
-    // ⚡ Preload DRACO decoder immediately
+    // ? Preload DRACO decoder immediately
     dracoLoader.preload();
     gltfLoader.setDRACOLoader(dracoLoader);
     gltfLoader.setMeshoptDecoder(MeshoptDecoder);
@@ -2140,7 +2141,7 @@
           if (object.isMesh) {
             object.castShadow = true;
             object.receiveShadow = true;
-            // ⚡ SPEED: reduce texture quality slightly (visual difference minimal)
+            // ? SPEED: reduce texture quality slightly (visual difference minimal)
             if (object.material?.map) {
               object.material.map.anisotropy = 1;
             }
@@ -2178,7 +2179,7 @@
           pin: Boolean(config.pin)
         };
 
-        // ⚡ FIRST MODEL READY — reveal page immediately
+        // ? FIRST MODEL READY � reveal page immediately
         if (!firstModelReady) {
           firstModelReady = true;
           revealPage();
@@ -2551,7 +2552,7 @@
       const viewportHeight = window.innerHeight;
       const textTop = shoeInfo ? shoeInfo.getBoundingClientRect().top : viewportHeight / 2;
 
-      // ⚡ SPEED: only recompute layout when text position changes
+      // ? SPEED: only recompute layout when text position changes
       if (Math.abs(textTop - lastTextTop) < 0.5) return;
       lastTextTop = textTop;
 
@@ -2601,7 +2602,7 @@
         }
       });
 
-      // ⚡ SPEED: monitor FPS every 3rd frame instead of every frame
+      // ? SPEED: monitor FPS every 3rd frame instead of every frame
       frameSkip = (frameSkip + 1) % 3;
       if (frameSkip === 0) {
         monitorFps();
@@ -2633,12 +2634,12 @@
     render();
 
     /* =========================================================
-       INIT — ⚡ PROGRESSIVE LOADING (KEY SPEED FIX)
+       INIT � ? PROGRESSIVE LOADING (KEY SPEED FIX)
     ========================================================= */
     async function init() {
       createDots();
 
-      // ⚡ KEY: Load first model FIRST, don't wait for all 3
+      // ? KEY: Load first model FIRST, don't wait for all 3
       // This makes the page interactive in 1/3rd the time
       const firstLoad = loadShoe(SHOES[0], 0);
 
@@ -2657,7 +2658,7 @@
       restLoad.catch(err => console.warn("Background models failed:", err));
     }
 
-    // ⚡ FALLBACK: If something hangs, reveal the page after 4s regardless
+    // ? FALLBACK: If something hangs, reveal the page after 4s regardless
     const safetyTimer = setTimeout(() => {
       if (!firstModelReady) {
         console.warn("Safety timeout: revealing page");
@@ -2673,16 +2674,16 @@
 
   </script>
 
-  <!-- ⚡ NAVBAR — Deferred -->
+  
   <script defer>
     (() => {
       "use strict";
-      const navigationItems = [['01', 'HOME', 'index.html', 'vids/farm-growth.mp4', 'FreshFind / Home'], ['02', 'MARKET FIND', 'marketfind.html', 'vids/farm-growth.mp4', 'Find a Market'], ['03', 'MARKET DIRECTORY / DETAIL', 'market.html', 'vids/farm-growth.mp4', 'Market Directory & Detail'], ['05', 'PRODUCE', 'progress .html', 'vids/fruit.mp4', 'Fresh Produce'], ['06', 'SEASONS', 'Seasonal.html', 'vids/fruit.mp4', 'Seasonal Freshness'], ['07', 'ASK FRESHFIND', 'chat.html', 'vids/chat.mp4', 'Ask FreshFind'], ['08', 'CONTACT', 'contact.html', 'vids/colorflow-animation (3).mp4', 'Get in Touch'], ['09', 'ABOUT', 'about.html', 'vids/farm-growth.mp4', 'About FreshFind']];
+      const navigationItems = [['01', 'HOME', 'index.html', 'vids/farm-growth.mp4', 'FreshFind / Home'], ['02', 'MARKET FIND', 'marketfind.html', 'vids/farm-growth.mp4', 'Find a Market'], ['03', 'MARKET DIRECTORY / DETAIL', 'market.html', 'vids/farm-growth.mp4', 'Market Directory & Detail'], ['05', 'PRODUCE', 'progress.html', 'vids/fruit.mp4', 'Fresh Produce'], ['06', 'SEASONS', 'Seasonal.html', 'vids/fruit.mp4', 'Seasonal Freshness'], ['07', 'ASK FRESHFIND', 'chat.html', 'vids/chat.mp4', 'Ask FreshFind'], ['08', 'CONTACT', 'contact.html', 'vids/colorflow-animation (3).mp4', 'Get in Touch'], ['09', 'ABOUT', 'about.html', 'vids/farm-growth.mp4', 'About FreshFind']];
 
       const nav = document.createElement('header');
       nav.className = 'ff-nav';
       nav.id = 'freshFindNav';
-      nav.innerHTML = `<a href="index.html" class="ff-logo" aria-label="FreshFind home"><span class="ff-logo-mark">✦</span><span>FreshFind</span></a><nav class="ff-nav-links" aria-label="Primary">${navigationItems.map(x => `<a class="ff-nav-link${x[1].length > 14 ? ' ff-menu-link-long' : ''}" href="${x[2]}" title="${x[4]}">${x[1]}</a>`).join('')}</nav><button class="ff-menu-button" id="openMenu" type="button" aria-label="Open navigation" aria-expanded="false"><span class="ff-menu-text">Explore</span><span class="ff-menu-icon"><span></span><span></span></span></button>`;
+      nav.innerHTML = `<a href="index.html" class="ff-logo" aria-label="FreshFind home"><span class="ff-logo-mark">?</span><span>FreshFind</span></a><nav class="ff-nav-links" aria-label="Primary">${navigationItems.map(x => `<a class="ff-nav-link${x[1].length > 14 ? ' ff-menu-link-long' : ''}" href="${x[2]}" title="${x[4]}">${x[1]}</a>`).join('')}</nav><button class="ff-menu-button" id="openMenu" type="button" aria-label="Open navigation" aria-expanded="false"><span class="ff-menu-text">Explore</span><span class="ff-menu-icon"><span></span><span></span></span></button>`;
 
       const menu = document.createElement('div');
       menu.className = 'ff-menu';
@@ -2748,7 +2749,7 @@
     })();
   </script>
 
-  <!-- ⚡ CHAT WIDGET — LAZY LOAD (only initializes when user opens chat) -->
+  
   <script>
     window.__chatWidgetInitialized = false;
     window.__initChatWidget = function () {
@@ -2760,7 +2761,7 @@
         const root = document.createElement('div');
         root.className = 'avo-widget';
         root.id = 'avoWidget';
-        root.innerHTML = `<button class="avo-launcher" id="avoLauncher" type="button" aria-label="Open Avo chat" aria-expanded="false"><span class="icon-open"><svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/><circle cx="16" cy="15" r="1.6" fill="#1f2a14"/><circle cx="24" cy="15" r="1.6" fill="#1f2a14"/></svg></span><span class="icon-close" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="avo-badge" id="avoBadge">1</span></button><div class="avo-panel" id="avoPanel" role="dialog" aria-label="Avo chat"><header class="aw-chat-header"><div class="aw-avatar"><svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/></svg></div><div class="aw-title"><h1>Avo</h1><p>FreshFind Assistant</p></div><button class="aw-icon-btn aw-voice" id="avoVoice" type="button" aria-label="Toggle voice"><svg class="aw-icon-on" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Zm4.5 3.5a5 5 0 0 1 0 7M19 4a10 10 0 0 1 0 16" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="aw-icon-muted" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Z" fill="currentColor"/><path d="m17 9 5 6m0-6-5 6" stroke-linecap="round"/></svg></button><button class="aw-icon-btn" id="avoClose" type="button" aria-label="Close chat"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header><div class="aw-stage"><div class="aw-avo-wrap"><div class="aw-avo-glb" id="avoGlb"><canvas id="avoCanvas"></canvas><span class="aw-loading" id="avoLoading">Loading 3D…</span></div></div></div><main class="aw-messages" id="avoMessages" aria-live="polite"></main><div class="aw-chips" id="avoChips"></div><form class="aw-composer" id="avoForm"><textarea id="avoInput" rows="1" placeholder="Ask about markets or produce..." aria-label="Message"></textarea><button class="aw-send" type="submit" aria-label="Send">➤</button></form></div>`;
+        root.innerHTML = `<button class="avo-launcher" id="avoLauncher" type="button" aria-label="Open Avo chat" aria-expanded="false"><span class="icon-open"><svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/><circle cx="16" cy="15" r="1.6" fill="#1f2a14"/><circle cx="24" cy="15" r="1.6" fill="#1f2a14"/></svg></span><span class="icon-close" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="avo-badge" id="avoBadge">1</span></button><div class="avo-panel" id="avoPanel" role="dialog" aria-label="Avo chat"><header class="aw-chat-header"><div class="aw-avatar"><svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true"><ellipse cx="20" cy="21" rx="12" ry="16" fill="#3d6b2f"/><ellipse cx="20" cy="22" rx="9" ry="13" fill="#c8e6a0"/><circle cx="20" cy="25" r="6" fill="#8b5a2b"/></svg></div><div class="aw-title"><h1>Avo</h1><p>FreshFind Assistant</p></div><button class="aw-icon-btn aw-voice" id="avoVoice" type="button" aria-label="Toggle voice"><svg class="aw-icon-on" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Zm4.5 3.5a5 5 0 0 1 0 7M19 4a10 10 0 0 1 0 16" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="aw-icon-muted" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5Z" fill="currentColor"/><path d="m17 9 5 6m0-6-5 6" stroke-linecap="round"/></svg></button><button class="aw-icon-btn" id="avoClose" type="button" aria-label="Close chat"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header><div class="aw-stage"><div class="aw-avo-wrap"><div class="aw-avo-glb" id="avoGlb"><canvas id="avoCanvas"></canvas><span class="aw-loading" id="avoLoading">Loading 3D�</span></div></div></div><main class="aw-messages" id="avoMessages" aria-live="polite"></main><div class="aw-chips" id="avoChips"></div><form class="aw-composer" id="avoForm"><textarea id="avoInput" rows="1" placeholder="Ask about markets or produce..." aria-label="Message"></textarea><button class="aw-send" type="submit" aria-label="Send">?</button></form></div>`;
 
         document.body.append(root);
 
@@ -2775,7 +2776,7 @@
         const sendButton = form.querySelector('.aw-send');
         let busy = false, voice = true;
         const voicesOK = 'speechSynthesis' in window;
-        const links = { market: 'market.html', produce: 'progress .html', seasons: 'Seasonal.html', process: 'progress .html', chat: 'chat.html' };
+        const links = { market: 'market.html', produce: 'progress.html', seasons: 'Seasonal.html', process: 'progress.html', chat: 'chat.html' };
         const defaults = ['What is FreshFind?', 'Find a market near me', 'What fruits are in season?', 'Can you suggest a recipe?'];
 
         function answer(text) {
@@ -2829,7 +2830,7 @@
           launcher.setAttribute('aria-expanded', 'true');
           $('avoBadge').classList.add('is-hidden');
           setTimeout(() => input.focus(), 260);
-          // ⚡ Lazy-load the 3D avocado GLB only when chat first opens
+          // ? Lazy-load the 3D avocado GLB only when chat first opens
           if (!window.__avoGLBLoaded) {
             window.__avoGLBLoaded = true;
             loadAvoGLB();
@@ -2898,7 +2899,7 @@
           }
         };
 
-        // ⚡ Lazy load Avo 3D only when chat opens
+        // ? Lazy load Avo 3D only when chat opens
         async function loadAvoGLB() {
           const canvas = document.getElementById('avoCanvas');
           const mount = document.getElementById('avoGlb');
@@ -2964,7 +2965,7 @@
       });
     };
 
-    // ⚡ Auto-init chat widget on idle (so it's ready when user clicks, but doesn't block page load)
+    // ? Auto-init chat widget on idle (so it's ready when user clicks, but doesn't block page load)
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => window.__initChatWidget(), { timeout: 3000 });
     } else {
@@ -2973,6 +2974,10 @@
   </script>
 
   <script src="bookmark-widget.js" defer></script>
+
 </body>
 
 </html>
+
+
+
